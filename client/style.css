@@ -101,15 +101,15 @@ p{
 
 
 #pm2-server-btn{
-    background-image: url("../client/assets/server3.png");
+    background-image: url("/assets/server3.png");
 }
 
 #cloudflare-btn{
-    background-image: url("../client/assets/shield3.png");
+    background-image: url("/assets/shield3.png");
 }
 
 #details-btn{
-    background-image: url("../client/assets/clipboard3.png");
+    background-image: url("/assets/clipboard3.png");
 }
 
 #main-area{
