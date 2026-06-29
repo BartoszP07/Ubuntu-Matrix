@@ -97,13 +97,20 @@ function CreateServerCard(name, port, status){
 
     console.log(status);
     // Check the status of the server
-    if (status == "offline"){
+    if (status == "stopped"){
         status_circle.classList.add("offline");
         status_circle.classList.remove("online");
+        status_circle.classList.remove("errored");
     }
     else if (status == "online"){
         status_circle.classList.add("online");
         status_circle.classList.remove("offline");
+        status_circle.classList.remove("errored");
+    }
+    else if (status == "errored"){
+        status_circle.classList.remove("online");
+        status_circle.classList.remove("offline");
+        status_circle.classList.add("errored");
     }
 
     // Add text

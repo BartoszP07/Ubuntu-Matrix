@@ -215,6 +215,10 @@ p{
     background-color: red;
 }
 
+.status-circle.errored{
+    background-color: orange;
+}
+
 #add-server-card{
     align-items: center;
     order: 999;
