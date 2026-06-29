@@ -20,13 +20,13 @@ app.get("/api/get-pm2-data", function(req, res){
             return res.status(500).json({ error: "Failed to fetch PM2 data" });
         }
 
-        const server_stats = processes.map(proc => ({
-            name: proc.name,
-            port: proc.port,
-            status: proc.pm2_env.status,
-            cpu: proc.monit.cpu,
-            memory: proc.monit.memory,
-            uptime: proc.pm2_env.uptime
+        const server_stats = processes.map((proc) => ({
+          name: proc.name,
+          port: proc.pm2_env.env ? proc.pm2_env.env.SERVER_PORT : "N/A",
+          status: proc.pm2_env.status,
+          cpu: proc.monit.cpu,
+          memory: proc.monit.memory,
+          uptime: proc.pm2_env.uptime,
         }));
 
         res.json(server_stats);
