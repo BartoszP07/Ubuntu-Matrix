@@ -112,7 +112,7 @@ function CreateServerCard(name, port, status){
     edit_btn.textContent = "Edit";
 
     card.appendChild(title);
-    card.appendChild(port);
+    card.appendChild(port_elem);
     status_div.appendChild(status_txt);
     status_div.appendChild(status_circle);
     card.appendChild(status_div);
