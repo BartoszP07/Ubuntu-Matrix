@@ -26,8 +26,6 @@ app.get("/api/get-pm2-data", function(req, res){
                  || proc.pm2_env.SERVER_PORT 
                  || "N/A";
 
-            console.log("PM2_ENV object:", proc.pm2_env);
-
             return {
                 name: proc.name,
                 port: port,
@@ -36,7 +34,6 @@ app.get("/api/get-pm2-data", function(req, res){
                 memory: proc.monit.memory,
                 uptime: proc.pm2_env.uptime,
             };
-
         });
 
         res.json(server_stats);

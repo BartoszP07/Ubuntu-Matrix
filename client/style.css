@@ -207,6 +207,14 @@ p{
     border-width: 3px;
 }
 
+.status-circle.online{
+    background-color: green;
+}
+
+.status-circle.offline{
+    backdrop-filter: red;
+}
+
 #add-server-card{
     align-items: center;
     order: 999;

@@ -1,3 +1,4 @@
+const { serve } = require("pm2");
 
 // Get sections
 let welcome_section = document.getElementById("welcome-section");
@@ -36,12 +37,23 @@ pm2_server_button.addEventListener("click", async function(){
     pm2_server_button.classList.add("active");
 
     try{
-
-    
         let response = await fetch("/api/get-pm2-data");
         let data = await response.json();
 
-        console.log(data);
+        // Remove all existing cards
+        Array.from(pm2_cards_div.children).forEach(child => {
+            if (child != add_server_card){
+                child.remove();
+            }
+        });
+
+        data.forEach(server => {
+            const port = server.port;
+            const name = server.name;
+            const status = server.status;
+            const card = CreateServerCard(name, port, status);
+            pm2_cards_div.appendChild(card);
+        });
     }
     catch (error){
         console.log(error);
@@ -61,8 +73,9 @@ details_button.addEventListener("click", function(){
 })
 
 let pm2_cards_div = document.getElementById("pm2-cards");
+let add_server_card = document.getElementById("add-server-card");
 
-function CreateServerCard(){
+function CreateServerCard(name, port, status){
     const card = document.createElement("article");
     const title = document.createElement("h3");
     const port = document.createElement("port");
@@ -79,9 +92,19 @@ function CreateServerCard(){
     status_circle.classList.add("status-circle");
     edit_btn.classList.add("edit-card-button");
 
+    // Check the status of the server
+    if (status == "offline"){
+        status_circle.classList.add("offline");
+        status_circle.classList.remove("online");
+    }
+    else if (status == "online"){
+        status_circle.classList.add("online");
+        status_circle.classList.remove("offline");
+    }
+
     // Add text
-    title.textContent = "Name";
-    port.textContent = "Port: ";
+    title.textContent = name;
+    port.textContent = `Port: ${port}`;
     status_txt.textContent = "Status:";
     edit_btn.textContent = "Edit";
 
@@ -98,6 +121,6 @@ function CreateServerCard(){
 let new_server_btn = document.getElementById("new-server-button");
 
 new_server_btn.addEventListener("click", function(){
-    const card = CreateServerCard();
+    const card = CreateServerCard("New server", 0, "offline");
     pm2_cards_div.appendChild(card);
 })
