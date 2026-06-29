@@ -70,7 +70,6 @@ function CreateServerCard(name, port, status){
     status_circle.classList.add("status-circle");
     edit_btn.classList.add("edit-card-button");
 
-    console.log(status);
     // Check the status of the server
     if (status == "stopped"){
         status_circle.classList.add("offline");
