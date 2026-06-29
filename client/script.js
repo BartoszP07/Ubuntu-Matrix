@@ -35,32 +35,7 @@ pm2_server_button.addEventListener("click", async function(){
     ShowSection(pm2_section);
     pm2_server_button.classList.add("active");
 
-    try{
-        let response = await fetch("/api/get-pm2-data");
-        let data = await response.json();
-
-        // Remove all existing cards
-        Array.from(pm2_cards_div.children).forEach(child => {
-            if (child != add_server_card){
-                child.remove();
-            }
-        });
-
-        data.forEach(server => {
-            const server_port = server.port;
-            const server_name = server.name;
-            const server_status = server.status;
-            const card = CreateServerCard(
-              server_name,
-              server_port,
-              server_status,
-            );
-            pm2_cards_div.appendChild(card);
-        });
-    }
-    catch (error){
-        console.log(error);
-    }
+    await GetPM2Data();
 })
 
 cloudflare_button.addEventListener("click", function(){
@@ -135,3 +110,31 @@ new_server_btn.addEventListener("click", function(){
     const card = CreateServerCard("New server", 0, "offline");
     pm2_cards_div.appendChild(card);
 })
+
+
+async function GetPM2Data(){
+    try {
+        let response = await fetch("/api/get-pm2-data");
+        let data = await response.json();
+
+        // Remove all existing cards
+        Array.from(pm2_cards_div.children).forEach((child) => {
+            if (child != add_server_card) {
+            child.remove();
+            }
+        });
+
+        data.forEach((server) => {
+            const server_port = server.port;
+            const server_name = server.name;
+            const server_status = server.status;
+            const card = CreateServerCard(server_name, server_port, server_status);
+            pm2_cards_div.appendChild(card);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// Update pm2 server cards every second
+setInterval(GetPM2Data, 1000);
