@@ -28,16 +28,16 @@ app.get("/api/get-pm2-data", function(req, res){
 
             console.log("PM2_ENV object:", proc.pm2_env);
 
-        return{
-            name: proc.name,
-            port: port,
-            status: proc.pm2_env.status,
-            cpu: proc.monit.cpu,
-            memory: proc.monit.memory,
-            uptime: proc.pm2_env.uptime,
-        };
+            return {
+                name: proc.name,
+                port: port,
+                status: proc.pm2_env.status,
+                cpu: proc.monit.cpu,
+                memory: proc.monit.memory,
+                uptime: proc.pm2_env.uptime,
+            };
 
-        
+        });
 
         res.json(server_stats);
         res.status(200);
