@@ -82,7 +82,7 @@ let add_server_card = document.getElementById("add-server-card");
 function CreateServerCard(name, port, status){
     const card = document.createElement("article");
     const title = document.createElement("h3");
-    const port = document.createElement("port");
+    const port_elem = document.createElement("_elem");
     const status_div = document.createElement("div");
     const status_txt = document.createElement("p");
     const status_circle = document.createElement("div");
@@ -91,7 +91,7 @@ function CreateServerCard(name, port, status){
     // Add classes
     card.classList.add("server-card");
     title.classList.add("pm2-card-name");
-    port.classList.add("pm2-card-port");
+    port_elem.classList.add("pm2-card-port");
     status_div.classList.add("status");
     status_circle.classList.add("status-circle");
     edit_btn.classList.add("edit-card-button");
@@ -108,7 +108,7 @@ function CreateServerCard(name, port, status){
 
     // Add text
     title.textContent = name;
-    port.textContent = `Port: ${port}`;
+    port_elem.textContent = `Port: ${port}`;
     status_txt.textContent = "Status:";
     edit_btn.textContent = "Edit";
 
