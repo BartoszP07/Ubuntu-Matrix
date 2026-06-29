@@ -212,7 +212,7 @@ p{
 }
 
 .status-circle.offline{
-    backdrop-filter: red;
+    background-color: red;
 }
 
 #add-server-card{
