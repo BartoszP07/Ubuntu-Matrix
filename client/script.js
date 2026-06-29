@@ -30,10 +30,22 @@ title_button.addEventListener("click", function(){
     ShowSection(welcome_section);
 })
 
-pm2_server_button.addEventListener("click", function(){
+pm2_server_button.addEventListener("click", async function(){
     HideAllSections();
     ShowSection(pm2_section);
     pm2_server_button.classList.add("active");
+
+    try{
+
+    
+        let response = await fetch("/api/get-pm2-data");
+        let data = await response.json();
+
+        console.log(data);
+    }
+    catch (error){
+        console.log(error);
+    }
 })
 
 cloudflare_button.addEventListener("click", function(){
