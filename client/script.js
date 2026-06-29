@@ -48,10 +48,14 @@ pm2_server_button.addEventListener("click", async function(){
         });
 
         data.forEach(server => {
-            const port = server.port;
-            const name = server.name;
-            const status = server.status;
-            const card = CreateServerCard(name, port, status);
+            const server_port = server.port;
+            const server_name = server.name;
+            const server_status = server.status;
+            const card = CreateServerCard(
+              server_name,
+              server_port,
+              server_status,
+            );
             pm2_cards_div.appendChild(card);
         });
     }
