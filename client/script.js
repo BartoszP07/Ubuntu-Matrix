@@ -81,7 +81,7 @@ let add_server_card = document.getElementById("add-server-card");
 function CreateServerCard(name, port, status){
     const card = document.createElement("article");
     const title = document.createElement("h3");
-    const port_elem = document.createElement("port");
+    const port_elem = document.createElement("p");
     const status_div = document.createElement("div");
     const status_txt = document.createElement("p");
     const status_circle = document.createElement("div");
