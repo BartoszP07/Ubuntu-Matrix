@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubuntu Matrix</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main-area">
+        <section id="welcome-section" class="main-section">
+            <h1 id="welcome-title">Welcome to the <br><span id="title-ubuntu-span">Ubuntu</span> <span id="title-matrix-span">Matrix</span> <span id="title-ubuntu-span">Portal</span></h1>
+        </section>
+        <section id="pm2-section" class="main-section" style="display: none;">
+            <h1 class="main-titles">PM2 Servers</h1>
+            <div class="cards" id="pm2-cards">
+                <article class="server-card">
+                    <h3 class="pm2-card-name">Name</h3>
+                    <p class="pm2-card-port">Port: </p>
+                    <div class="status">
+                        <p>Status:</p>
+                        <div class="status-circle"></div>
+                    </div>
+                    <button class="edit-card-button">Edit</button>
+                </article>
+                <article class="server-card" id="add-server-card">
+                    <h3 class="pm2-card-name">New Server</h3>
+                    <button id="new-server-button">+</button>
+                </article>
+            </div>
+        </section>
+        <section id="cloudflare-section" class="main-section" style="display: none;">
+            <h1 class="main-titles">Cloudflare Tunnels</h1>
+        </section>
+        <section id="details-section" class="main-section" style="display: none;">
+            <h1 class="main-titles">Details</h1>
+        </section>
+    </div>
+    <div id="new-pm2-server-overlay">
+
+    </div>
+    <div id="side-bar">
+        <button id="title-button">
+            <h1>Ubuntu<br><span id="title-matrix-span">Matrix</span></h1>
+        </button>
+        <button class="side-button" id="pm2-server-btn">PM2 Servers</button>
+        <button class="side-button" id="cloudflare-btn">Cloudflare tunnels</button>
+        <button class="side-button" id="details-btn">Details</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

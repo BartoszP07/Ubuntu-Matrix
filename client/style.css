@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+    --main-colour: rgb(25, 25, 25);
+    --accent-colour: rgb(200, 0, 0);
+    --side-bar-width: 14rem;
+}
+
+*{
+    padding: 0px;
+    margin: 0px;
+    font-family: "Elms Sans";
+    color: rgb(255, 255, 255);
+}
+
+body{
+    height: 100dvh;
+    width: 100dvw;
+    overflow-x: hidden;
+}
+
+h1{
+    font-size: 3rem;
+    line-height: 90%;
+    margin: 1rem;
+    text-align: center;
+    text-shadow: 0px 0px 10px white;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+p{
+    font-size: 1.2rem;
+}
+
+#title-matrix-span{
+    color: var(--accent-colour);
+    text-shadow: 0px 0px 10px red;
+}
+
+#title-ubuntu-span{
+    color: var(--main-colour);
+    text-shadow: 0px 0px 10px black;
+}
+
+#title-button{
+    background: none;
+    outline: none;
+    border: none;
+}
+
+#side-bar{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    background-color: var(--main-colour);
+    width: var(--side-bar-width);
+    height: 100%;
+    box-shadow: 5px 5px 15px 1px var(--main-colour);
+    flex-direction: column;
+    gap: 3rem;
+    flex-wrap: wrap;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+}
+
+.side-button{
+    width: fit-content;
+    height: 5rem;
+    background: none;
+    outline: none;
+    border: none;
+    transition: 0.2s;
+    font-size: 1.5rem;
+    padding: 1rem;
+    border-radius: 15px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow-wrap: break-word;
+}
+
+.side-button:hover{
+    text-shadow: 
+        2px 2px 10px white, 
+        -2px -2px 10px white, 
+        2px -2px 10px white, 
+        -2px 2px 10px white;
+}
+
+.side-button.active{
+    text-shadow: 
+        5px 5px 20px white, 
+        -5px -5px 20px white, 
+        5px -5px 20px white, 
+        -5px 5px 20px white;
+}
+
+
+#pm2-server-btn{
+    background-image: url("../client/assets/server3.png");
+}
+
+#cloudflare-btn{
+    background-image: url("../client/assets/shield3.png");
+}
+
+#details-btn{
+    background-image: url("../client/assets/clipboard3.png");
+}
+
+#main-area{
+    width: calc(100% - var(--side-bar-width));
+    height: 100%;
+    background-color: white;
+    transform: translatex(var(--side-bar-width));
+}
+
+.main-section{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+#welcome-section{
+    align-items: center;
+}
+
+#welcome-title{
+    margin-top: 5rem;
+    color: var(--main-colour);
+    font-size: 6rem;
+    text-shadow: 0px 0px 10px black;
+    text-align: center;
+}
+
+.main-titles{
+    color: var(--main-colour);
+    text-shadow: -2px 2px 7px black;
+}
+
+.cards{
+    display: flex;
+    width: calc(100% - 2rem);
+    height: 100%;
+    margin-left: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+}
+
+.server-card{
+    background-color: var(--main-colour);
+    box-shadow: 0px 0px 10px 2px var(--main-colour);
+    padding: 1rem;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+}
+
+.pm2-card-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-card-button{
+    background-color: var(--accent-colour);
+    color: white;
+    box-shadow: 0px 0px 5px 1px red;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.edit-card-button:hover{
+    box-shadow: 0px 0px 10px 3px red
+}
+
+.status{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+}
+
+.status-circle{
+    width: 1rem;
+    height: 1rem;
+    background-color: gray;
+    border: solid;
+    border-radius: 100%;
+    border-width: 3px;
+}
+
+#add-server-card{
+    align-items: center;
+    order: 999;
+}
+
+#new-server-button{
+    font-size: 5rem;
+    outline: solid;
+    outline-color: var(--accent-colour);
+    color: white;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--accent-colour);
+    box-shadow: 0px 0px 10px 2px var(--accent-colour);
+    transition: 0.2s;
+}
+
+#new-server-button:hover{
+    text-shadow: 0px 0px 20px white;
+    box-shadow: 0px 0px 20px 5px var(--accent-colour);
+}
