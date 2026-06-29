@@ -1,4 +1,3 @@
-const { serve } = require("pm2");
 
 // Get sections
 let welcome_section = document.getElementById("welcome-section");
