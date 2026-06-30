@@ -62,6 +62,35 @@ app.get("/api/process/:id", (req, res) => {
     });
 });
 
+// Helper function to handle PM2 actions to keep code dry
+const runPm2Action = (action, id, res) => {
+    pm2.connect((err) => {
+        if (err) return res.status(500).json({ error: 'Failed to connect to PM2' });
+
+        // Execute the action (start/stop/restart)
+        pm2[action](id, (err) => {
+            pm2.disconnect();
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ success: true, message: `Process ${id} ${action}ed` });
+        });
+    });
+};
+
+// 1. START (Resumes a stopped process)
+app.post('/api/process/:id/start', (req, res) => {
+    runPm2Action('start', parseInt(req.params.id), res);
+});
+
+// 2. STOP
+app.post('/api/process/:id/stop', (req, res) => {
+    runPm2Action('stop', parseInt(req.params.id), res);
+});
+
+// 3. RESTART
+app.post('/api/process/:id/restart', (req, res) => {
+    runPm2Action('restart', parseInt(req.params.id), res);
+});
+
 // Start the server on the given port
 app.listen(port, function(){
     console.log("Running server on port:", port)
