@@ -227,6 +227,7 @@ async function LoadServerOverlayData(){
     try{
         const response = await fetch(`api/process/${current_server_id}`);
         data = await response.json();
+        console.log(data);
     }
     catch (error){
         console.log(error);
@@ -235,7 +236,7 @@ async function LoadServerOverlayData(){
     // Get server data
     const server_status = data.pm2_env.status;
     const server_name = data.name;
-    const server_port = data.pm2_env.port;
+    const server_port = current_server.port;
     const server_cpu = data.monit.cpu;
     const server_mem = data.monit.memory;
     const server_uptime = data.pm2_env.pm_uptime;
@@ -256,4 +257,4 @@ async function LoadServerOverlayData(){
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 }
 
-setInterval(LoadServerOverlayData, 1000);
+setInterval(LoadServerOverlayData, 200);
