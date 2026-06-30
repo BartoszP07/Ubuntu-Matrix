@@ -293,7 +293,7 @@ p{
     border-color: var(--accent-colour);
     border-width: 4px;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     gap: 1rem;
     padding: 2rem;
 }
@@ -303,7 +303,15 @@ p{
     opacity: 100%;
 }
 
-#close-edit-server-overlay-button{
+#server-overlay-buttons{
+    display: flex;
+    justify-content: left;
+    gap: 1rem;
+    width: 100%;
+    height: auto;
+}
+
+#close-edit-server-overlay-button, #save-edit-server-overlay-button{
     width: 10rem;
     height: 3rem;
     border: none;
@@ -313,4 +321,8 @@ p{
     color: white;
     border-radius: 1rem;
     font-size: 1.5rem;
+}
+
+#close-edit-server-overlay-button:hover, #save-edit-server-overlay-button:hover{
+    box-shadow: 0px 0px 20px 4px var(--accent-colour);
 }
