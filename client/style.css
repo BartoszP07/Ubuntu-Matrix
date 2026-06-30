@@ -423,10 +423,9 @@ p{
         font-size: 1rem;
     }
     #add-server-card{
-        padding: 1rem;
-        max-width: 7rem;
-        max-height: 7rem;
-        background-color: blue;
+        padding: 0.5rem;
+        max-width: 2rem;
+        max-height: 2rem;
     }
     #new-server-button{
         font-size: 3rem;
