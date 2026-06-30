@@ -423,7 +423,11 @@ p{
         font-size: 1rem;
     }
     #add-server-card{
-        padding: 1.5rem;
+        padding: 1rem;
+        width: 7rem;
+        height: 7rem;
+    }
+    #new-server-button{
         font-size: 4rem;
     }
 }
