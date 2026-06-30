@@ -6,6 +6,12 @@
     --side-bar-width: 14rem;
 }
 
+
+html{
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 *{
     padding: 0px;
     margin: 0px;
