@@ -420,5 +420,6 @@ p{
     }
     .pm2-card-name{
         font-size: 1rem;
+        color: blueviolet;
     }
 }
