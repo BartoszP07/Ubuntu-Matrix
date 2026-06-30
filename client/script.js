@@ -289,38 +289,22 @@ const server_stop_btn = document.getElementById("stop-edit-server-overlay-button
 const server_start_btn = document.getElementById("start-edit-server-overlay-button");
 const server_restart_btn = document.getElementById("restart-edit-server-overlay-button");
 
-server_stop_btn.addEventListener("click", async function(){
-    try{
-        const response = await fetch(`/api/process/${current_server_id}/stop`);
-        if (response.ok){
+server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
 
+server_start_btn.addEventListener("click", () => SendServerCommand("start"));
+
+server_restart_btn.addEventListener("click", () => SendServerCommand("restart"));
+
+async function SendServerCommand(command){
+    try{
+        const response = await fetch(`/api/process/${current_server_id}/${command}`,
+            { method: "POST" }
+        );
+        if (response.ok){
+            LoadServerOverlayData();
         }
     }
     catch (error){
         console.log(error)
     }
-})
-
-server_start_btn.addEventListener("click", async function () {
-    try{
-        const response = await fetch(`/api/process/${current_server_id}/start`);
-        if (response.ok){
-            
-        }
-    }
-    catch (error){
-        console.log(error)
-    }
-});
-
-server_restart_btn.addEventListener("click", async function () {
-    try{
-        const response = await fetch(`/api/process/${current_server_id}/restart`);
-        if (response.ok){
-            
-        }
-    }
-    catch (error){
-        console.log(error)
-    }
-});
+}
