@@ -122,35 +122,32 @@ new_server_btn.addEventListener("click", function(){
     pm2_cards_div.appendChild(card);
 })
 
-async function GetPM2Data(new_cards=true, pm_id=-1){
+async function GetPM2Data(){
     try {
-        let response = await fetch("/api/get-pm2-data");
-        pm2_servers = await response.json();
+      let response = await fetch("/api/get-pm2-data");
+      pm2_servers = await response.json();
 
-        if (new_cards){   
-
-            // Remove all existing cards
-            Array.from(pm2_cards_div.children).forEach((child) => {
-                if (child != add_server_card) {
-                child.remove();
-                }
-            });
-
-            // Add each server to the card div
-            pm2_servers.forEach((server) => {
-                const server_port = server.port;
-                const server_name = server.name;
-                const server_status = server.status;
-                const server_id = server.pm_id;
-                const card = CreateServerCard(
-                server_name,
-                server_port,
-                server_status,
-                server_id,
-            );
-            pm2_cards_div.appendChild(card);
-            });
+      // Remove all existing cards
+      Array.from(pm2_cards_div.children).forEach((child) => {
+        if (child != add_server_card) {
+          child.remove();
         }
+      });
+
+      // Add each server to the card div
+      pm2_servers.forEach((server) => {
+        const server_port = server.port;
+        const server_name = server.name;
+        const server_status = server.status;
+        const server_id = server.pm_id;
+        const card = CreateServerCard(
+          server_name,
+          server_port,
+          server_status,
+          server_id,
+        );
+        pm2_cards_div.appendChild(card);
+      });
         // Get all edit buttons from the cards
         edit_server_buttons =
             document.getElementsByClassName("edit-server-button");
@@ -169,16 +166,6 @@ async function GetPM2Data(new_cards=true, pm_id=-1){
             GetCurrentServer(event);
             });
         });
-
-        if (pm_id != -1){
-            pm2_servers.forEach((server) => {
-                if (pm_id != server.pm_id) {
-                    return;
-                } else {
-                    current_server = server;
-                }
-            });
-        }
     } 
     catch (error) {
         console.log(error);
@@ -209,6 +196,7 @@ close_server_overlay_button.addEventListener("click", function(){
 })
 
 let current_server = undefined;
+let current_server_id = undefined;
 
 function GetCurrentServer(event){
     if (!current_server) {
@@ -216,11 +204,12 @@ function GetCurrentServer(event){
         const card = event.target.closest(".server-card");
         if (!card) { return; }
         // Get the pm2 server id
-        pm_id = card.dataset.pm_id;
+        current_server_id = card.dataset.pm_id;
 
         // Get the current server
         pm2_servers.forEach((server) => {
-        if (pm_id != server.pm_id) {
+        
+        if (current_server_id != server.pm_id) {
             return;
         }
         else {
@@ -231,10 +220,17 @@ function GetCurrentServer(event){
     }
 }
 
-function LoadServerOverlayData(){
-    if (!current_server) { return; }
+async function LoadServerOverlayData(){
+    if (!current_server || !current_server_id) { return; }
 
-    GetPM2Data(new_cards=false, current_server.pm_id);
+    try{
+        const response = await fetch(`api/process/${current_server_id}`);
+        const data = response.json();
+        console.log(data);
+    }
+    catch (error){
+        console.log(error);
+    }
 
     // Get server data
     const server_status = current_server.status;
@@ -258,8 +254,6 @@ function LoadServerOverlayData(){
     server_overlay_cpu.textContent = `CPU: ${server_cpu}`;
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
-
-    
 }
 
 setInterval(LoadServerOverlayData, 100);

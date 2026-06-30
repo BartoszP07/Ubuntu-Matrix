@@ -42,6 +42,26 @@ app.get("/api/get-pm2-data", function(req, res){
     })
 })
 
+// API to get the data of a single server
+app.get("/api/process/:id", (req, res) => {
+    const id = parseInt(req.params.id);
+
+    // Using pm2.describe to get the full process details
+    pm2.describe(id, (err, processDescription) => {
+        if (err) {
+        return res.status(500).json({ error: "Failed to fetch process" });
+        }
+
+        // Check if the process actually exists
+        if (!processDescription || processDescription.length === 0) {
+        return res.status(404).json({ error: "Process not found" });
+        }
+
+        // Return the raw object directly
+        res.json(processDescription[0]);
+    });
+});
+
 // Start the server on the given port
 app.listen(port, function(){
     console.log("Running server on port:", port)
