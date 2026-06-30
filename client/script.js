@@ -193,6 +193,7 @@ close_server_overlay_button.addEventListener("click", function(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
     current_server = undefined;
+    current_server_id = undefined;
 })
 
 let current_server = undefined;
@@ -225,7 +226,7 @@ async function LoadServerOverlayData(){
 
     try{
         const response = await fetch(`api/process/${current_server_id}`);
-        const data = response.json();
+        const data = await response.json();
         console.log(data);
     }
     catch (error){
@@ -256,4 +257,4 @@ async function LoadServerOverlayData(){
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 }
 
-setInterval(LoadServerOverlayData, 100);
+setInterval(LoadServerOverlayData, 1000);
