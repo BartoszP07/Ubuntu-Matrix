@@ -163,7 +163,7 @@ async function GetPM2Data(){
             if (!edit_server_overlay.classList.contains("appear")) {
                 edit_server_overlay.classList.add("appear");
             }
-            LoadServerOverlayData(event);
+            GetCurrentServer(event);
             });
         });
     } 
@@ -194,24 +194,30 @@ close_server_overlay_button.addEventListener("click", function(){
     edit_server_overlay.classList.remove("appear");
 })
 
-function LoadServerOverlayData(event){
-    // Get the card from the button
-    const card = event.target.closest(".server-card");
-    if (!card) { return; }
-    // Get the pm2 server id
-    const pm_id = card.dataset.pm_id;
+let current_server = undefined;
 
-    // Get the current server
-    let current_server;
+function GetCurrentServer(event){
+    if (!current_server) {
+        // Get the card from the button
+        const card = event.target.closest(".server-card");
+        if (!card) { return; }
+        // Get the pm2 server id
+        pm_id = card.dataset.pm_id;
 
-    pm2_servers.forEach(server => {
-        if (pm_id != server.pm_id){
+        // Get the current server
+        pm2_servers.forEach((server) => {
+        if (pm_id != server.pm_id) {
             return;
-        }
-        else{
+        } else {
             current_server = server;
         }
-    });
+
+        });
+    }
+}
+
+function LoadServerOverlayData(){
+    if (!current_server) { return; }
 
     // Get server data
     const server_status = current_server.status;
@@ -220,8 +226,6 @@ function LoadServerOverlayData(event){
     const server_cpu = current_server.cpu;
     const server_mem = current_server.memory;
     const server_uptime = current_server.uptime;
-
-    console.log(current_server);
 
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")
@@ -238,3 +242,5 @@ function LoadServerOverlayData(event){
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 }
+
+setInterval(LoadServerOverlayData, 100);
