@@ -99,7 +99,7 @@ function CreateServerCard(name, port, status, pm_id){
 function ChangeStatusIndicator(element, status) {
     // Remove all status classes
     statuses.forEach((status) => {
-        status_circle.classList.remove(status);
+        element.classList.remove(status);
     });
     // Change the status indicator
     if (status == "stopped") {
