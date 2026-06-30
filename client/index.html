@@ -36,10 +36,7 @@
             <h1 class="main-titles">Details</h1>
         </section>
     </div>
-    <div id="overlay-shadow"></div>
-    <div id="edit-server-overlay">
-        <button id="close-edit-server-overlay-button">Close</button>
-    </div>
+
     <div id="side-bar">
         <button id="title-button">
             <h1>Ubuntu<br><span id="title-matrix-span">Matrix</span></h1>
@@ -48,6 +45,18 @@
         <button class="side-button" id="cloudflare-btn">Cloudflare tunnels</button>
         <button class="side-button" id="details-btn">Details</button>
     </div>
+
+    <div id="overlay-shadow"></div>
+    <div id="edit-server-overlay">
+        <h3 class="pm2-card-name" id="server-overlay-name">Name</h3>
+        <p class="pm2-card-port" id=server-overlay-port>Port: </p>
+        <div class="status">
+            <p>Status:</p>
+            <div class="status-circle" id="server-overlay-status"></div>
+        </div>
+        <button id="close-edit-server-overlay-button">Close</button>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>

@@ -73,27 +73,8 @@ function CreateServerCard(name, port, status, pm_id){
     status_circle.classList.add("status-circle");
     edit_btn.classList.add("edit-server-button");
 
-    // Remove all status classes
-    statuses.forEach(status => {
-        status_circle.classList.remove(status);
-    })
-
     // Check the status of the server
-    if (status == "stopped"){
-        status_circle.classList.add("offline");
-    }
-    else if (status == "online"){
-        status_circle.classList.add("online");
-    }
-    else if (status == "errored"){
-        status_circle.classList.add("errored");
-    }
-    else if (status == "launching"){
-        status_circle.classList.add("launching");
-    }
-    else if (status == "stopping"){
-        status_circle.classList.add("stopping");
-    }
+    ChangeStatusIndicator(status_circle, status);
 
     // Add text
     title.textContent = name;
@@ -113,6 +94,25 @@ function CreateServerCard(name, port, status, pm_id){
     card.dataset.pm_id = pm_id;
 
     return card;
+}
+
+function ChangeStatusIndicator(element, status) {
+    // Remove all status classes
+    statuses.forEach((status) => {
+        status_circle.classList.remove(status);
+    });
+    // Change the status indicator
+    if (status == "stopped") {
+        element.classList.add("offline");
+    } else if (status == "online") {
+        element.classList.add("online");
+    } else if (status == "errored") {
+        element.classList.add("errored");
+    } else if (status == "launching") {
+        element.classList.add("launching");
+    } else if (status == "stopping") {
+        element.classList.add("stopping");
+    }
 }
 
 let new_server_btn = document.getElementById("new-server-button");
@@ -156,13 +156,14 @@ async function GetPM2Data(){
 
         // Loop through all buttons
         edit_server_buttons.forEach((button) => {
-            button.addEventListener("click", function () {
+            button.addEventListener("click", function (event) {
             if (!overlay_shadow.classList.contains("appear")) {
                 overlay_shadow.classList.add("appear");
             }
             if (!edit_server_overlay.classList.contains("appear")) {
                 edit_server_overlay.classList.add("appear");
             }
+            LoadServerOverlayData(event);
             });
         });
     } 
@@ -188,8 +189,44 @@ let close_server_overlay_button = document.getElementById(
   "close-edit-server-overlay-button",
 );
 
-
 close_server_overlay_button.addEventListener("click", function(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
 })
+
+function LoadServerOverlayData(event){
+    // Get the card from the button
+    const card = event.target.closest(".server-card");
+    if (!card) { return; }
+    // Get the pm2 server id
+    const pm_id = card.dataset.pm_id;
+
+    // Get the current server
+    let current_server;
+
+    pm2_servers.forEach(server => {
+        if (pm_id != server.pm_id){
+            return;
+        }
+        else{
+            current_server = server;
+        }
+    });
+
+    // Get server data
+    const server_status = current_server.status;
+    const server_name = current_server.name;
+    const server_port = current_server.port;
+    const server_cpu = current_server.cpu;
+    const server_mem = current_server.memory;
+    const server_uptime = current_server.uptime;
+
+    // Get overlay elements
+    const server_status_indicator = document.getElementById("server-overlay-status")
+    const server_overlay_name = document.getElementById("server-overlay-name");
+    const server_overlay_port = document.getElementById("server-overlay-port");
+
+    ChangeStatusIndicator(server_status_indicator, server_status);
+    server_overlay_name.textContent = server_name;
+    server_overlay_port.textContent = `port: ${server_port}`
+}
