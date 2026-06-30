@@ -311,7 +311,7 @@ p{
     height: auto;
 }
 
-#close-edit-server-overlay-button, #save-edit-server-overlay-button{
+.server-overlay-button{
     width: 10rem;
     height: 3rem;
     border: none;
@@ -324,7 +324,7 @@ p{
     transition: 0.3s;
 }
 
-#close-edit-server-overlay-button:hover, #save-edit-server-overlay-button:hover{
+.server-overlay-button:hover{
     box-shadow: 0px 0px 20px 4px var(--accent-colour);
 }
 
