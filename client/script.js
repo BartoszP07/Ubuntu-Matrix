@@ -223,10 +223,10 @@ function GetCurrentServer(event){
 
 async function LoadServerOverlayData(){
     if (!current_server || !current_server_id) { return; }
-
+    let data;
     try{
         const response = await fetch(`api/process/${current_server_id}`);
-        const data = await response.json();
+        data = await response.json();
     }
     catch (error){
         console.log(error);
