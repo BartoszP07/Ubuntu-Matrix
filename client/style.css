@@ -292,7 +292,10 @@ p{
     border: solid;
     border-color: var(--accent-colour);
     border-width: 4px;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 2rem;
 }
 
 #edit-server-overlay.appear{
