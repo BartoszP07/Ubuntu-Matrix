@@ -291,6 +291,10 @@ p{
     transition: 0.3s;
     pointer-events: none;
     opacity: 0%;
+    border: solid;
+    border-color: var(--accent-colour);
+    border-width: 4px;
+    flex-direction: row;
 }
 
 #edit-server-overlay.appear{
@@ -300,11 +304,12 @@ p{
 
 #close-edit-server-overlay-button{
     width: 10rem;
-    height: 4rem;
+    height: 3rem;
     border: none;
     outline: none;
     background-color: var(--accent-colour);
     box-shadow: 0px 0px 10px 2px var(--accent-colour);
     color: white;
     border-radius: 1rem;
+    font-size: 1.5rem;
 }
