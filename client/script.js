@@ -292,7 +292,16 @@ const server_restart_btn = document.getElementById("restart-edit-server-overlay-
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
 
 server_start_btn.addEventListener("click", () => {
-    if (data.pm2_env.status != "online"){
+    // Get the current server
+    pm2_servers.forEach((server) => {
+        if (current_server_id != server.pm_id) {
+            return;
+        }
+        else {
+            current_server = server;
+        }
+    });
+    if (current_server.status != "online"){
         SendServerCommand("restart");
     }
 });
