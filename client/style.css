@@ -174,7 +174,7 @@ p{
     text-overflow: ellipsis;
 }
 
-.edit-card-button{
+.edit-server-button{
     background-color: var(--accent-colour);
     color: white;
     box-shadow: 0px 0px 5px 1px red;
@@ -205,26 +205,32 @@ p{
     border: solid;
     border-radius: 100%;
     border-width: 3px;
+    box-shadow: 0px 0px 5px 1px gray;
 }
 
 .status-circle.online{
     background-color: green;
+    box-shadow: 0px 0px 5px 1px green;
 }
 
 .status-circle.offline{
     background-color: red;
+    box-shadow: 0px 0px 5px 1px red;
 }
 
 .status-circle.errored{
     background-color: orange;
+    box-shadow: 0px 0px 5px 1px orange;
 }
 
 .status-circle.launching{
     background-color: cyan;
+    box-shadow: 0px 0px 5px 1px cyan;
 }
 
 .status-circle.stopping{
     background-color: purple;
+    box-shadow: 0px 0px 5px 1px purple;
 }
 
 #add-server-card{
@@ -249,4 +255,56 @@ p{
 #new-server-button:hover{
     text-shadow: 0px 0px 20px white;
     box-shadow: 0px 0px 20px 5px var(--accent-colour);
+}
+
+#overlay-shadow{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: black;
+    opacity: 0%;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+#overlay-shadow.appear{
+    opacity: 50%;
+    pointer-events: all;
+}
+
+#edit-server-overlay{
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80dvw;
+    height: 80dvh;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main-colour);
+    border-radius: 2rem;
+    box-shadow: 0px 0px 10px 2px var(--main-colour);
+    transition: 0.3s;
+    pointer-events: none;
+    opacity: 0%;
+}
+
+#edit-server-overlay.appear{
+    pointer-events: all;
+    opacity: 100%;
+}
+
+#close-edit-server-overlay-button{
+    width: 10rem;
+    height: 4rem;
+    border: none;
+    outline: none;
+    background-color: var(--accent-colour);
+    box-shadow: 0px 0px 10px 2px var(--accent-colour);
+    color: white;
+    border-radius: 1rem;
 }

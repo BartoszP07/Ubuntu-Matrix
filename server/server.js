@@ -33,6 +33,7 @@ app.get("/api/get-pm2-data", function(req, res){
                 cpu: proc.monit.cpu,
                 memory: proc.monit.memory,
                 uptime: proc.pm2_env.uptime,
+                pm_id: proc.pm_id
             };
         });
 
