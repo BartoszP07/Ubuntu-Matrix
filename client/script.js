@@ -227,19 +227,18 @@ async function LoadServerOverlayData(){
     try{
         const response = await fetch(`api/process/${current_server_id}`);
         const data = await response.json();
-        console.log(data);
     }
     catch (error){
         console.log(error);
     }
 
     // Get server data
-    const server_status = current_server.status;
-    const server_name = current_server.name;
-    const server_port = current_server.port;
-    const server_cpu = current_server.cpu;
-    const server_mem = current_server.memory;
-    const server_uptime = current_server.uptime;
+    const server_status = data.pm2_env.status;
+    const server_name = data.name;
+    const server_port = data.pm2_env.port;
+    const server_cpu = data.monit.cpu;
+    const server_mem = data.monit.memory;
+    const server_uptime = data.pm2_env.pm_uptime;
 
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")
