@@ -422,4 +422,8 @@ p{
     .pm2-card-name{
         font-size: 1rem;
     }
+    #add-server-card{
+        padding: 1.5rem;
+        font-size: 4rem;
+    }
 }
