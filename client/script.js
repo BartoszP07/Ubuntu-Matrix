@@ -238,8 +238,8 @@ async function LoadServerOverlayData(){
     const server_name = data.name;
     const server_port = current_server.port;
     const server_cpu = data.monit.cpu;
-    const server_mem = data.monit.memory;
-    const server_uptime = data.pm2_env.pm_uptime;
+    const server_mem = FormatMemory(data.monit.memory);
+    const server_uptime = FormatUptime(Date.now() - data.pm2_env.pm_uptime);
 
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")
@@ -255,6 +255,32 @@ async function LoadServerOverlayData(){
     server_overlay_cpu.textContent = `CPU: ${server_cpu}`;
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
+}
+
+// Convert Bytes to MB or GB
+function FormatMemory(bytes) {
+    if (bytes === 0) return '0 MB';
+    const mb = bytes / (1024 * 1024);
+    if (mb > 1024) {
+        return (mb / 1024).toFixed(2) + ' GB';
+    }
+    return mb.toFixed(0) + ' MB';
+}
+
+// Convert Milliseconds to Human Readable (D:H:M:S)
+function FormatUptime(ms) {
+    // Note: If your uptime is ~1.7 trillion, PM2 might be sending a timestamp.
+    // Ensure this ms value is actually a duration (elapsed time).
+    let seconds = Math.floor(ms / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+    let days = Math.floor(hours / 24);
+
+    hours = hours % 24;
+    minutes = minutes % 60;
+    seconds = seconds % 60;
+
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
 setInterval(LoadServerOverlayData, 200);
