@@ -291,7 +291,7 @@ const server_restart_btn = document.getElementById("restart-edit-server-overlay-
 
 server_stop_btn.addEventListener("click", async function(){
     try{
-        const response = await(`api/process/${current_server_id}/stop`)
+        const response = await fetch(`api/process/${current_server_id}/stop`);
         if (response.ok){
 
         }
@@ -303,7 +303,7 @@ server_stop_btn.addEventListener("click", async function(){
 
 server_start_btn.addEventListener("click", async function () {
     try{
-        const response = await `api/process/${current_server_id}/start`;
+        const response = await fetch(`api/process/${current_server_id}/start`);
         if (response.ok){
             
         }
@@ -315,7 +315,7 @@ server_start_btn.addEventListener("click", async function () {
 
 server_restart_btn.addEventListener("click", async function () {
     try{
-        const response = await `api/process/${current_server_id}/restart`;
+        const response = await fetch(`api/process/${current_server_id}/restart`);
         if (response.ok){
             
         }
