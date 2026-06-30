@@ -242,6 +242,8 @@ function LoadServerOverlayData(){
     server_overlay_cpu.textContent = `CPU: ${server_cpu}`;
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
+
+    console.log("updating");
 }
 
 setInterval(LoadServerOverlayData, 100);
