@@ -406,7 +406,7 @@ p{
         gap: 0.5rem;
     }
     #server-overlay-name{
-        font-size: 2.75rem;
+        font-size: 2.25rem;
     }
     #server-overlay-port{
         font-size: 1.75rem;
@@ -426,6 +426,7 @@ p{
         padding: 1rem;
         max-width: 7rem;
         max-height: 7rem;
+        background-color: blue;
     }
     #new-server-button{
         font-size: 3rem;
