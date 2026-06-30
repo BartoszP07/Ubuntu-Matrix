@@ -393,6 +393,7 @@ p{
     #menu-btn{
         display: flex;
         pointer-events: all;
+        font-size: 1.2rem;
     }
     .cards{
         margin-left: 0;
@@ -401,7 +402,7 @@ p{
     .server-card{
         width: 7rem;
         height: 7rem;
-        padding: 0.7rem;
+        padding: 0.5rem;
     }
     #server-overlay-name{
         font-size: 2.75rem;
@@ -416,5 +417,8 @@ p{
         font-size: 1.1rem;
         width: 7rem;
         height: 2rem;
+    }
+    .pm2-card-name{
+        font-size: 1rem;
     }
 }
