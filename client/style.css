@@ -403,6 +403,7 @@ p{
         width: 7rem;
         height: 7rem;
         padding: 0.5rem;
+        gap: 0.5rem;
     }
     #server-overlay-name{
         font-size: 2.75rem;
@@ -420,6 +421,5 @@ p{
     }
     .pm2-card-name{
         font-size: 1rem;
-        color: blueviolet;
     }
 }
