@@ -283,8 +283,6 @@ p{
     width: 80dvw;
     height: 80dvh;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
     background-color: var(--main-colour);
     border-radius: 2rem;
     box-shadow: 0px 0px 10px 2px var(--main-colour);
