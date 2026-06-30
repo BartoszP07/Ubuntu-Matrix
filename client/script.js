@@ -157,6 +157,7 @@ setInterval(GetPM2Data, 1000);
 let edit_server_buttons = document.getElementsByClassName("edit-server-button");
 // Make the buttons an array
 edit_server_buttons = Array.from(edit_server_buttons);
+console.log(edit_server_buttons);
 
 // Get the overlays
 let overlay_shadow = document.getElementById("overlay-shadow");
