@@ -321,3 +321,17 @@ async function SendServerCommand(command){
         console.log(error)
     }
 }
+
+let close_side_btn = document.getElementById("close-side-btn");
+let side_bar = document.getElementById("side-bar");
+let menu_btn = document.getElementById("menu-btn");
+
+close_side_btn.addEventListener("click", function(){
+    side_bar.classList.remove("appear");
+    menu_btn.classList.remove("disappear");
+});
+
+menu_btn.addEventListener("click", function(){
+    side_bar.classList.add("appear");
+    menu_btn.classList.add("disappear");
+})

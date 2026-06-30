@@ -65,6 +65,12 @@ p{
     position: fixed;
     top: 0%;
     left: 0%;
+    transition: 0.3s;
+}
+
+#side-bar.appear{
+    opacity: 100%;
+    pointer-events: all;
 }
 
 .side-button{
@@ -165,7 +171,6 @@ p{
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-
 }
 
 .pm2-card-name{
@@ -338,4 +343,45 @@ p{
 
 #server-overlay-status{
     font-size: 2.5rem;
+}
+
+#menu-btn{
+    position:absolute;
+    top: 5%;
+    left: 5%;
+    display: none;
+    pointer-events: none;
+    width: 5rem;
+    height: 5rem;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+#menu-btn.disappear{
+    display: none;
+}
+
+
+@media (max-width: 768px){
+    h1{
+        font-size: 2rem;
+    }
+    p{
+        font-size: 1rem;
+    }
+    #welcome-title{
+        font-size: 4rem;
+    }
+    #side-bar{
+        width: 100%;
+        opacity: 0%;
+        pointer-events: none;
+    }
+    #main-area{
+        width: 100%;
+    }
+    #menu-btn{
+        display: flex;
+        pointer-events: all;
+    }
 }
