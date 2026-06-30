@@ -321,6 +321,7 @@ p{
     color: white;
     border-radius: 1rem;
     font-size: 1.5rem;
+    transition: 0.3s;
 }
 
 #close-edit-server-overlay-button:hover, #save-edit-server-overlay-button:hover{

@@ -192,6 +192,7 @@ let close_server_overlay_button = document.getElementById(
 close_server_overlay_button.addEventListener("click", function(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
+    current_server = undefined;
 })
 
 let current_server = undefined;
