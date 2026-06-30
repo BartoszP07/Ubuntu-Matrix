@@ -122,32 +122,35 @@ new_server_btn.addEventListener("click", function(){
     pm2_cards_div.appendChild(card);
 })
 
-async function GetPM2Data(){
+async function GetPM2Data(new_cards=true){
     try {
-      let response = await fetch("/api/get-pm2-data");
-      pm2_servers = await response.json();
+        let response = await fetch("/api/get-pm2-data");
+        pm2_servers = await response.json();
 
-      // Remove all existing cards
-      Array.from(pm2_cards_div.children).forEach((child) => {
-        if (child != add_server_card) {
-          child.remove();
+        if (new_cards){   
+
+            // Remove all existing cards
+            Array.from(pm2_cards_div.children).forEach((child) => {
+                if (child != add_server_card) {
+                child.remove();
+                }
+            });
+
+            // Add each server to the card div
+            pm2_servers.forEach((server) => {
+                const server_port = server.port;
+                const server_name = server.name;
+                const server_status = server.status;
+                const server_id = server.pm_id;
+                const card = CreateServerCard(
+                server_name,
+                server_port,
+                server_status,
+                server_id,
+            );
+            pm2_cards_div.appendChild(card);
+            });
         }
-      });
-
-      // Add each server to the card div
-      pm2_servers.forEach((server) => {
-        const server_port = server.port;
-        const server_name = server.name;
-        const server_status = server.status;
-        const server_id = server.pm_id;
-        const card = CreateServerCard(
-          server_name,
-          server_port,
-          server_status,
-          server_id,
-        );
-        pm2_cards_div.appendChild(card);
-      });
         // Get all edit buttons from the cards
         edit_server_buttons =
             document.getElementsByClassName("edit-server-button");
@@ -220,6 +223,8 @@ function GetCurrentServer(event){
 function LoadServerOverlayData(){
     if (!current_server) { return; }
 
+    GetPM2Data(new_cards=false);
+
     // Get server data
     const server_status = current_server.status;
     const server_name = current_server.name;
@@ -243,7 +248,7 @@ function LoadServerOverlayData(){
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 
-    console.log("updating");
+    
 }
 
 setInterval(LoadServerOverlayData, 100);
