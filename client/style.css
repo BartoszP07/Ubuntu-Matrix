@@ -23,7 +23,6 @@ body{
     height: 100dvh;
     width: 100dvw;
     overflow-x: hidden;
-    background-color: var(--main-colour);
 }
 
 h1{
@@ -375,7 +374,7 @@ p{
 
 #menu-btn{
     position:absolute;
-    top: 1%;
+    top: 2%;
     left: 1%;
     display: none;
     pointer-events: none;
