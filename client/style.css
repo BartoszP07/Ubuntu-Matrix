@@ -351,9 +351,10 @@ p{
     left: 1%;
     display: none;
     pointer-events: none;
-    width: 2rem;
-    height: 2rem;
+    width: fit-content;
+    height: fit-content;
     font-size: 1.6rem;
+    padding: 0.2rem;
     transition: 0.3s;
     color: white;
     background-color: var(--accent-colour);
@@ -395,5 +396,25 @@ p{
     }
     .cards{
         margin-left: 0;
+        width: 100%;
+    }
+    .server-card{
+        width: 7rem;
+        height: 7rem;
+        padding: 0.7rem;
+    }
+    #server-overlay-name{
+        font-size: 2.75rem;
+    }
+    #server-overlay-port{
+        font-size: 1.75rem;
+    }
+    #server-overlay-status{
+        font-size: 1.75rem;
+    }
+    .server-overlay-button{
+        font-size: 1.1rem;
+        width: 7rem;
+        height: 2rem;
     }
 }
