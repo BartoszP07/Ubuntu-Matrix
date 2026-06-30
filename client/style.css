@@ -283,7 +283,7 @@ p{
 #overlay-shadow{
     width: 100dvw;
     height: 100dvh;
-    position: absolute;
+    position: fixed;
     top: 0%;
     left: 0%;
     background-color: black;
@@ -303,8 +303,11 @@ p{
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80dvw;
+    width: 80%;
+    max-height: 80%;
     height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     flex-wrap: wrap;
     background-color: var(--main-colour);
     border-radius: 2rem;
