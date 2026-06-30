@@ -122,7 +122,7 @@ new_server_btn.addEventListener("click", function(){
     pm2_cards_div.appendChild(card);
 })
 
-async function GetPM2Data(new_cards=true){
+async function GetPM2Data(new_cards=true, pm_id=-1){
     try {
         let response = await fetch("/api/get-pm2-data");
         pm2_servers = await response.json();
@@ -169,6 +169,16 @@ async function GetPM2Data(new_cards=true){
             GetCurrentServer(event);
             });
         });
+
+        if (pm_id != -1){
+            pm2_servers.forEach((server) => {
+                if (pm_id != server.pm_id) {
+                    return;
+                } else {
+                    current_server = server;
+                }
+            });
+        }
     } 
     catch (error) {
         console.log(error);
@@ -212,7 +222,8 @@ function GetCurrentServer(event){
         pm2_servers.forEach((server) => {
         if (pm_id != server.pm_id) {
             return;
-        } else {
+        }
+        else {
             current_server = server;
         }
 
@@ -223,7 +234,7 @@ function GetCurrentServer(event){
 function LoadServerOverlayData(){
     if (!current_server) { return; }
 
-    GetPM2Data(new_cards=false);
+    GetPM2Data(new_cards=false, current_server.pm_id);
 
     // Get server data
     const server_status = current_server.status;
