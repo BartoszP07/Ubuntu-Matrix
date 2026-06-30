@@ -291,7 +291,7 @@ const server_restart_btn = document.getElementById("restart-edit-server-overlay-
 
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
 
-server_start_btn.addEventListener("click", () => SendServerCommand("start"));
+server_start_btn.addEventListener("click", () => SendServerCommand("restart"));
 
 server_restart_btn.addEventListener("click", () => SendServerCommand("restart"));
 
