@@ -467,3 +467,30 @@ p{
         pointer-events: all;
     }
 }
+
+/* Triggers only on devices that are shorter than 500px (Mobile Landscape) */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    
+    /* Shrink the overlay text */
+    #edit-server-overlay h3 {
+        font-size: 1.2rem; /* Adjust to taste */
+        margin-bottom: 0.5rem;
+    }
+
+    #edit-server-overlay p {
+        font-size: 0.9rem;
+        margin: 0.2rem 0;
+    }
+
+    /* Make the buttons more compact */
+    #edit-server-overlay button {
+        padding: 0.4rem 0.8rem; /* Less padding means a thinner button */
+        font-size: 0.9rem;
+    }
+    
+    /* Optional: reduce the gap we added earlier so it fits better */
+    #edit-server-overlay {
+        gap: 0.5rem;
+        padding: 1rem;
+    }
+}
