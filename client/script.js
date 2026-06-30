@@ -224,11 +224,17 @@ function LoadServerOverlayData(event){
     console.log(current_server);
 
     // Get overlay elements
-    const server_status_indicator = document.getElementById("server-overlay-status")
+    const server_overlay_status = document.getElementById("server-overlay-status")
     const server_overlay_name = document.getElementById("server-overlay-name");
     const server_overlay_port = document.getElementById("server-overlay-port");
+    const server_overlay_cpu = document.getElementById("server-overlay-cpu");
+    const server_overlay_mem = document.getElementById("server-overlay-mem");
+    const server_overlay_uptime = document.getElementById("server-overlay-uptime");
 
-    ChangeStatusIndicator(server_status_indicator, server_status);
     server_overlay_name.textContent = server_name;
-    server_overlay_port.textContent = `port: ${server_port}`
+    server_overlay_port.textContent = `Port: ${server_port}`
+    server_overlay_status.textContent = `Status: ${server_status}`;
+    server_overlay_cpu.textContent = `CPU: ${server_cpu}`;
+    server_overlay_mem.textContent = `Memory: ${server_mem}`;
+    server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 }
