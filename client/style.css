@@ -353,7 +353,7 @@ p{
     pointer-events: none;
     width: 2rem;
     height: 2rem;
-    font-size: 2rem;
+    font-size: 1.6rem;
     transition: 0.3s;
     color: white;
     background-color: var(--accent-colour);
