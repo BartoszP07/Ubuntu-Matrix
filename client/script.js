@@ -52,6 +52,7 @@ details_button.addEventListener("click", function(){
 
 let pm2_cards_div = document.getElementById("pm2-cards");
 let add_server_card = document.getElementById("add-server-card");
+let statuses = ["online", "stopped", "errored", "launching", "stopping"];
 
 function CreateServerCard(name, port, status){
     const card = document.createElement("article");
@@ -70,21 +71,26 @@ function CreateServerCard(name, port, status){
     status_circle.classList.add("status-circle");
     edit_btn.classList.add("edit-card-button");
 
+    // Remove all status classes
+    statuses.forEach(status => {
+        status_circle.classList.remove(status);
+    })
+
     // Check the status of the server
     if (status == "stopped"){
         status_circle.classList.add("offline");
-        status_circle.classList.remove("online");
-        status_circle.classList.remove("errored");
     }
     else if (status == "online"){
         status_circle.classList.add("online");
-        status_circle.classList.remove("offline");
-        status_circle.classList.remove("errored");
     }
     else if (status == "errored"){
-        status_circle.classList.remove("online");
-        status_circle.classList.remove("offline");
         status_circle.classList.add("errored");
+    }
+    else if (status == "launching"){
+        status_circle.classList.add("launching");
+    }
+    else if (status == "stopping"){
+        status_circle.classList.add("stopping");
     }
 
     // Add text
@@ -123,6 +129,7 @@ async function GetPM2Data(){
             }
         });
 
+        // Add each server to the card div
         data.forEach((server) => {
             const server_port = server.port;
             const server_name = server.name;
@@ -136,4 +143,4 @@ async function GetPM2Data(){
 }
 
 // Update pm2 server cards every second
-setInterval(GetPM2Data, 1000);
+setInterval(GetPM2Data, 500);

@@ -219,6 +219,14 @@ p{
     background-color: orange;
 }
 
+.status-circle.launching{
+    background-color: cyan;
+}
+
+.status-circle.stopping{
+    background-color: purple;
+}
+
 #add-server-card{
     align-items: center;
     order: 999;
