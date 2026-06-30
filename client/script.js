@@ -221,6 +221,8 @@ function LoadServerOverlayData(event){
     const server_mem = current_server.memory;
     const server_uptime = current_server.uptime;
 
+    console.log(current_server);
+
     // Get overlay elements
     const server_status_indicator = document.getElementById("server-overlay-status")
     const server_overlay_name = document.getElementById("server-overlay-name");
