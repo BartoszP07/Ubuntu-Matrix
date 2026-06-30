@@ -124,31 +124,47 @@ new_server_btn.addEventListener("click", function(){
 
 async function GetPM2Data(){
     try {
-        let response = await fetch("/api/get-pm2-data");
-        pm2_servers = await response.json();
+      let response = await fetch("/api/get-pm2-data");
+      pm2_servers = await response.json();
 
-        // Remove all existing cards
-        Array.from(pm2_cards_div.children).forEach((child) => {
-            if (child != add_server_card) {
-            child.remove();
-            }
-        });
+      // Remove all existing cards
+      Array.from(pm2_cards_div.children).forEach((child) => {
+        if (child != add_server_card) {
+          child.remove();
+        }
+      });
 
-        // Add each server to the card div
-        pm2_servers.forEach((server) => {
-            const server_port = server.port;
-            const server_name = server.name;
-            const server_status = server.status;
-            const server_id = server.pm_id;
-            const card = CreateServerCard(server_name, server_port, server_status, server_id);
-            pm2_cards_div.appendChild(card);
-            
-        });
+      // Add each server to the card div
+      pm2_servers.forEach((server) => {
+        const server_port = server.port;
+        const server_name = server.name;
+        const server_status = server.status;
+        const server_id = server.pm_id;
+        const card = CreateServerCard(
+          server_name,
+          server_port,
+          server_status,
+          server_id,
+        );
+        pm2_cards_div.appendChild(card);
+      });
         // Get all edit buttons from the cards
-        edit_server_buttons = document.getElementsByClassName("edit-server-button");
+        edit_server_buttons =
+            document.getElementsByClassName("edit-server-button");
         // Make the buttons an array
         edit_server_buttons = Array.from(edit_server_buttons);
-        console.log(edit_server_buttons);
+
+        // Loop through all buttons
+        edit_server_buttons.forEach((button) => {
+            button.addEventListener("click", function () {
+            if (!overlay_shadow.classList.contains("appear")) {
+                overlay_shadow.classList.add("appear");
+            }
+            if (!edit_server_overlay.classList.contains("appear")) {
+                edit_server_overlay.classList.add("appear");
+            }
+            });
+        });
     } 
     catch (error) {
         console.log(error);
@@ -172,13 +188,6 @@ let close_server_overlay_button = document.getElementById(
   "close-edit-server-overlay-button",
 );
 
-// Loop through all buttons
-edit_server_buttons.forEach(button => {
-    button.addEventListener("click", function () {
-      overlay_shadow.classList.add("appear");
-      edit_server_overlay.classList.add("appear");
-    });
-});
 
 close_server_overlay_button.addEventListener("click", function(){
     overlay_shadow.classList.remove("appear");
