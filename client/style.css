@@ -23,6 +23,7 @@ body{
     height: 100dvh;
     width: 100dvw;
     overflow-x: hidden;
+    background-color: var(--main-colour);
 }
 
 h1{
@@ -305,7 +306,7 @@ p{
 
 #edit-server-overlay{
     display: flex;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
