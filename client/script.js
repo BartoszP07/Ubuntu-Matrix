@@ -144,9 +144,11 @@ async function GetPM2Data(){
             pm2_cards_div.appendChild(card);
             
         });
+        // Get all edit buttons from the cards
         edit_server_buttons = document.getElementsByClassName("edit-server-button");
         // Make the buttons an array
         edit_server_buttons = Array.from(edit_server_buttons);
+        console.log(edit_server_buttons);
     } 
     catch (error) {
         console.log(error);
@@ -159,9 +161,7 @@ setInterval(GetPM2Data, 1000);
 // Handle editing a server
 
 // Get all the card edit buttons -- also gotten in when the new cards are made
-let edit_server_buttons = document.getElementsByClassName("edit-server-button");
-// Make the buttons an array
-edit_server_buttons = Array.from(edit_server_buttons);
+let edit_server_buttons;
 
 // Get the overlays
 let overlay_shadow = document.getElementById("overlay-shadow");
