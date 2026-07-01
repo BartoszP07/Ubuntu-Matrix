@@ -88,6 +88,8 @@ app.post("/api/process/:id/start", async (req, res) => {
     name = process_description[0].pm2_env.name;
     });
 
+  console.log(file_path);
+  console.log(name);
   // Use pm2 function to start the server
   pm2.start({
     name: name,
