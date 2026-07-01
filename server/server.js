@@ -75,6 +75,7 @@ app.get("/api/process/:id", (req, res) => {
 app.post("/api/process/:id/start", async (req, res) => {
   const pm2_id = parseInt(req.params.id);
   let file_path = "";
+  let name = "";
 
   // Get the file path of the server
   pm2.describe(pm2_id, (err, process_description) => {
@@ -84,11 +85,14 @@ app.post("/api/process/:id/start", async (req, res) => {
       return pm2.disconnect();
     }
     file_path = process_description[0].pm2_env.pm_exec_path;
-    console.log(file_path);
+    name = process_description[0].pm2_env.name;
     });
 
   // Use pm2 function to start the server
-  pm2.start(pm2_id, (error) => {
+  pm2.start({
+    name: name,
+    script: file_path
+    }, (error) => {
     // Check if there is an error
     if (error){
       console.log(error);
