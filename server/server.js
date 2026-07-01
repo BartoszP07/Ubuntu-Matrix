@@ -85,7 +85,7 @@ app.post("/api/process/:id/start", async (req, res) => {
     // Use pm2 function to start the server
     pm2.start({
       name: process_data[0].pm2_env.name,
-      script: process_data[0].pm2_env.pm_exec_path
+      script: path.join(process_data[0].pm2_env.pm_exec_path, "..", "..", "ecosystem.config.js")
       }, (error) => {
       // Check if there is an error
       if (error){
