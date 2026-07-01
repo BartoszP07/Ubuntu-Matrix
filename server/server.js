@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const express = require("express");
 const pm2 = require("pm2");
 const path = require("path");
+const fs = require("fs/promises");
 const app = express();
 
 // Get the port to use
@@ -74,10 +75,10 @@ app.get("/api/process/:id", (req, res) => {
 app.post("/api/process/:id/start", (req, res) => {
   const pm2_id = parseInt(req.params.id);
 
-  console.log("HERE IS WHERE THE DIRNAME SHOULD BE")
-  console.log(__dirname);
-  console.log(path.join(__dirname, "~"));
-  console.log("HERE IS WHERE THE DIRNAME SHOULD END")
+  let path = "home/";
+  console.log("------------------------------------------");
+  console.log(fs.readdir(path));
+  console.log("------------------------------------------");
 
   // Use pm2 function to start the server
   pm2.start(pm2_id, (error) => {
