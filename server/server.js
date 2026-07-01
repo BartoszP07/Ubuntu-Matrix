@@ -74,7 +74,9 @@ app.get("/api/process/:id", (req, res) => {
 app.post("/api/process/:id/start", (req, res) => {
   const pm2_id = parseInt(req.params.id);
 
+  console.log("HERE IS WHERE THE DIRNAME SHOULD BE")
   console.log(__dirname);
+  console.log("HERE IS WHERE THE DIRNAME SHOULD END")
 
   // Use pm2 function to start the server
   pm2.start(pm2_id, (error) => {
