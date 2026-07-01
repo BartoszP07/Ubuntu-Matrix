@@ -81,11 +81,12 @@ app.post("/api/process/:id/start", async (req, res) => {
       console.log(err);
       res.status(500);
     }
-    console.log(path.join(process_data[0].pm2_env.pm_exec_path, "..", "..", "ecosystem.config.js"));
+
     // Use pm2 function to start the server
     pm2.start({
       name: process_data[0].pm2_env.name,
-      script: path.join(process_data[0].pm2_env.pm_exec_path, "..", "..", "ecosystem.config.js")
+      script: path.join(process_data[0].pm2_env.pm_exec_path, "..", "..", "ecosystem.config.js"),
+      port: process_data[0].pm2_env.port
       }, (error) => {
       // Check if there is an error
       if (error){
