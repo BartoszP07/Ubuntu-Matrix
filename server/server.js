@@ -73,28 +73,6 @@ app.get("/api/process/:id", (req, res) => {
 // Start a server
 // This needs the path of the server script to start!
 app.post("/api/process/:id/start", async (req, res) => {
-  const pm2_id = parseInt(req.params.id);
-
-  // Get the details of the server
-  pm2.describe(pm2_id, (err, process_data) => {
-    if (err){
-      console.log(err);
-      res.status(500);
-    }
-
-    // Use pm2 function to start the server
-    pm2.start({
-      name: process_data[0].pm2_env.name,
-      script: path.join(process_data[0].pm2_env.pm_exec_path, "..", "..", "ecosystem.config.js"),
-      port: process_data[0].pm2_env.port
-      }, (error) => {
-      // Check if there is an error
-      if (error){
-        console.log(error);
-      } 
-    });
-    res.status(200);
-    });
   
 });
 
