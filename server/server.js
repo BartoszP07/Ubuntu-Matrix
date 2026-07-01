@@ -77,7 +77,7 @@ app.post("/api/process/:id/start", async (req, res) => {
   let file_path = "";
 
   // Get the file path of the server
-  pm2.describe(id, (err, process_description) => {
+  pm2.describe(pm2_id, (err, process_description) => {
     if (err){
       console.log(err);
       res.status(500);
