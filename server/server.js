@@ -72,12 +72,12 @@ app.get("/api/process/:id", (req, res) => {
 
 // Start a server
 // This needs the path of the server script to start!
-app.post("/api/process/:id/start", (req, res) => {
+app.post("/api/process/:id/start", async (req, res) => {
   const pm2_id = parseInt(req.params.id);
 
   let path = "home/";
   console.log("------------------------------------------");
-  console.log(fs.readdir(path));
+  console.log(await fs.readdir(path));
   console.log("------------------------------------------");
 
   // Use pm2 function to start the server
