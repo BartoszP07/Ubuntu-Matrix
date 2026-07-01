@@ -70,8 +70,12 @@ app.get("/api/process/:id", (req, res) => {
 });
 
 // Start a server
+// This needs the path of the server script to start!
 app.post("/api/process/:id/start", (req, res) => {
   const pm2_id = parseInt(req.params.id);
+
+  console.log(__dirname);
+
   // Use pm2 function to start the server
   pm2.start(pm2_id, (error) => {
     // Check if there is an error

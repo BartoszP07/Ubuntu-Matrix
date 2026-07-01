@@ -80,7 +80,7 @@ function CreateServerCard(name, port, status, pm_id){
     title.textContent = name;
     port_elem.textContent = `Port: ${port}`;
     status_txt.textContent = "Status:";
-    edit_btn.textContent = "Edit";
+    edit_btn.textContent = "Manage";
 
     // Add all the elements to the card
     card.appendChild(title);
