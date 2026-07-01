@@ -78,33 +78,33 @@ app.post("/api/process/:id/start", async (req, res) => {
   let name = "";
 
   // Get the file path of the server
-  let process_data = pm2.describe(pm2_id, (err, process_description) => {
+  pm2.describe(pm2_id, (err, process_data) => {
     if (err){
       console.log(err);
       res.status(500);
-      return pm2.disconnect();
     }
-    return process_description[0];
+    
+    console.log("-------------------------")
+    console.log(process_data[0]);
+    file_path = process_data[0].pm2_env.pm_exec_path;
+    name = process_data[0].pm2_env.name;
+    console.log(file_path);
+    console.log(name);
+    console.log("-------------------------")
+    // Use pm2 function to start the server
+    pm2.start({
+      name: name,
+      script: file_path
+      }, (error) => {
+      // Check if there is an error
+      if (error){
+        console.log(error);
+      } 
     });
-  console.log("-------------------------")
-  console.log(process_data);
-  file_path = process_data.pm2_env.pm_exec_path;
-  name = process_data.pm2_env.name;
-  console.log(file_path);
-  console.log(name);
-  console.log("-------------------------")
-  // Use pm2 function to start the server
-  pm2.start({
-    name: name,
-    script: file_path
-    }, (error) => {
-    // Check if there is an error
-    if (error){
-      console.log(error);
-      return pm2.disconnect();
-    } 
-  });
-  res.status(200);
+    res.status(200);
+
+    });
+  
 });
 
 // Stop a server
@@ -115,7 +115,6 @@ app.post("/api/process/:id/stop", (req, res) => {
     // Check if there is an error
     if (error){
       console.log(error);
-      return pm2.disconnect();
     }
   });
   res.status(200);
@@ -129,7 +128,6 @@ app.post("/api/process/:id/restart", (req, res) => {
     // Check if there is an error
     if (error){
       console.log(error);
-      return pm2.disconnect();
     }
   });
   res.status(200);
@@ -143,7 +141,6 @@ app.post("/api/process/:id/delete", (req, res) => {
     // Check if there is an error
     if (error){
       console.log(error);
-      return pm2.disconnect();
     }
   });
   res.status(200);
