@@ -55,18 +55,18 @@ app.get("/api/process/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
   // Using pm2.describe to get the full process details
-  pm2.describe(id, (err, processDescription) => {
+  pm2.describe(id, (err, process_description) => {
     if (err) {
       return res.status(500).json({ error: "Failed to fetch process" });
     }
 
     // Check if the process actually exists
-    if (!processDescription || processDescription.length === 0) {
+    if (!process_description || process_description.length === 0) {
       return res.status(404).json({ error: "Process not found" });
     }
 
     // Return the raw data
-    res.json(processDescription[0]);
+    res.json(process_description[0]);
   });
 });
 
@@ -74,20 +74,18 @@ app.get("/api/process/:id", (req, res) => {
 // This needs the path of the server script to start!
 app.post("/api/process/:id/start", async (req, res) => {
   const pm2_id = parseInt(req.params.id);
+  let file_path = "";
 
-  // let path = "/home/";
-  // let user;
-  // let server_name;
-  // console.log("------------------------------------------");
-  // console.log(await fs.readdir(path));
-  // console.log("------------------------------------------");
-
-  // // Get the user folder
-  // user = (await fs.readdir(path))[0];
-  // // Go inside the user folder
-  // path += `${user}/`;
-  // // Read the path again
-  // console.log(await fs.readdir(path));
+  // Get the file path of the server
+  pm2.describe(id, (err, process_description) => {
+    if (err){
+      console.log(err);
+      res.status(500);
+      return pm2.disconnect();
+    }
+    file_path = process_description[0].pm2_env.pm_exec_path;
+    console.log(file_path);
+    });
 
   // Use pm2 function to start the server
   pm2.start(pm2_id, (error) => {
