@@ -78,17 +78,17 @@ app.post("/api/process/:id/start", async (req, res) => {
   let name = "";
 
   // Get the file path of the server
-  pm2.describe(pm2_id, (err, process_description) => {
+  let process_data = pm2.describe(pm2_id, (err, process_description) => {
     if (err){
       console.log(err);
       res.status(500);
       return pm2.disconnect();
     }
-    file_path = process_description[0].pm2_env.pm_exec_path;
-    name = process_description[0].pm2_env.name;
-    return;
+    return process_description[0];
     });
 
+  file_path = process_data.pm2_env.pm_exec_path;
+  name = process_data.pm2_env.name;
   console.log("HEREREERE");
   console.log(file_path);
   console.log(name);
