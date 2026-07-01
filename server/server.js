@@ -75,19 +75,19 @@ app.get("/api/process/:id", (req, res) => {
 app.post("/api/process/:id/start", async (req, res) => {
   const pm2_id = parseInt(req.params.id);
 
-  let path = "/home/";
-  let user;
-  let server_name;
-  console.log("------------------------------------------");
-  console.log(await fs.readdir(path));
-  console.log("------------------------------------------");
+  // let path = "/home/";
+  // let user;
+  // let server_name;
+  // console.log("------------------------------------------");
+  // console.log(await fs.readdir(path));
+  // console.log("------------------------------------------");
 
-  // Get the user folder
-  user = await fs.readdir(path)[0];
-  // Go inside the user folder
-  path += `${user}/`;
-  // Read the path again
-  console.log(await fs.readdir(path));
+  // // Get the user folder
+  // user = (await fs.readdir(path))[0];
+  // // Go inside the user folder
+  // path += `${user}/`;
+  // // Read the path again
+  // console.log(await fs.readdir(path));
 
   // Use pm2 function to start the server
   pm2.start(pm2_id, (error) => {
