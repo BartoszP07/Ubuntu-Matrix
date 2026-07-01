@@ -76,6 +76,7 @@ app.post("/api/process/:id/start", (req, res) => {
 
   console.log("HERE IS WHERE THE DIRNAME SHOULD BE")
   console.log(__dirname);
+  console.log(path.join(__dirname, "..", "..", ".."));
   console.log("HERE IS WHERE THE DIRNAME SHOULD END")
 
   // Use pm2 function to start the server
