@@ -17,11 +17,10 @@ pm2.connect(function (err) {
     console.error("Critical: Failed to connect to PM2 daemon", err);
     process.exit(2);
   }
-  console.log("Connected to PM2 daemon.");
 });
 
 // Api to get pm2 information
-app.get("/api/get-pm2-data", function (req, res) {
+app.get("/api/get-pm2-data", (req, res) => {
   pm2.list(function (error, processes) {
     if (error) {
       console.log("error");
@@ -65,34 +64,66 @@ app.get("/api/process/:id", (req, res) => {
       return res.status(404).json({ error: "Process not found" });
     }
 
-    // Return the raw object directly
+    // Return the raw data
     res.json(processDescription[0]);
   });
 });
 
-// Helper function to handle PM2 actions to keep code dry
-const runPm2Action = (action, id, res) => {
-  // Execute the action (start/stop/restart) directly without reconnecting
-  pm2[action](id, (err) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ success: true, message: `Process ${id} ${action}ed` });
-  });
-};
-
-// 1. START (Resumes a stopped process)
+// Start a server
 app.post("/api/process/:id/start", (req, res) => {
-  runPm2Action("start", parseInt(req.params.id), res);
+  const pm2_id = parseInt(req.params.id);
+  // Use pm2 function to start the server
+  pm2.start(pm2_id, (error) => {
+    // Check if there is an error
+    if (error){
+      console.log(error);
+      return pm2.disconnect();
+    } 
+  });
+  res.status(200);
 });
 
-// 2. STOP
+// Stop a server
 app.post("/api/process/:id/stop", (req, res) => {
-  runPm2Action("stop", parseInt(req.params.id), res);
+  const pm2_id = parseInt(req.params.id);
+  // Use pm2 function to stop the server
+  pm2.stop(pm2_id, (error) => {
+    // Check if there is an error
+    if (error){
+      console.log(error);
+      return pm2.disconnect();
+    }
+  });
+  res.status(200);
 });
 
-// 3. RESTART
+// Restart a server
 app.post("/api/process/:id/restart", (req, res) => {
-  runPm2Action("restart", parseInt(req.params.id), res);
+  const pm2_id = parseInt(req.params.id);
+  // Use pm2 function to restart the server
+  pm2.restart(pm2_id, (error) => {
+    // Check if there is an error
+    if (error){
+      console.log(error);
+      return pm2.disconnect();
+    }
+  });
+  res.status(200);
 });
+
+// Delete a server
+app.post("/api/process/:id/delete", (req, res) => {
+  const pm2_id = parseInt(req.params.id);
+  // Use pm2 function to delete a server
+  pm2.delete(pm2_id, (error) => {
+    // Check if there is an error
+    if (error){
+      console.log(error);
+      return pm2.disconnect();
+    }
+  });
+  res.status(200);
+})
 
 // Start the server on the given port
 app.listen(port, function () {
