@@ -86,13 +86,13 @@ app.post("/api/process/:id/start", async (req, res) => {
     }
     return process_description[0];
     });
-
+  console.log("-------------------------")
+  console.log(process_data);
   file_path = process_data.pm2_env.pm_exec_path;
   name = process_data.pm2_env.name;
-  console.log("HEREREERE");
   console.log(file_path);
   console.log(name);
-  console.log("RARARARAR");
+  console.log("-------------------------")
   // Use pm2 function to start the server
   pm2.start({
     name: name,
