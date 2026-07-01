@@ -75,7 +75,7 @@ app.get("/api/process/:id", (req, res) => {
 app.post("/api/process/:id/start", async (req, res) => {
   const pm2_id = parseInt(req.params.id);
 
-  let path = "~/";
+  let path = "/home/";
   console.log("------------------------------------------");
   console.log(await fs.readdir(path));
   console.log("------------------------------------------");
