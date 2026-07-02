@@ -2,6 +2,10 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "pm2": "^7.0.3"
+    "pm2": "^7.0.3",
+    "systeminformation": "^5.31.11"
+  },
+  "scripts": {
+    "start": "node server/server.js"
   }
 }

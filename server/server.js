@@ -4,6 +4,7 @@ const express = require("express");
 const pm2 = require("pm2");
 const path = require("path");
 const fs = require("fs/promises");
+const sysinfo = require("systeminformation");
 const app = express();
 
 // Get the port to use
@@ -11,6 +12,7 @@ const port = process.env.SERVER_PORT;
 
 // Use the static content
 app.use(express.static(path.join(__dirname, "../client")));
+
 
 // Connect to PM2 globally on startup to prevent connection reset errors
 pm2.connect(function (err) {

@@ -1,54 +1,5 @@
 
-// Get sections
-let welcome_section = document.getElementById("welcome-section");
-let pm2_section = document.getElementById("pm2-section");
-let cloudflare_section = document.getElementById("cloudflare-section");
-let details_section = document.getElementById("details-section");
-
-// Get side buttons
-let title_button = document.getElementById("title-button");
-let pm2_server_button = document.getElementById("pm2-server-btn");
-let cloudflare_button = document.getElementById("cloudflare-btn");
-let details_button = document.getElementById("details-btn");
-
-function HideAllSections(){
-    welcome_section.style.display = "none";
-    pm2_section.style.display = "none";
-    cloudflare_section.style.display = "none";
-    details_section.style.display = "none";
-    pm2_server_button.classList.remove("active");
-    cloudflare_button.classList.remove("active");
-    details_button.classList.remove("active");
-}
-
-function ShowSection(element){
-    element.style.display = "flex";
-}
-
-title_button.addEventListener("click", function(){
-    HideAllSections();
-    ShowSection(welcome_section);
-})
-
-pm2_server_button.addEventListener("click", async function(){
-    HideAllSections();
-    ShowSection(pm2_section);
-    pm2_server_button.classList.add("active");
-
-    await GetPM2Data();
-})
-
-cloudflare_button.addEventListener("click", function(){
-    HideAllSections();
-    ShowSection(cloudflare_section);
-    cloudflare_button.classList.add("active");
-})
-
-details_button.addEventListener("click", function(){
-    HideAllSections();
-    ShowSection(details_section);
-    details_button.classList.add("active");
-})
+// Get elements
 
 // Handle the server cards
 let pm2_cards_div = document.getElementById("pm2-cards");
@@ -56,6 +7,33 @@ let add_server_card = document.getElementById("add-server-card");
 let statuses = ["online", "stopped", "errored", "launching", "stopping"];
 let pm2_servers = []
 
+// Get all the card edit buttons -- also gotten in when the new cards are made
+let edit_server_buttons;
+
+// Get the overlays
+let overlay_shadow = document.getElementById("overlay-shadow");
+let edit_server_overlay = document.getElementById("edit-server-overlay");
+
+// Get other elements
+let close_server_overlay_button = document.getElementById(
+  "close-edit-server-overlay-button",
+);
+
+// Server control buttons
+const server_stop_btn = document.getElementById("stop-edit-server-overlay-button");
+const server_start_btn = document.getElementById("start-edit-server-overlay-button");
+const server_restart_btn = document.getElementById("restart-edit-server-overlay-button");
+
+//  Elements for creating new server
+let new_server_btn = document.getElementById("new-server-button");
+let new_server_overlay = document.getElementById("new-server-overlay");
+let close_new_server_btn = document.getElementById("close-new-server-overlay-button");
+
+// Variables
+let current_server = undefined;
+let current_server_id = undefined;
+
+// Function to create the server card
 function CreateServerCard(name, port, status, pm_id){
     const card = document.createElement("article");
     const title = document.createElement("h3");
@@ -93,9 +71,11 @@ function CreateServerCard(name, port, status, pm_id){
     // Add the pm id to the card
     card.dataset.pm_id = pm_id;
 
+    // Return the card
     return card;
 }
 
+// Function to change the class of the colour state indicator
 function ChangeStatusIndicator(element, status) {
     // Remove all status classes
     statuses.forEach((status) => {
@@ -114,13 +94,6 @@ function ChangeStatusIndicator(element, status) {
         element.classList.add("stopping");
     }
 }
-
-let new_server_btn = document.getElementById("new-server-button");
-
-new_server_btn.addEventListener("click", function(){
-    const card = CreateServerCard("New server", 0, "offline");
-    pm2_cards_div.appendChild(card);
-})
 
 async function GetPM2Data(){
     try {
@@ -177,18 +150,7 @@ setInterval(GetPM2Data, 1000);
 
 // Handle editing a server
 
-// Get all the card edit buttons -- also gotten in when the new cards are made
-let edit_server_buttons;
-
-// Get the overlays
-let overlay_shadow = document.getElementById("overlay-shadow");
-let edit_server_overlay = document.getElementById("edit-server-overlay");
-
-// Get other elements
-let close_server_overlay_button = document.getElementById(
-  "close-edit-server-overlay-button",
-);
-
+// Close the server overlay
 close_server_overlay_button.addEventListener("click", function(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
@@ -196,9 +158,7 @@ close_server_overlay_button.addEventListener("click", function(){
     current_server_id = undefined;
 })
 
-let current_server = undefined;
-let current_server_id = undefined;
-
+// Function to get the current server for the overlay
 function GetCurrentServer(event){
     if (!current_server) {
         // Get the card from the button
@@ -210,17 +170,14 @@ function GetCurrentServer(event){
         // Get the current server
         pm2_servers.forEach((server) => {
         
-        if (current_server_id != server.pm_id) {
-            return;
-        }
-        else {
-            current_server = server;
-        }
+        if (current_server_id != server.pm_id) { return; }
+        else { current_server = server; }
 
         });
     }
 }
 
+// Function to get the data from the server to display the pm2 server info
 async function LoadServerOverlayData(){
     if (!current_server || !current_server_id) { return; }
     let data;
@@ -256,41 +213,13 @@ async function LoadServerOverlayData(){
     server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
 }
 
-// Convert Bytes to MB or GB
-function FormatMemory(bytes) {
-    if (bytes === 0) return '0 MB';
-    const mb = bytes / (1024 * 1024);
-    if (mb > 1024) {
-        return (mb / 1024).toFixed(2) + ' GB';
-    }
-    return mb.toFixed(0) + ' MB';
-}
-
-// Convert Milliseconds to Human Readable (D:H:M:S)
-function FormatUptime(ms) {
-    // Note: If your uptime is ~1.7 trillion, PM2 might be sending a timestamp.
-    // Ensure this ms value is actually a duration (elapsed time).
-    let seconds = Math.floor(ms / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-    let days = Math.floor(hours / 24);
-
-    hours = hours % 24;
-    minutes = minutes % 60;
-    seconds = seconds % 60;
-
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
-}
-
+// Call this load server function very 0.2s
 setInterval(LoadServerOverlayData, 200);
 
-// Server control buttons
-const server_stop_btn = document.getElementById("stop-edit-server-overlay-button");
-const server_start_btn = document.getElementById("start-edit-server-overlay-button");
-const server_restart_btn = document.getElementById("restart-edit-server-overlay-button");
-
+// Stop a server from running
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
 
+// Start a server
 server_start_btn.addEventListener("click", () => {
     // Get the current server
     pm2_servers.forEach((server) => {
@@ -306,8 +235,10 @@ server_start_btn.addEventListener("click", () => {
     }
 });
 
+// Restart a server
 server_restart_btn.addEventListener("click", () => SendServerCommand("restart"));
 
+// Helper function for the buttons to send the commands to the server
 async function SendServerCommand(command){
     try{
         const response = await fetch(`/api/process/${current_server_id}/${command}`,
@@ -322,16 +253,14 @@ async function SendServerCommand(command){
     }
 }
 
-let close_side_btn = document.getElementById("close-side-btn");
-let side_bar = document.getElementById("side-bar");
-let menu_btn = document.getElementById("menu-btn");
+// Open the new server overlay
+new_server_btn.addEventListener("click", function(){
+    new_server_overlay.classList.add("appear");
+    overlay_shadow.classList.add("appear");
+})
 
-close_side_btn.addEventListener("click", function(){
-    side_bar.classList.remove("appear");
-    menu_btn.classList.remove("disappear");
-});
-
-menu_btn.addEventListener("click", function(){
-    side_bar.classList.add("appear");
-    menu_btn.classList.add("disappear");
+// Close the new server overlay
+close_new_server_btn.addEventListener("click", function() {
+    new_server_overlay.classList.remove("appear");
+    overlay_shadow.classList.remove("appear");
 })

@@ -33,6 +33,9 @@
         <section id="cloudflare-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Cloudflare Tunnels</h1>
         </section>
+        <section id="storage-section" class="main-section" style="display: none;">
+            <h1 class="main-titles">Storage</h1>
+        </section>
         <section id="details-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Details</h1>
         </section>
@@ -44,12 +47,13 @@
         </button>
         <button class="side-button" id="pm2-server-btn">PM2 Servers</button>
         <button class="side-button" id="cloudflare-btn">Cloudflare tunnels</button>
+        <button class="side-button" id="storage-btn">Storage</button>
         <button class="side-button" id="details-btn">Details</button>
         <button class="side-button" id="close-side-btn">Close</button>
     </div>
 
     <div id="overlay-shadow"></div>
-    <div id="edit-server-overlay">
+    <div id="edit-server-overlay" class="server-overlay">
         <h3 class="pm2-card-name" id="server-overlay-name">Name</h3>
         <p class="pm2-card-port" id=server-overlay-port>Port: </p>
         <p id="server-overlay-status">Status:</p>
@@ -63,7 +67,11 @@
             <button id="restart-edit-server-overlay-button" class="server-overlay-button">Restart</button>
         </div>
     </div>
+    <div id="new-server-overlay" class="server-overlay">
+        <button class="server-overlay-button" id="close-new-server-overlay-button">Close</button>
+    </div>  
     
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/pm2.js"></script>
 </body>
 </html>

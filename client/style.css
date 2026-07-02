@@ -131,15 +131,19 @@ p{
 
 
 #pm2-server-btn{
-    background-image: url("/assets/server3.png");
+    background-image: url("/assets/server.png");
 }
 
 #cloudflare-btn{
-    background-image: url("/assets/shield3.png");
+    background-image: url("/assets/shield.png");
+}
+
+#storage-btn {
+    background-image: url("/assets/hdd.png");
 }
 
 #details-btn{
-    background-image: url("/assets/clipboard3.png");
+    background-image: url("/assets/clipboard.png");
 }
 
 #main-area{
@@ -303,7 +307,7 @@ p{
     pointer-events: all;
 }
 
-#edit-server-overlay{
+.server-overlay{
     display: flex;
     position: fixed;
     top: 50%;
@@ -330,7 +334,7 @@ p{
     padding: 2rem;
 }
 
-#edit-server-overlay.appear{
+.server-overlay.appear{
     pointer-events: all;
     opacity: 100%;
 }
