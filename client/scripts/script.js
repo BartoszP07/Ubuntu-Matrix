@@ -84,10 +84,8 @@ function FormatMemory(bytes) {
     return mb.toFixed(0) + ' MB';
 }
 
-// Convert Milliseconds to Human Readable (D:H:M:S)
+// Convert Milliseconds (D:H:M:S)
 function FormatUptime(ms) {
-    // Note: If your uptime is ~1.7 trillion, PM2 might be sending a timestamp.
-    // Ensure this ms value is actually a duration (elapsed time).
     let seconds = Math.floor(ms / 1000);
     let minutes = Math.floor(seconds / 60);
     let hours = Math.floor(minutes / 60);

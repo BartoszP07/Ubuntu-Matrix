@@ -33,6 +33,8 @@ let close_new_server_btn = document.getElementById("close-new-server-overlay-but
 let current_server = undefined;
 let current_server_id = undefined;
 
+// Main program  --------------------------------------------------------------------
+
 // Function to create the server card
 function CreateServerCard(name, port, status, pm_id){
     const card = document.createElement("article");
@@ -148,7 +150,7 @@ async function GetPM2Data(){
 // Update pm2 server cards every second
 setInterval(GetPM2Data, 1000);
 
-// Handle editing a server
+// Handle editing a server ----------------------------------------------------------
 
 // Close the server overlay
 close_server_overlay_button.addEventListener("click", function(){
@@ -252,6 +254,8 @@ async function SendServerCommand(command){
         console.log(error)
     }
 }
+
+// Creating a new server ------------------------------------------------------------
 
 // Open the new server overlay
 new_server_btn.addEventListener("click", function(){
