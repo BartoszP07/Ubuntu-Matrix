@@ -95,7 +95,12 @@ function FormatUptime(ms) {
     minutes = minutes % 60;
     seconds = seconds % 60;
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return {
+        days: days,
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds
+    };
 }
 
 // ONLY WORKS FOR MOBILE (MAX-WIDTH <= 768)

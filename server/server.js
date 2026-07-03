@@ -115,7 +115,108 @@ app.post("/api/process/:id/delete", (req, res) => {
     }
   });
   res.status(200);
-})
+});
+
+// Get system information
+app.get("/api/sysinfo", async (req, res) => {
+  try{
+    const uptime = sysinfo.time().uptime;
+    const system = await sysinfo.system();
+    const bios = await sysinfo.bios();
+    const cpu = await sysinfo.cpu();
+    const cpu_temperature = await sysinfo.cpuTemperature();
+    const memory = await sysinfo.mem();
+    const battery = await sysinfo.battery();
+    const graphics = await sysinfo.graphics();
+    const os_info = await sysinfo.osInfo();
+    const cpu_load = await sysinfo.currentLoad();
+    const processes = await sysinfo.processes();
+    const all_disks = await sysinfo.diskLayout();
+    const disk_sizes = await sysinfo.fsSize();
+
+    let disk_data = [];
+    all_disks.forEach(disk => {
+      const temp = {
+          name: disk.name,
+          size: disk.size,
+          status: disk.smartStatus,
+          temperature: disk.temperature,
+          type: disk.type,
+      };
+      disk_data.push(temp);
+    });
+
+    disk_sizes.forEach(disk => {
+      const temp = {
+        available: disk.available,
+        fs: disk.fs,
+        size: disk.size,
+        use: disk.use
+      };
+      disk_data.push(temp);
+    })
+
+    let system_data = {
+      manufacturer: system.manufacturer,
+      model: system.model,
+      bios_version: bios.version,
+      bios_release_date: bios.releaseDate,
+      os_platform: os_info.platform,
+      os_distro: os_info.distro,
+      os_build: os_info.build,
+      os_kernel: os_info.kernel
+    };
+
+    let battery_data = {
+      has_battery: battery.hasBattery,
+      current_capacity: battery.currentCapacity,
+      max_capacity: battery.maxCapacity,
+      is_charging: battery.isCharging,
+      percent: battery.percent,
+    }
+
+    let memory_data = {
+      total_memory: memory.total,
+      free_memory: memory.free,
+    }
+
+    let cpu_data = {
+      temp: cpu_temperature.main,
+      brand: cpu.brand,
+      cores: cpu.cores,
+      manufacturer: cpu.manufacturer,
+      load: cpu_load.currentLoad,
+    }
+
+    let gpu_data = []
+    graphics.controllers.forEach(gpu => {
+      const temp = {
+        temparature: gpu.temperatureGpu,
+        model: gpu.model,
+        power_draw: gpu.powerDraw,
+        clock: gpu.clockCore,
+        memory: gpu.clockMemory,
+      }
+      gpu_data.push(temp);
+    })
+
+    res.status(200);
+    res.json({
+      uptime: uptime,
+      cpu: cpu_data,
+      memory: memory_data,
+      battery: battery_data,
+      system: system_data,
+      graphics: gpu_data,
+      processes: processes.all,
+      disks: disk_data,
+    });
+  } 
+  catch (error){
+    console.log(error);
+    res.status(500);
+  }
+});
 
 // Start the server on the given port
 app.listen(port, function () {
