@@ -133,6 +133,8 @@ app.get("/api/sysinfo", async (req, res) => {
     const processes = await sysinfo.processes();
     const all_disks = await sysinfo.diskLayout();
     const disk_sizes = await sysinfo.fsSize();
+    const network = await sysinfo.networkInterfaces();
+    const wifi = await sysinfo.wifiNetworks();
 
     let disk_data = [];
     all_disks.forEach(disk => {
@@ -200,6 +202,26 @@ app.get("/api/sysinfo", async (req, res) => {
       gpu_data.push(temp);
     })
 
+    let network_data = []
+    network.forEach(data => {
+      const temp = {
+        ip4: data.ip4,
+        type: data.type,
+        speed: data.speed,
+      }
+      network_data.push(temp);
+    })
+
+    let wifi_data = [];
+    wifi.forEach(data => {
+      const temp = {
+        ssid: data.ssid,
+        signal_level: data.signalLevel,
+        quality: data.quality,
+      }
+      wifi_data.push(temp);
+    })
+
     res.status(200);
     res.json({
       uptime: uptime,
@@ -210,6 +232,8 @@ app.get("/api/sysinfo", async (req, res) => {
       graphics: gpu_data,
       processes: processes.all,
       disks: disk_data,
+      network: network_data,
+      wifi: wifi_data,
     });
   } 
   catch (error){

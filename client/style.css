@@ -167,7 +167,6 @@ p{
 }
 
 #welcome-title{
-    margin-top: 5rem;
     color: var(--main-colour);
     font-size: 6rem;
     text-shadow: 0px 0px 10px black;
@@ -420,6 +419,41 @@ p{
 .details-button:hover{
     box-shadow: 0px 0px 10px 2px var(--accent-colour),
                 inset 0px 0px 10px 2px var(--accent-colour);
+}
+
+#top-data-bar {
+    width: 80%;
+    margin: 1.5rem auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--main-colour);
+    border-radius: 2rem;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.bar-text {
+    font-size: 1.25rem;
+}
+
+#data-div{
+    margin: 0.5rem;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, 20rem);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.data-article{
+    width: 20rem;
+    height: 20rem;
+    border-radius: 1.5rem;
+    box-shadow: 0px 0px 10px 2px var(--accent-colour);
+    background-color: red;
 }
 
 @media (max-width: 768px){
