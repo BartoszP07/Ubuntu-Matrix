@@ -148,7 +148,7 @@ async function GetPM2Data(){
 }
 
 // Update pm2 server cards every second
-setInterval(GetPM2Data, 1000);
+setInterval(GetPM2Data, 1);
 
 // Handle editing a server ----------------------------------------------------------
 
