@@ -117,19 +117,56 @@ app.post("/api/process/:id/delete", (req, res) => {
   res.status(200);
 });
 
-// Get system information
-app.get("/api/sysinfo", async (req, res) => {
-  try{
-    const uptime = sysinfo.time().uptime;
+// Create cache varaibles to store the system information variables
+let static_sysinfo = {};
+let cached_sysinfo = {};
+
+
+// Fetch static hardware data
+async function initStaticData() {
+  try {
     const system = await sysinfo.system();
     const bios = await sysinfo.bios();
+    const os_info = await sysinfo.osInfo();
     const cpu = await sysinfo.cpu();
+    const battery = await sysinfo.battery();
+
+    static_sysinfo = {
+      system: {
+        manufacturer: system.manufacturer,
+        model: system.model,
+        bios_version: bios.version,
+        bios_release_date: bios.releaseDate,
+        os_platform: os_info.platform,
+        os_distro: os_info.distro,
+        os_build: os_info.build,
+        os_kernel: os_info.kernel
+      },
+      cpu: {
+        model: cpu.brand,
+        cores: cpu.physicalCores,
+        threads: cpu.cores,
+        manufacturer: cpu.manufacturer,
+      },
+      battery: {
+        has_battery: battery.hasBattery,
+        max_capacity: battery.maxCapacity,
+      }
+    };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// Fetch dynamic data continuously
+async function pollDynamicData() {
+  try {
+    const uptime = sysinfo.time().uptime;
     const cpu_temperature = await sysinfo.cpuTemperature();
+    const cpu_load = await sysinfo.currentLoad();
     const memory = await sysinfo.mem();
     const battery = await sysinfo.battery();
     const graphics = await sysinfo.graphics();
-    const os_info = await sysinfo.osInfo();
-    const cpu_load = await sysinfo.currentLoad();
     const processes = await sysinfo.processes();
     const all_disks = await sysinfo.diskLayout();
     const disk_sizes = await sysinfo.fsSize();
@@ -156,41 +193,9 @@ app.get("/api/sysinfo", async (req, res) => {
         use: disk.use
       };
       disk_data.push(temp);
-    })
+    });
 
-    let system_data = {
-      manufacturer: system.manufacturer,
-      model: system.model,
-      bios_version: bios.version,
-      bios_release_date: bios.releaseDate,
-      os_platform: os_info.platform,
-      os_distro: os_info.distro,
-      os_build: os_info.build,
-      os_kernel: os_info.kernel
-    };
-
-    let battery_data = {
-      has_battery: battery.hasBattery,
-      current_capacity: battery.currentCapacity,
-      max_capacity: battery.maxCapacity,
-      is_charging: battery.isCharging,
-      percent: battery.percent,
-    }
-
-    let memory_data = {
-      total_memory: memory.total,
-      free_memory: memory.free,
-    }
-
-    let cpu_data = {
-      temp: cpu_temperature.main,
-      brand: cpu.brand,
-      cores: cpu.cores,
-      manufacturer: cpu.manufacturer,
-      load: cpu_load.currentLoad,
-    }
-
-    let gpu_data = []
+    let gpu_data = [];
     graphics.controllers.forEach(gpu => {
       const temp = {
         temparature: gpu.temperatureGpu,
@@ -198,19 +203,19 @@ app.get("/api/sysinfo", async (req, res) => {
         power_draw: gpu.powerDraw,
         clock: gpu.clockCore,
         memory: gpu.clockMemory,
-      }
+      };
       gpu_data.push(temp);
-    })
+    });
 
-    let network_data = []
+    let network_data = [];
     network.forEach(data => {
       const temp = {
         ip4: data.ip4,
         type: data.type,
         speed: data.speed,
-      }
+      };
       network_data.push(temp);
-    })
+    });
 
     let wifi_data = [];
     wifi.forEach(data => {
@@ -218,28 +223,58 @@ app.get("/api/sysinfo", async (req, res) => {
         ssid: data.ssid,
         signal_level: data.signalLevel,
         quality: data.quality,
-      }
+      };
       wifi_data.push(temp);
-    })
+    });
 
-    res.status(200);
-    res.json({
+    // Update the global cache
+    cached_sysinfo = {
       uptime: uptime,
-      cpu: cpu_data,
-      memory: memory_data,
-      battery: battery_data,
-      system: system_data,
+      cpu: {
+        ...static_sysinfo.cpu,
+        temp: cpu_temperature.main,
+        load: cpu_load.currentLoad,
+      },
+      memory: {
+        total_memory: memory.total,
+        free_memory: memory.free,
+      },
+      battery: {
+        ...static_sysinfo.battery,
+        current_capacity: battery.currentCapacity,
+        is_charging: battery.isCharging,
+        percent: battery.percent,
+      },
+      system: static_sysinfo.system,
       graphics: gpu_data,
       processes: processes.all,
       disks: disk_data,
       network: network_data,
       wifi: wifi_data,
-    });
-  } 
-  catch (error){
+    };
+
+    // Restart the polling loop
+    setTimeout(pollDynamicData, 2000);
+  } catch (error) {
     console.log(error);
-    res.status(500);
+    // Keep loop alive if error occurs
+    setTimeout(pollDynamicData, 5000);
   }
+}
+
+// Get system information
+app.get("/api/sysinfo", (req, res) => {
+  // Check if cache is ready
+  if (Object.keys(cached_sysinfo).length === 0) {
+    return res.status(503).json({ error: "Server warming up..." });
+  }
+  
+  res.status(200).json(cached_sysinfo);
+});
+
+// Initialize background workers
+initStaticData().then(() => {
+  pollDynamicData();
 });
 
 // Start the server on the given port
