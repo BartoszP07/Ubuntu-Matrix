@@ -3,6 +3,7 @@
 :root{
     --main-colour: rgb(25, 25, 25);
     --accent-colour: rgb(200, 0, 0);
+    /* --accent-colour: rgb(83, 0, 76); */
     --side-bar-width: 14rem;
 }
 
@@ -52,7 +53,7 @@ p{
 
 #title-matrix-span{
     color: var(--accent-colour);
-    text-shadow: 0px 0px 10px red;
+    text-shadow: 0px 0px 10px var(--accent-colour);
 }
 
 #title-ubuntu-span{
@@ -171,7 +172,7 @@ p{
 #welcome-title{
     color: var(--main-colour);
     font-size: 6rem;
-    text-shadow: 0px 0px 10px black;
+    text-shadow: 0px 0px 10px var(--main-colour);
     text-align: center;
 }
 
@@ -211,7 +212,7 @@ p{
 .edit-server-button{
     background-color: var(--accent-colour);
     color: white;
-    box-shadow: 0px 0px 5px 1px red;
+    box-shadow: 0px 0px 5px 1px var(--accent-colour);
     border: none;
     outline: none;
     border-radius: 5px;
@@ -221,7 +222,7 @@ p{
 }
 
 .edit-card-button:hover{
-    box-shadow: 0px 0px 10px 3px red
+    box-shadow: 0px 0px 10px 3px var(--accent-colour);
 }
 
 .status{
