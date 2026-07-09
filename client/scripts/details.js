@@ -209,6 +209,19 @@ function ShowData(){
             details_data.graphics.temperature * 3.6
         }deg, black 0deg)`;
 
+    if (details_data.graphics.clock == undefined){
+        gpu_clock_speed.innerText = `No data!`;
+    }
+    if (details_data.graphics.memory == undefined){
+        gpu_mem_speed.innerText = `No data!`;
+    }
+    if (details_data.graphics.power_draw == undefined){
+        gpu_power.innerText = `No data!`;
+    }
+    if (details_data.graphics.temperature == undefined){
+        gpu_temp.innerText = `No data!`
+    }
+
     // System
     bios_release.innerText = `Release: ${details_data.system.bios_release_date}`;
     bios_version.innerText = `Version: ${details_data.system.bios_version}`;
