@@ -199,7 +199,7 @@ async function pollDynamicData() {
     let gpu_data = [];
     graphics.controllers.forEach(gpu => {
       const temp = {
-        temparature: gpu.temperatureGpu,
+        temperature: gpu.temperatureGpu,
         model: gpu.model,
         power_draw: gpu.powerDraw,
         clock: gpu.clockCore,

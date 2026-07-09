@@ -558,6 +558,14 @@ p{
     justify-content: center;
 }
 
+#gpu-speed-holder p{
+    font-size: 0.8rem;
+}
+
+.smaller-text p{
+    font-size: 0.75rem;
+}
+
 @media (max-width: 768px){
     h1{
         font-size: 2rem;
@@ -663,11 +671,8 @@ p{
     #mem-usage-progress p{
         font-size: 2rem;
     }
-    #network-connection-div p{
+    .mobile-text-size p{
         font-size: 0.7rem;
-    }
-    .network-usage-holder p{
-        font-size: 0.9rem;
     }
 }
 

@@ -40,6 +40,24 @@ let battery_percent_prog = document.getElementById("battery-percent-progress")
 let battery_health = document.getElementById("battery-health");
 let battery_health_prog = document.getElementById("battery-health-progress");
 
+// Gpu
+let gpu_model = document.getElementById("gpu-model");
+let gpu_clock_speed = document.getElementById("clock-speed");
+let gpu_mem_speed = document.getElementById("memory-speed");
+let gpu_power = document.getElementById("gpu-power");
+let gpu_temp = document.getElementById("gpu-temp");
+let gpu_temp_prog = document.getElementById("gpu-temp-progress");
+
+// System
+let bios_release = document.getElementById("bios-release-date");
+let bios_version = document.getElementById("bios-version");
+let mobo_manufacturer = document.getElementById("motherboard-manufacturer");
+let mobo_model = document.getElementById("motherboard-model");
+let os_build = document.getElementById("os-build");
+let os_distro = document.getElementById("os-distro");
+let os_kernel = document.getElementById("os-kernel");
+let os_platform = document.getElementById("os-platform");
+
 let details_data = {};
 let update_data = false;
 
@@ -98,6 +116,17 @@ async function HandleData(){
         }
     });
     details_data.wifi = wifi_hardware;
+    
+    // Get the gpu details with the most data
+    let total_data = 0;
+    let graphics_data = [];
+    details_data.graphics.forEach(data => {
+        if (Object.keys(data).length > total_data) {
+            total_data = Object.keys(data).length;
+            graphics_data = data;
+        }
+    })
+    details_data.graphics = graphics_data;
 
     ShowData();
 }
@@ -156,7 +185,7 @@ function ShowData(){
     // Power
     max_capacity.innerText = `Max: ${(details_data.battery.max_capacity/1000).toFixed(1)}Wh`;
     current_capacity.innerText = `Current: ${(details_data.battery.current_capacity/1000).toFixed(1)}Wh`;
-    charging_txt.innerText = `Charging: ${details_data.battery.is_charging}`;
+    charging_txt.innerText = `${details_data.battery.is_charging}`;
     battery_percent.innerText = `${details_data.battery.percent}%`;
     battery_percent_prog.style.background = `conic-gradient(var(--accent-colour) ${
             details_data.battery.percent * 3.6
@@ -169,6 +198,26 @@ function ShowData(){
     battery_health_prog.style.background = `conic-gradient(var(--accent-colour) ${
             health * 3.6
         }deg, black 0deg)`;
+
+    // Gpu
+    gpu_model.innerText = `${details_data.graphics.model}`;
+    gpu_clock_speed.innerText = `Clock: ${details_data.graphics.clock}MHz`;
+    gpu_mem_speed.innerText = `Memory: ${details_data.graphics.memory}MHz`;
+    gpu_power.innerText = `${details_data.graphics.power_draw}W`
+    gpu_temp.innerText = `${details_data.graphics.temperature}°`
+    gpu_temp_prog.style.background = `conic-gradient(var(--accent-colour) ${
+            details_data.graphics.temperature * 3.6
+        }deg, black 0deg)`;
+
+    // System
+    bios_release.innerText = `Release: ${details_data.system.bios_release_date}`;
+    bios_version.innerText = `Version: ${details_data.system.bios_version}`;
+    mobo_manufacturer.innerText = `Manufacturer: ${details_data.system.manufacturer}`;
+    mobo_model.innerText = `Model: ${details_data.system.model}`;
+    os_build.innerText = `Build: ${details_data.system.os_build}`;
+    os_distro.innerText = `Distro: ${details_data.system.os_distro}`;
+    os_kernel.innerText = `Kernel: ${details_data.system.os_kernel}`;
+    os_platform.innerText = `Platform: ${details_data.system.os_platform}`;
 }
 
 async function PollServer(){
