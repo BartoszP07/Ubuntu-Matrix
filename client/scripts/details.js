@@ -8,6 +8,7 @@ let processes_p = document.getElementById("processes-txt");
 // Cpu
 let cpu_model_p = document.getElementById("cpu-model");
 let cpu_cores_p = document.getElementById("cpu-cores");
+let cpu_threads_p = document.getElementById("cpu-threads");
 let cpu_load_p = document.getElementById("cpu-load");
 let cpu_temp_p = document.getElementById("cpu-temp");
 let cpu_load_prog = document.getElementById("cpu-load-progress");
@@ -18,6 +19,17 @@ let mem_usage_p = document.getElementById("mem-usage");
 let mem_usage_prog = document.getElementById("mem-usage-progress");
 let total_mem_p = document.getElementById("total-memory");
 let used_mem_p = document.getElementById("used-memory");
+
+// Network
+let network_ip4 = document.getElementById("network-ip4");
+let network_type = document.getElementById("network-type");
+let network_ssid = document.getElementById("network-ssid");
+let network_quality = document.getElementById("network-quality");
+let network_signal = document.getElementById("network-signal");
+let network_download = document.getElementById("network-download");
+let network_upload = document.getElementById("network-upload");
+let network_total_download = document.getElementById("network-total-download");
+let network_total_upload = document.getElementById("network-total-upload");
 
 let details_data = {};
 let update_data = false;
@@ -56,7 +68,28 @@ async function HandleData(){
     }
     else{
         details_data.cpu.temp = Math.round(Number(details_data.cpu.temp));
-    }
+    }  
+
+    // Go through each network and get the correct one
+    let network_hardware = {}
+    details_data.network.forEach(data => {
+        if (data.ip4.includes("192.168")) {
+            network_hardware = data;
+        }
+    });
+    details_data.network = network_hardware;
+    details_data.network_traffic = details_data.network_traffic[0];
+    // Go through each wifi signal and get the one with the best signal level
+    let wifi_hardware = {}
+    let quality = 0;
+    details_data.wifi.forEach(data => {
+        if (data.quality > quality) {
+            quality = data.quality;
+            wifi_hardware = data;
+        }
+    });
+    details_data.wifi = wifi_hardware;
+
     ShowData();
 }
 
@@ -73,7 +106,8 @@ function ShowData(){
 
     // CPU
     cpu_model_p.innerText = `${details_data.cpu.manufacturer} ${details_data.cpu.model}`;
-    cpu_cores_p.innerText = `${details_data.cpu.cores}C, ${details_data.cpu.threads}T`;
+    cpu_cores_p.innerText = `${details_data.cpu.cores} Cores`;
+    cpu_threads_p.innerText = `${details_data.cpu.threads} Threads`;
     cpu_temp_p.innerText = `${details_data.cpu.temp}°`;
     cpu_load_p.innerText = `${details_data.cpu.load}%`;
 
@@ -97,7 +131,18 @@ function ShowData(){
             mem_usage * 3.6
         }deg, black 0deg)`;
     total_mem_p.innerText = `Total: ${total_mem}GB`;
-    used_mem_p.innerText = `Used: ${used_mem}GB`
+    used_mem_p.innerText = `Used: ${used_mem}GB`    
+
+    // Network
+    network_ip4.innerText = `Ip4: ${details_data.network.ip4}`;
+    network_type.innerText = `Type: ${details_data.network.type}`;
+    network_ssid.innerText = `SSID: ${details_data.wifi.ssid}`;
+    network_quality.innerText = `Quality: ${details_data.wifi.quality}`;
+    network_signal.innerText = `Signal: ${details_data.wifi.signal_level}`;
+    network_download.innerText = `Down: ${details_data.network_traffic.download_speed}MB/s`;
+    network_upload.innerText = `Up: ${details_data.network_traffic.upload_speed}MB/s`;
+    network_total_download.innerText = `Down: ${details_data.network_traffic.total_downloaded}GB/s`;
+    network_total_upload.innerText = `Up: ${details_data.network_traffic.total_uploaded}GB/s`;
 }
 
 async function PollServer(){

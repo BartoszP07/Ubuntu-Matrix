@@ -435,7 +435,7 @@ p{
 #top-data-bar {
     width: 80%;
     margin: 1.5rem auto;
-    padding: 1rem 2rem;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -498,6 +498,21 @@ p{
     box-shadow: 0px 0px 5px 1px var(--accent-colour);
 }
 
+.partition-title{
+    margin-top: 0.5rem;
+    font-weight: bold;
+}
+
+.data-partition-holder{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .circular-progress{
     margin-top: auto;
     margin-bottom: auto;
@@ -523,8 +538,7 @@ p{
 }
 
 .data-text{
-    margin-top: auto;
-    margin-bottom: auto;
+    font-size: 1rem;
 }
 
 #mem-usage-progress{
@@ -648,6 +662,12 @@ p{
     }
     #mem-usage-progress p{
         font-size: 2rem;
+    }
+    #network-connection-div p{
+        font-size: 0.7rem;
+    }
+    .network-usage-holder p{
+        font-size: 0.9rem;
     }
 }
 

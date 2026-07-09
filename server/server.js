@@ -171,6 +171,7 @@ async function pollDynamicData() {
     const all_disks = await sysinfo.diskLayout();
     const disk_sizes = await sysinfo.fsSize();
     const network = await sysinfo.networkInterfaces();
+    const network_traffic = await sysinfo.networkStats();
     const wifi = await sysinfo.wifiNetworks();
 
     let disk_data = [];
@@ -227,6 +228,20 @@ async function pollDynamicData() {
       wifi_data.push(temp);
     });
 
+    let network_traffic_data= [];
+    network_traffic.forEach(data => {
+      if (data.iface !== "lo") {
+        const temp = {
+          interface: data.iface,
+          download_speed: (data.rx_sec / 1024 / 1024).toFixed(2),
+          upload_speed: (data.tx_sec / 1024 / 1024).toFixed(2),
+          total_downloaded: (data.rx_bytes / 1073741824).toFixed(2),
+          total_uploaded: (data.tx_bytes / 1073741824).toFixed(2)
+        };
+        network_traffic_data.push(temp);
+      }
+    });
+
     // Update the global cache
     cached_sysinfo = {
       uptime: uptime,
@@ -251,6 +266,7 @@ async function pollDynamicData() {
       disks: disk_data,
       network: network_data,
       wifi: wifi_data,
+      network_traffic: network_traffic_data,
     };
 
     // Restart the polling loop
