@@ -161,8 +161,7 @@ function ShowData(){
     battery_percent_prog.style.background = `conic-gradient(var(--accent-colour) ${
             details_data.battery.percent * 3.6
         }deg, black 0deg)`;
-    const health = Math.round(details_data.battery.max_capacity / details_data.battery.designed_capacity) * 100;
-    console.log(details_data.battery.max_capacity / details_data.battery.designed_capacity)
+    const health = Math.round(details_data.battery.max_capacity / details_data.battery.designed_capacity * 100);
     battery_health.innerText = `${health}%`;
     battery_health_prog.style.background = `conic-gradient(var(--accent-colour) ${
             health * 3.6
