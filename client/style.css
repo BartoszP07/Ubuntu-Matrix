@@ -429,6 +429,7 @@ p{
     overflow-y: auto;
     height: 100dvh;
     padding-bottom: 2rem;
+    overflow-x: hidden;
 }
 
 #top-data-bar {
@@ -526,6 +527,23 @@ p{
     margin-bottom: auto;
 }
 
+#mem-usage-progress{
+    width: 10rem;
+    height: 10rem;
+}
+
+#mem-usage-progress p{
+    font-size: 2.5rem;
+}
+
+#mem-data-div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 768px){
     h1{
         font-size: 2rem;
@@ -595,26 +613,38 @@ p{
         display: flex;
         pointer-events: all;
     }
+    #top-data-bar{
+        width: 70%;
+    }
     .data-article{
-        width: 15rem;
-        height: 15rem;
+        width: 17rem;
+        height: 17rem;
         border-radius: 1rem;
+        max-width: 17rem;
+        max-height: 17rem;
     }
     #data-div{
-        grid-template-columns: repeat(auto-fit, 15rem);
+        grid-template-columns: repeat(auto-fit, 17rem);
     }
     .data-title{
         margin-top: 2px;
     }
     .data-text{
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
     .progress-inner-circle p{
-        font-size: 0.75rem;
+        font-size: 1rem;
     }
     .circular-progress{
-        width: 2.75rem;
-        height: 2.75rem;
+        width: 3.5rem;
+        height: 3.5rem;
+    }
+    #mem-usage-progress{
+        width: 8rem;
+        height: 8rem;
+    }
+    #mem-usage-progress p{
+        font-size: 2rem;
     }
 }
 

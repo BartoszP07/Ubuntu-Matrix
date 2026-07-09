@@ -1,15 +1,19 @@
 
 // Get elemements 
 
-let get_details_btn = document.getElementById("get-details-button");
-let details_p = document.getElementById("system-details");
-
+// Cpu
 let cpu_model_p = document.getElementById("cpu-model");
 let cpu_cores_p = document.getElementById("cpu-cores");
 let cpu_load_p = document.getElementById("cpu-load");
 let cpu_temp_p = document.getElementById("cpu-temp");
 let cpu_load_prog = document.getElementById("cpu-load-progress");
 let cpu_temp_prog = document.getElementById("cpu-temp-progress");
+
+// Mem
+let mem_usage_p = document.getElementById("mem-usage");
+let mem_usage_prog = document.getElementById("mem-usage-progress");
+let total_mem_p = document.getElementById("total-memory");
+let used_mem_p = document.getElementById("used-memory");
 
 let details_data = {};
 let update_data = false;
@@ -52,8 +56,13 @@ async function HandleData(){
     ShowData();
 }
 
+function BytesToGB(val){
+    return (val / (1024*1024*1024)).toFixed(1);
+}
+
 // Insert data into elements
 function ShowData(){
+    // CPU
     cpu_model_p.innerText = `${details_data.cpu.manufacturer} ${details_data.cpu.model}`;
     cpu_cores_p.innerText = `${details_data.cpu.cores}C, ${details_data.cpu.threads}T`;
     cpu_temp_p.innerText = `${details_data.cpu.temp}°`;
@@ -67,7 +76,19 @@ function ShowData(){
  
     cpu_load_prog.style.background = `conic-gradient(var(--accent-colour) ${
             details_data.cpu.load * 3.6
-        }deg, black 0deg)`
+        }deg, black 0deg)`;
+
+    // MEMORY
+    const free_mem = BytesToGB(details_data.memory.free_memory);
+    const total_mem = BytesToGB(details_data.memory.total_memory)
+    const used_mem = (total_mem - free_mem).toFixed(1);
+    const mem_usage = (used_mem / total_mem) * 100
+    mem_usage_p.innerText = `${Math.round(mem_usage)}%`
+    mem_usage_prog.style.background = `conic-gradient(var(--accent-colour) ${
+            mem_usage * 3.6
+        }deg, black 0deg)`;
+    total_mem_p.innerText = `Total: ${total_mem}GB`;
+    used_mem_p.innerText = `Used: ${used_mem}GB`
 }
 
 async function PollServer(){

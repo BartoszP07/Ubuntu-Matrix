@@ -47,7 +47,6 @@
                     <h3 class="data-title">CPU</h3>
 
                     <div class="data-grid">
-
                         <div id="cpu-name-div" class="data-partition">
                             <p id="cpu-model-title">Model</p>
                             <p id="cpu-model" class="data-text">cpu model...</p>
@@ -76,9 +75,21 @@
                             </div>
                         </div>
                     </div>
+
                 </article>
                 <article class="data-article" id="mem-article">
                     <h3 class="data-title">MEMORY</h3>
+                    <p id="total-memory">Total mem</p>
+                    <p id="used-memory">Used mem</p>
+                    <div id="mem-data-div">
+                        <div id="mem-usage-progress" class="circular-progress">
+                            <div id="mem-usage-inner-circle" class="progress-inner-circle">
+                                <p id="mem-usage">0%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+
                 </article>
                 <article class="data-article" id="net-article">
                     <h3 class="data-title">NETWORK</h3>
@@ -96,8 +107,6 @@
                     <h3 class="data-title">DISKS</h3>
                 </article>
             </div>
-
-            <button id="get-details-button" class="details-button">Get Details</button>
 
         </section>
     </div>
