@@ -31,6 +31,15 @@ let network_upload = document.getElementById("network-upload");
 let network_total_download = document.getElementById("network-total-download");
 let network_total_upload = document.getElementById("network-total-upload");
 
+// Power
+let max_capacity = document.getElementById("max-capacity");
+let current_capacity = document.getElementById("current-capacity");
+let charging_txt = document.getElementById("charging-txt");
+let battery_percent = document.getElementById("battery-percent");
+let battery_percent_prog = document.getElementById("battery-percent-progress")
+let battery_health = document.getElementById("battery-health");
+let battery_health_prog = document.getElementById("battery-health-progress");
+
 let details_data = {};
 let update_data = false;
 
@@ -143,6 +152,20 @@ function ShowData(){
     network_upload.innerText = `Up: ${details_data.network_traffic.upload_speed}MB/s`;
     network_total_download.innerText = `Down: ${details_data.network_traffic.total_downloaded}GB/s`;
     network_total_upload.innerText = `Up: ${details_data.network_traffic.total_uploaded}GB/s`;
+
+    // Power
+    max_capacity.innerText = `Max: ${(details_data.battery.max_capacity/1000).toFixed(1)}Wh`;
+    current_capacity.innerText = `Current: ${(details_data.battery.current_capacity/1000).toFixed(1)}Wh`;
+    charging_txt.innerText = `Charging: ${details_data.battery.is_charging}`;
+    battery_percent.innerText = `${details_data.battery.percent}%`;
+    battery_percent_prog.style.background = `conic-gradient(var(--accent-colour) ${
+            details_data.battery.percent * 3.6
+        }deg, black 0deg)`;
+    const health = Math.round(details_data.battery.max_capacity / details_data.battery.designed_capacity) * 100;
+    battery_health.innerText = `${health}%`;
+    battery_health_prog.style.background = `conic-gradient(var(--accent-colour) ${
+            health * 3.6
+        }deg, black 0deg)`;
 }
 
 async function PollServer(){

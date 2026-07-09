@@ -259,6 +259,7 @@ async function pollDynamicData() {
         current_capacity: battery.currentCapacity,
         is_charging: battery.isCharging,
         percent: battery.percent,
+        designed_capacity: battery.designedCapacity,
       },
       system: static_sysinfo.system,
       graphics: gpu_data,

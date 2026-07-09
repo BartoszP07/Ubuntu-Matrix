@@ -48,14 +48,14 @@
 
                     <div class="data-grid">
                         <div id="cpu-name-div" class="data-partition">
-                            <p id="cpu-model-title" class="partition-title">Model</p>
+                            <p class="partition-title">Model</p>
                             <div class="data-partition-holder">
                                 <p id="cpu-model" class="data-text">model: loading</p>
                             </div>
                         </div>
 
                         <div id="cpu-cores-div" class="data-partition">
-                            <p id="cpu-cores-title" class="partition-title">Topology</p>
+                            <p class="partition-title">Topology</p>
                             <div class="data-partition-holder">
                                 <p id="cpu-cores" class="data-text">cores: loading</p>
                                 <p id="cpu-threads" class="data-text">threads: loading</p>
@@ -63,7 +63,7 @@
                         </div>
 
                         <div id="cpu-load-div" class="data-partition">
-                            <p id="cpu-load-title" class="partition-title">Load</p>
+                            <p class="partition-title">Load</p>
                             <div id="cpu-load-progress" class="circular-progress">
                                 <div id="cpu-load-inner-circle" class="progress-inner-circle">
                                     <p id="cpu-load">0%</p>
@@ -72,7 +72,7 @@
                         </div>
 
                         <div id="cpi-temp-div" class="data-partition">
-                            <p id="cpu-temp-title" class="partition-title">Temp</p>
+                            <p class="partition-title">Temp</p>
                             <div id="cpu-temp-progress" class="circular-progress">
                                 <div id="cpu-temp-inner-circle" class="progress-inner-circle">
                                     <p id="cpu-temp">0%</p>
@@ -100,14 +100,14 @@
                     <h3 class="data-title">NETWORK</h3>
                     <div class="data-grid">
                         <div class="data-partition">
-                            <p id="network-info-title" class="partition-title">Info</p>
+                            <p class="partition-title">Info</p>
                             <div class="data-partition-holder">
                                 <p id="network-ip4" class=data-text>Ip4: loading</p>
                                 <p id="network-type" class="data-text">Type: loading</p>
                             </div>
                         </div>
                         <div class="data-partition">
-                            <p id="network-connection-title" class="partition-title">Connection</p>
+                            <p class="partition-title">Connection</p>
                             <div class="data-partition-holder" id="network-connection-div">
                                 <p id="network-ssid" class=data-text>SSID: loading</p>
                                 <p id="network-quality" class="data-text">Quality: loading</p>
@@ -115,14 +115,14 @@
                             </div>
                         </div>
                         <div class="data-partition">
-                            <p id="network-current-usage-title" class="partition-title">Usage</p>
+                            <p class="partition-title">Usage</p>
                             <div class="data-partition-holder network-usage-holder">
                                 <p id="network-download" class=data-text>Down: loading</p>
                                 <p id="network-upload" class="data-text">Up: loading</p>
                             </div>
                         </div>
                         <div class="data-partition">
-                            <p id="network-total-usage-title" class="partition-title">Total Usage</p>
+                            <p class="partition-title">Total Usage</p>
                             <div class="data-partition-holder network-usage-holder">
                                 <p id="network-total-download" class=data-text>Down: loading</p>
                                 <p id="network-total-upload" class="data-text">Up: loading</p>
@@ -132,6 +132,41 @@
                 </article>
                 <article class="data-article" id="power-article">
                     <h3 class="data-title">POWER</h3>
+                    <div class="data-grid">
+                        <div class="data-partition">
+                            <p class="partition-title">Capacity</p>
+                            <div class="data-partition-holder">
+                                <p class="data-text" id="max-capacity">Max: loading</p>
+                                <p class="data-text" id="current-capacity">Current: loading</p>
+                            </div>
+                        </div>
+
+                        <div class="data-partition">
+                            <p class="partition-title">Charging</p>
+                            <div class="data-partition-holder">
+                                <p class="data-text" id="charging-txt">Charging: loading</p>
+                            </div>
+                        </div>
+
+                        <div class="data-partition">
+                            <p class="partition-title">Battery</p>
+                            <div id="battery-percent-progress" class="circular-progress">
+                                <div id="battery-percent-inner-circle" class="progress-inner-circle">
+                                    <p id="battery-percent">0%</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="data-partition">
+                            <p class="partition-title">Health</p>
+                            <div id="battery-health-progress" class="circular-progress">
+                                <div id="attery-health-inner-circle" class="progress-inner-circle">
+                                    <p id="battery-health">0%</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </article>
                 <article class="data-article" id="gpu-article">
                     <h3 class="data-title">GPU</h3>
