@@ -161,7 +161,10 @@ function ShowData(){
     battery_percent_prog.style.background = `conic-gradient(var(--accent-colour) ${
             details_data.battery.percent * 3.6
         }deg, black 0deg)`;
-    const health = Math.round(details_data.battery.max_capacity / details_data.battery.designed_capacity * 100);
+    
+    // Dont use the designed capacity from sys info, hard code it... 35Wh
+
+    const health = Math.round(details_data.battery.max_capacity / 35000 * 100);
     battery_health.innerText = `${health}%`;
     battery_health_prog.style.background = `conic-gradient(var(--accent-colour) ${
             health * 3.6
