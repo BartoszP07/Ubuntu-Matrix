@@ -1,6 +1,10 @@
 
 // Get elemements 
 
+// Top bar
+let uptime_p = document.getElementById("uptime-txt");
+let processes_p = document.getElementById("processes-txt");
+
 // Cpu
 let cpu_model_p = document.getElementById("cpu-model");
 let cpu_cores_p = document.getElementById("cpu-cores");
@@ -62,6 +66,11 @@ function BytesToGB(val){
 
 // Insert data into elements
 function ShowData(){
+    // Top bar
+    const uptime_str = `${details_data.uptime.days}d:${details_data.uptime.hours}h:${details_data.uptime.minutes}m:${details_data.uptime.seconds}s`
+    uptime_p.innerText = `Uptime: ${uptime_str}`
+    processes_p.innerText = `Processes: ${details_data.processes}`;
+
     // CPU
     cpu_model_p.innerText = `${details_data.cpu.manufacturer} ${details_data.cpu.model}`;
     cpu_cores_p.innerText = `${details_data.cpu.cores}C, ${details_data.cpu.threads}T`;

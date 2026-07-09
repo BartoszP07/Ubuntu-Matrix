@@ -213,7 +213,7 @@ async function LoadServerOverlayData(){
     server_overlay_status.textContent = `Status: ${server_status}`;
     server_overlay_cpu.textContent = `CPU: ${server_cpu}%`;
     server_overlay_mem.textContent = `Memory: ${server_mem}`;
-    server_overlay_uptime.textContent = `Uptime: ${server_uptime}`;
+    server_overlay_uptime.textContent = `Uptime: ${uptime_str}`;
 }
 
 // Call this load server function very 0.2s

@@ -616,6 +616,9 @@ p{
     #top-data-bar{
         width: 70%;
     }
+    .bar-text{
+        font-size: 1rem;
+    }
     .data-article{
         width: 17rem;
         height: 17rem;
