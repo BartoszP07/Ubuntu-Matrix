@@ -199,7 +199,7 @@ async function LoadServerOverlayData(){
     const server_mem = FormatMemory(data.monit.memory);
     const server_uptime = FormatUptime(data.pm2_env.pm_uptime);
     const uptime_str = `${server_uptime.days}D : ${server_uptime.hours}H : ${server_uptime.minutes}M : ${server_uptime.seconds}S`
-
+    console.log(data.pm2_env.pm_uptime);
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")
     const server_overlay_name = document.getElementById("server-overlay-name");
