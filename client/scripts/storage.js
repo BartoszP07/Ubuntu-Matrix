@@ -20,7 +20,7 @@ function uploadArchive() {
 
     // 3. Build the Target URL
     // Use your server's Tailscale IP or MagicDNS hostname here
-    const baseUrl = 'http://lenovo-ubuntu-server:3000/api/upload';
+    const baseUrl = 'http://lenovo-ubuntu-server:2000/api/upload';
     
     // Append the destination query parameter if one was typed in
     const targetUrl = destination 
