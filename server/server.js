@@ -302,8 +302,9 @@ async function pollDynamicData() {
       },
       memory: {
         total_memory: memory.total,
-        free_memory: memory.available, // Adjusted to use available instead of strict free
-        available_memory: memory.available, 
+        free_memory: memory.free,
+        available_memory: memory.available,
+        buffers_cache_memory: memory.buffcache,
       },
       battery: {
         ...static_sysinfo.battery,
