@@ -488,6 +488,7 @@ p{
     flex-grow: 1;
     flex-wrap: wrap;
     overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 .data-partition {
@@ -500,6 +501,7 @@ p{
     border-radius: 0.5rem;
     box-shadow: 0px 0px 5px 1px var(--accent-colour);
     overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 .partition-title{
@@ -516,6 +518,7 @@ p{
     flex-direction: column;
     flex-wrap: wrap;
     overflow-wrap: break-word;
+    word-break: break-all;
 }
 
 .circular-progress{
