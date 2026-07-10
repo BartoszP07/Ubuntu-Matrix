@@ -8,6 +8,7 @@ const sysinfo = require("systeminformation");
 const multer = require("multer");
 const adm_zip = require("adm-zip");
 const cors = require("cors");
+const os = require("os");
 
 const app = express();
 
@@ -309,12 +310,12 @@ const storage = multer.diskStorage({
   // Set the destination for the file transfer
   destination: function(req, file, cb){
     let target_dir = req.query.dest || "uploads";
-    const base_dir = path.resolve("~");
-    let final_path = path.resolve(base_dir, target_dir)    
 
-    if (!final_path.startsWith(base_dir)) {
-      return cb(new Error("Access Denied: Invalid upload path"));
+    if (target_dir.startsWith("~")) {
+      target_dir = target_dir.replace("~", os.homedir());
     }
+
+    let final_path = path.resolve(__dirname, target_dir)    
 
     if (!fs.existsSync(final_path)){
       fs.mkdirSync(final_path, { recursive: true });
