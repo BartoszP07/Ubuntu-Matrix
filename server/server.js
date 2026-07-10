@@ -5,14 +5,20 @@ const pm2 = require("pm2");
 const path = require("path");
 const fs = require("fs/promises");
 const sysinfo = require("systeminformation");
+const multer = require("multer");
+const adm_zip = require("adm-zip");
+const cors = require("cors");
+
 const app = express();
 
 // Get the port to use
 const port = process.env.SERVER_PORT;
 
 // Use the static content
+app.use(cors());
 app.use(express.static(path.join(__dirname, "../client")));
 
+// PM2 -------------------------------------------------------------------------------------------------------------------
 
 // Connect to PM2 globally on startup to prevent connection reset errors
 pm2.connect(function (err) {
@@ -116,6 +122,8 @@ app.post("/api/process/:id/delete", (req, res) => {
   });
   res.status(200);
 });
+
+// SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
 
 // Create cache varaibles to store the system information variables
 let static_sysinfo = {};
@@ -292,6 +300,65 @@ app.get("/api/sysinfo", (req, res) => {
 // Initialize background workers
 initStaticData().then(() => {
   pollDynamicData();
+});
+
+// MULTER (file manager) -------------------------------------------------------------------------------------------------
+
+// Set up multer storage system
+const storage = multer.diskStorage({
+  // Set the destination for the file transfer
+  destination: function(req, file, cb){
+    let target_dir = req.query.dest || "uploads";
+    const base_dir = path.resolve("~");
+    let final_path = path.resolve(base_dir, target_dir)    
+
+    if (!final_path.startsWith(base_dir)) {
+      return cb(new Error("Access Denied: Invalid upload path"));
+    }
+
+    if (!fs.existsSync(final_path)){
+      fs.mkdir(final_path, { recursive: true });
+    }
+
+    cb(null, final_path);
+  },
+  // Set the name of the file
+  filename: function(req, file, cb){
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Upload file api
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  if (!req.file){
+    return res.status(400).send("No file to upload");
+  }
+
+  const file_path = req.file.path;
+  const dest_folder = req.file.destination;
+
+  if (req.file.mimetype == "application/zip" || req.file.originalname.endsWith(".zip")){
+    try{
+      const zip = new adm_zip(file_path);
+      zip.extractAllTo(dest_folder, true);
+      fs.unlinkSync(file_path);
+      return res.json({ message: "Uploaded!" });
+    }
+    catch (err){
+      return res.status(500).json({ error: "Failed to extract zip" });
+    }
+  }
+
+  res.json({ message: "Transfer complete!", filename: req.file.filename });
+});
+
+app.use((err, req, res, next) => {
+  if (err.message.startsWith("Access Denied")) {
+    return res.statis(403).json({ error: err.message });
+  }
+  res.status(500).json({ error: err.message });
 });
 
 // Start the server on the given port

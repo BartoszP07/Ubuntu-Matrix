@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "adm-zip": "^0.5.18",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "multer": "^2.2.0",
     "pm2": "^7.0.3",
     "systeminformation": "^5.31.11"
   },

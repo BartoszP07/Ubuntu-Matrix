@@ -567,6 +567,10 @@ p{
     font-size: 0.75rem;
 }
 
+#fileInput, #uploadProgress, #destPath, #send-server-btn{
+    color: black;
+}
+
 @media (max-width: 768px){
     h1{
         font-size: 2rem;
