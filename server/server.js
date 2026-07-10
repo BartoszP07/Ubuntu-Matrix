@@ -19,6 +19,7 @@ const port = process.env.SERVER_PORT;
 app.use(cors());
 app.use(express.static(path.join(__dirname, "../client")));
 
+
 // PM2 -------------------------------------------------------------------------------------------------------------------
 
 // Connect to PM2 globally on startup to prevent connection reset errors
@@ -311,11 +312,7 @@ const storage = multer.diskStorage({
   destination: function(req, file, cb){
     let target_dir = req.query.dest || "uploads";
 
-    if (target_dir.startsWith("~")) {
-      target_dir = target_dir.replace("~", os.homedir());
-    }
-
-    let final_path = path.resolve(__dirname, target_dir)    
+    let final_path = path.resolve(os.homedir(), "~")    
 
     if (!fs.existsSync(final_path)){
       fs.mkdirSync(final_path, { recursive: true });
