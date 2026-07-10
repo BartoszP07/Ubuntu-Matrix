@@ -1,6 +1,8 @@
 
 // Get elemements 
 
+const data_div = document.getElementById("data-div");
+
 // Top bar
 let uptime_p = document.getElementById("uptime-txt");
 let processes_p = document.getElementById("processes-txt");
@@ -86,7 +88,6 @@ async function HandleData(){
     const uptime = FormatUptime(details_data.uptime*1000);
     const manufacturer = details_data.manufacturer;
     const model = details_data.model;
-    console.log(details_data);
 
     details_data.uptime = uptime;
     details_data.cpu.load = Math.round(Number(details_data.cpu.load));
@@ -133,6 +134,83 @@ async function HandleData(){
 
 function BytesToGB(val){
     return (val / (1024*1024*1024)).toFixed(1);
+}
+
+// Function to create partition for an article
+function CreateDiskArticlePartition(title, text, data=1, progress=false){
+    const data_partition = document.createElement("div");
+    const partition_title = document.createElement("p");
+    const data_partition_holder = document.createElement("div");
+    const data_text = document.createElement("p");
+
+    // Add classes
+    data_partition.classList.add("data-partition");
+    partition_title.classList.add("partition-title");
+    data_partition_holder.classList.add("data-partition-holder");
+    data_partition_holder.classList.add("mobile-text-size");
+
+    if (!progress){
+        data_text.classList.add("data-text");
+        data_partition_holder.appendChild(data_text);
+    }
+    else{
+        const circular_progress = document.createElement("div");
+        const progress_circle = document.createElement("div");
+
+        circular_progress.classList.add("circular-progress");
+        progress_circle.classList.add("progress-inner-circle");
+
+        progress_circle.appendChild(data_text);
+        circular_progress.appendChild(progress_circle);
+        data_partition_holder.appendChild(circular_progress);
+
+        circular_progress.style.background = `conic-gradient(var(--accent-colour) ${
+            data * 3.6
+        }deg, black 0deg)`;
+    }
+    
+
+    // Add data
+    partition_title.innerText = title;
+    data_text.innerText = text;
+
+    // Add children
+    
+    data_partition.appendChild(partition_title);
+    data_partition.appendChild(data_partition_holder);
+
+    // Return the element
+    return data_partition;
+}
+
+// Function to create a disk article
+function CreateDiskArticle(disk_data){
+    const article = document.createElement("article");
+    const data_title = document.createElement("h3");
+    const data_grid = document.createElement("div");
+    
+    // Get partitions
+    const name_partition = CreateDiskArticlePartition("Name", `${disk_data.name}`);
+    const type_partition = CreateDiskArticlePartition("Type", `${disk_data.type}`);
+    const size_partition = CreateDiskArticlePartition("Size", `${BytesToGB(disk_data.total_size)}GB`);
+    const used_partition = CreateDiskArticlePartition("Used", `${Math.round(disk_data.used_percent)}%`, data=Math.round(disk_data.used_percent), progress=true);
+
+    // Add classes
+    article.classList.add("data-article");
+    article.classList.add("disk-article");
+    data_title.classList.add("data-title");
+    data_grid.classList.add("data-grid");
+
+    // Add children
+    data_grid.appendChild(name_partition);
+    data_grid.appendChild(type_partition);
+    data_grid.appendChild(size_partition);
+    data_grid.appendChild(used_partition);
+
+    article.appendChild(data_title);
+    article.appendChild(data_grid);
+
+    data_div.appendChild(article);
 }
 
 // Insert data into elements
@@ -238,6 +316,17 @@ function ShowData(){
     os_distro.innerText = `Distro: ${details_data.system.os_distro}`;
     os_kernel.innerText = `Kernel: ${details_data.system.os_kernel}`;
     os_platform.innerText = `Platform: ${details_data.system.os_platform}`;
+
+   // Remove old disk articles
+    data_div.querySelectorAll(".disk-article").forEach(node => {
+        node.remove();
+    });
+
+    // Disks
+    details_data.disks.forEach(disk_data => {
+        CreateDiskArticle(disk_data);
+    })
+    
 }
 
 async function PollServer(){

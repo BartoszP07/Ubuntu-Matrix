@@ -12,6 +12,8 @@ file_input.addEventListener("change", function(event){
         const selected_file = file_input.files[0];
         file_chosen_txt.innerText = selected_file.name;
     }
+    progress_bar.value = 0;
+    status_text.innerText = "";
     
 });
 
@@ -41,7 +43,6 @@ function uploadArchive() {
     progress_bar.style.display = "flex";
     progress_bar.value = 0;
     status_text.innerText = "Uploading...";
-    status_text.style.color = "black";
 
     // Listen for upload progress
     xhr.upload.addEventListener("progress", (event) => {
