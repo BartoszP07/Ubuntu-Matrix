@@ -312,7 +312,7 @@ const storage = multer.diskStorage({
   destination: function(req, file, cb){
     let target_dir = req.query.dest || "uploads";
 
-    let final_path = path.resolve(os.homedir(), "~")    
+    let final_path = path.resolve(os.homedir(), target_dir)    
 
     if (!fs.existsSync(final_path)){
       fs.mkdirSync(final_path, { recursive: true });
