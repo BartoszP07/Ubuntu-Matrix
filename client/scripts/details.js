@@ -160,16 +160,18 @@ function ShowData(){
         }deg, black 0deg)`;
 
     // MEMORY
-    const free_mem = BytesToGB(details_data.memory.available_memory);
-    const total_mem = BytesToGB(details_data.memory.total_memory)
-    const used_mem = (total_mem - free_mem).toFixed(1);
+    const available_mem = BytesToGB(details_data.memory.available_memory);
+    const free_mem = BytesToGB(details_data.memory.free_memory);
+    const total_mem = BytesToGB(details_data.memory.total_memory);
+    const used_mem = (total_mem - available_mem).toFixed(1);
+    const cached_mem = (total_mem - free_mem - used_mem).toFixed(1);
     const mem_usage = (used_mem / total_mem) * 100
     mem_usage_p.innerText = `${Math.round(mem_usage)}%`
     mem_usage_prog.style.background = `conic-gradient(var(--accent-colour) ${
             mem_usage * 3.6
         }deg, black 0deg)`;
     total_mem_p.innerText = `Total: ${total_mem}GB`;
-    used_mem_p.innerText = `Used: ${used_mem}GB`    
+    used_mem_p.innerText = `Used: ${used_mem}GB  Cached: ${cached_mem}GB`    
 
     // Network
     network_ip4.innerText = `Ip4: ${details_data.network.ip4}`;
