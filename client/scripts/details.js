@@ -172,7 +172,7 @@ function CreateDiskArticlePartition(title, text, data=1, progress=false){
 
     // Add data
     partition_title.innerText = title;
-    data_text.innerText = text;
+    data_text.innerHTML = text;
 
     // Add children
     
@@ -191,9 +191,12 @@ function CreateDiskArticle(disk_data){
     
     // Get partitions
     const name_partition = CreateDiskArticlePartition("Name", `${disk_data.name}`);
-    const type_partition = CreateDiskArticlePartition("Type", `${disk_data.type}`);
+    const type_partition = CreateDiskArticlePartition("Info", `Type: ${disk_data.type}<br>Mount: ${disk_data.mount_point}`);
     const size_partition = CreateDiskArticlePartition("Size", `${BytesToGB(disk_data.total_size)}GB`);
     const used_partition = CreateDiskArticlePartition("Used", `${Math.round(disk_data.used_percent)}%`, data=Math.round(disk_data.used_percent), progress=true);
+
+    // Add text
+    data_title.innerText = "DISK";
 
     // Add classes
     article.classList.add("data-article");
