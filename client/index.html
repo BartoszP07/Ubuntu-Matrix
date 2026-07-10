@@ -36,16 +36,28 @@
 
         <section id="storage-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Storage</h1>
-    
-            <label for="destPath">Destination Path (optional):</label>
-            <input type="text" id="destPath" placeholder="e.g., backups/dev" />
-
-            <input type="file" id="fileInput" />
-
-            <button onclick="uploadArchive()" id="send-server-btn">Send to Server</button>
-            <progress id="uploadProgress" value="0" max="100" style="width: 100%; display: none;"></progress>
             
-            <p id="statusMessage"></p>
+            <div id="upload-files-div">
+
+                <p class="p-style">Upload Files</p>
+                <input type="text" id="destination-path" placeholder="~/" class="text-input"/>
+
+                <p class="p-style" id="file-chosen-txt">Choose a file...</p>
+
+                <div id="upload-files-btn-div">
+                    <div class="file-upload-button">
+                        <input class="file-btn hidden-file-input" type="file" id="file-input">
+                        <label for="file-input" class="file-btn-txt">Browse Files</label>
+                    </div>
+                    
+                    <button class="file-btn" id="send-server-btn">Send to Server</button>
+                </div>
+                
+                <progress class="progress-bar" id="upload-progress" value="0" max="100" style="display: flex;"></progress>
+                
+                <p class="p-style" id="status-message"></p>
+
+            </div>
 
         </section>
 

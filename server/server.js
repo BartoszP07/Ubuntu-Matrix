@@ -310,7 +310,7 @@ initStaticData().then(() => {
 const storage = multer.diskStorage({
   // Set the destination for the file transfer
   destination: function(req, file, cb){
-    let target_dir = req.query.dest || "uploads";
+    let target_dir = req.query.dest;
 
     let final_path = path.resolve(os.homedir(), target_dir)    
 
