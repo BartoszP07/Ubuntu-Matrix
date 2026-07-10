@@ -317,7 +317,7 @@ const storage = multer.diskStorage({
     }
 
     if (!fs.existsSync(final_path)){
-      fs.mkdir(final_path, { recursive: true });
+      fs.mkdirSync(final_path, { recursive: true });
     }
 
     cb(null, final_path);
