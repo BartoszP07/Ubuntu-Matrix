@@ -795,6 +795,9 @@ p{
     .mobile-text-size p{
         font-size: 0.7rem;
     }
+    .mobile-tiny-text-size p{
+        font-size: 0.5rem;
+    }
     .progress-bar{
         width: 20rem;
     }
