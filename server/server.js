@@ -131,6 +131,44 @@ app.post("/api/process/:id/delete", (req, res) => {
 let static_sysinfo = {};
 let cached_sysinfo = {};
 
+// Pair disk data from array
+function PairDisks(diskData) {
+    // Separate the raw data into two distinct arrays
+    // Hardware has a 'name' property, partitions have an 'fs' property
+    const hardware = diskData.filter(item => item.name);
+    const partitions = diskData.filter(item => item.fs);
+    
+    const paired_drives = [];
+
+    // Loop through each physical drive and find its matching partition
+    hardware.forEach(drive => {
+        let closest_partition = null;
+        let smallest_difference = Infinity;
+
+        partitions.forEach(partition => {
+            // Calculate the size difference between the hardware and the partition
+            const sizeDiff = Math.abs(drive.size - partition.size);
+            
+            // If this is the closest size match we've seen so far, save it
+            if (sizeDiff < smallest_difference) {
+                smallest_difference = sizeDiff;
+                closest_partition = partition;
+            }
+        });
+
+        // Push the matched pair into our final array
+        paired_drives.push({
+            name: drive.name,
+            type: drive.type,
+            mount_point: closest_partition.fs,
+            total_size: drive.size,
+            used_percent: closest_partition.use,
+            available_space: closest_partition.available
+        });
+    });
+
+    return paired_drives;
+}
 
 // Fetch static hardware data
 async function initStaticData() {
@@ -205,6 +243,8 @@ async function pollDynamicData() {
       };
       disk_data.push(temp);
     });
+
+    disk_data = PairDisks(disk_data);
 
     let gpu_data = [];
     graphics.controllers.forEach(gpu => {
@@ -311,8 +351,13 @@ const storage = multer.diskStorage({
   // Set the destination for the file transfer
   destination: function(req, file, cb){
     let target_dir = req.query.dest;
-
-    let final_path = path.resolve(os.homedir(), target_dir)    
+    let final_path;
+    if (target_dir){
+      final_path = path.resolve(os.homedir(), target_dir);
+    }
+    else{
+      final_path = path.resolve(os.homedir());
+    } 
 
     if (!fs.existsSync(final_path)){
       fs.mkdirSync(final_path, { recursive: true });
