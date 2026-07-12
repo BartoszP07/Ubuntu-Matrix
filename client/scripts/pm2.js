@@ -29,6 +29,13 @@ const server_delete_btn = document.getElementById("delete-edit-server-overlay-bu
 let new_server_btn = document.getElementById("new-server-button");
 let new_server_overlay = document.getElementById("new-server-overlay");
 let close_new_server_btn = document.getElementById("close-new-server-overlay-button");
+let create_ecosystem_checkbox = document.getElementById("ecosystem-checkbox");
+let port_input = document.getElementById("port-number-input");
+let root_folder_input = document.getElementById("root-folder-input");
+let server_file_location_input = document.getElementById("server-file-location-input");
+let eco_file_location_input = document.getElementById("ecosystem-file-location-input");
+let create_ecosystem_div = document.getElementById("create-ecosystem-file-div");
+let existing_ecosystem_div = document.getElementById("existing-ecosystem-file-div");
 
 // Variables
 let current_server = undefined;
@@ -154,13 +161,15 @@ setInterval(GetPM2Data, 1000);
 
 // Handle editing a server ----------------------------------------------------------
 
-// Close the server overlay
-close_server_overlay_button.addEventListener("click", function(){
+function CloseServerOverlay(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
     current_server = undefined;
     current_server_id = undefined;
-})
+}
+
+// Close the server overlay
+close_server_overlay_button.addEventListener("click", CloseServerOverlay);
 
 // Function to get the current server for the overlay
 function GetCurrentServer(event){
@@ -243,7 +252,10 @@ server_start_btn.addEventListener("click", () => {
 server_restart_btn.addEventListener("click", () => SendServerCommand("restart"));
 
 // Delete a server
-server_delete_btn.addEventListener("click", () => SendServerCommand("delete"));
+server_delete_btn.addEventListener("click", function() {
+    SendServerCommand("delete");
+    CloseServerOverlay();
+});
 
 // Helper function for the buttons to send the commands to the server
 async function SendServerCommand(command){
@@ -261,6 +273,17 @@ async function SendServerCommand(command){
 }
 
 // Creating a new server ------------------------------------------------------------
+
+create_ecosystem_checkbox.addEventListener("change", function(){
+    if (this.checked == true){
+        create_ecosystem_div.style.display = "flex";
+        existing_ecosystem_div.style.display = "none";
+    }
+    else{
+        create_ecosystem_div.style.display = "none";
+        existing_ecosystem_div.style.display = "flex";
+    }
+})
 
 // Open the new server overlay
 new_server_btn.addEventListener("click", function(){
