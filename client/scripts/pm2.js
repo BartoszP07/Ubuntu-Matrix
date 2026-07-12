@@ -23,6 +23,7 @@ let close_server_overlay_button = document.getElementById(
 const server_stop_btn = document.getElementById("stop-edit-server-overlay-button");
 const server_start_btn = document.getElementById("start-edit-server-overlay-button");
 const server_restart_btn = document.getElementById("restart-edit-server-overlay-button");
+const server_delete_btn = document.getElementById("delete-edit-server-overlay-button");
 
 //  Elements for creating new server
 let new_server_btn = document.getElementById("new-server-button");
@@ -97,6 +98,7 @@ function ChangeStatusIndicator(element, status) {
     }
 }
 
+// Function to get data from the pm2 servers
 async function GetPM2Data(){
     try {
       let response = await fetch("/api/get-pm2-data");
@@ -239,6 +241,9 @@ server_start_btn.addEventListener("click", () => {
 
 // Restart a server
 server_restart_btn.addEventListener("click", () => SendServerCommand("restart"));
+
+// Delete a server
+server_delete_btn.addEventListener("click", () => SendServerCommand("delete"));
 
 // Helper function for the buttons to send the commands to the server
 async function SendServerCommand(command){
