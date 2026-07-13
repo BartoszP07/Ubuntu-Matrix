@@ -37,6 +37,7 @@ function StartPM2(script_path, name, port, cwd){
   pm2.start({
       script: script_path,
       name: name,
+      cwd: cwd,
       env: {
         SERVER_PORT: port,
         NODE_ENV: "production",
@@ -186,12 +187,13 @@ app.post("/api/create-new-server-config", async (req, res) => {
 
   // Get the path of the file
   const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+  const current_working_directory = path.join(os.homedir(), root_folder);
 
   // Write to the file
   try{
     await fs.writeFile(ecosystem_path, file_content, "utf8");
     // Start the server
-    StartPM2(ecosystem_path, root_folder, port, root_folder);
+    StartPM2(ecosystem_path, root_folder, port, current_working_directory);
     res.status(200).json({ message: "Started server" });
   }
   catch (error){
@@ -205,6 +207,7 @@ app.post("/api/create-new-server", (req, res) => {
   try{
     const root_folder = req.query.root;
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+    const current_working_directory = path.join(os.homedir(), root_folder);
 
     delete require.cache[require.resolve(ecosystem_path)];
 
@@ -214,7 +217,7 @@ app.post("/api/create-new-server", (req, res) => {
     const port = app_config.env.SERVER_PORT;
 
 
-    StartPM2(ecosystem_path, name, Number(port), root_folder);
+    StartPM2(ecosystem_path, name, Number(port), current_working_directory);
     res.status(200)
   }
   catch (err){
