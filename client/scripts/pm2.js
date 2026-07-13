@@ -356,16 +356,16 @@ check_new_server_btn.addEventListener("click", async function() {
             root_folder_input_info.textContent = ""
             return;
         }
-        if (message == "root folder not found"){
+        else if (message == "root folder not found"){
             root_folder_input_info.textContent = "Root folder not found!"
             server_file_location_input_info.textContent = "File not found!";
             return;
         }
-        if (message == "valid"){
+        else if (message == "valid"){
             server_file_location_input_info.textContent = "Found file!";
             root_folder_input_info.textContent = "Found folder";
         }
-        if (message == "ecosystem exists"){
+        else if (message == "ecosystem exists"){
             port_input_info.textContent = "";
             server_file_location_input_info.textContent = "";
             root_folder_input_info.textContent = "Ecosystem config already exists!";
