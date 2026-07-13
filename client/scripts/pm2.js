@@ -356,10 +356,10 @@ create_new_server_btn.addEventListener("click", async function() {
             server_file_location_input_info.textContent = "File not found!";
             return;
         }
-
-        server_file_location_input_info.textContent = "Found file!";
-        root_folder_input_info.textContent = "Found folder";
-        
+        if (message == "valid"){
+            server_file_location_input_info.textContent = "Found file!";
+            root_folder_input_info.textContent = "Found folder";
+        }
     }
     catch (err){
         console.log(err);

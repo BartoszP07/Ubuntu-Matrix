@@ -135,18 +135,17 @@ app.get("/api/validate-server-dir", (req, res) => {
   if (os.existsSync(full_path)){
     res.status(200);
     res.json({ message: "valid" });
-    return;
   }
   else if (os.existsSync(path.join(os.homedir(), root_folder))){
     res.status(404);
     res.json({ message: "server file not found"});
-    return;
   }
   else{
     res.status(404);
     res.json({ message: "root folder not found"});
-    return;
   }
+  res.status(500);
+  res.json({ error: "Something went wrong "});
 })
 
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
