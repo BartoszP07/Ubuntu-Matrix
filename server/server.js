@@ -133,7 +133,12 @@ app.get("/api/validate-server-dir", (req, res) => {
   const server_path = req.query.server_path;
   const full_path = path.join(os.homedir(), root_folder, server_path);
   const root_path = path.join(os.homedir(), root_folder);
-  if (fs.existsSync(full_path)){
+  const ecosystem_path = path.join(os.homedir(), "ecosystem.config.js");
+
+  if (fs.existsSync(ecosystem_path)){
+    return res.status(200).json({ message: "ecosystem exists"});
+  }
+  else if (fs.existsSync(full_path)){
     return res.status(200).json({ message: "valid" });
   }
   else if (fs.existsSync(root_path)){

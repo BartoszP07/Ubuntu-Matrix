@@ -29,6 +29,7 @@ const server_delete_btn = document.getElementById("delete-edit-server-overlay-bu
 let new_server_btn = document.getElementById("new-server-button");
 let new_server_overlay = document.getElementById("new-server-overlay");
 let close_new_server_btn = document.getElementById("close-new-server-overlay-button");
+let check_new_server_btn = document.getElementById("check-new-server-overlay-button");
 let create_new_server_btn = document.getElementById("create-new-server-overlay-button");
 let create_ecosystem_checkbox = document.getElementById("ecosystem-checkbox");
 let port_input = document.getElementById("port-number-input");
@@ -292,7 +293,7 @@ create_ecosystem_checkbox.addEventListener("change", function(){
     }
 })
 
-create_new_server_btn.addEventListener("click", async function() {
+check_new_server_btn.addEventListener("click", async function() {
     let valid_port = false;
     let valid_root = false;
     let valid_server = false;
@@ -363,6 +364,11 @@ create_new_server_btn.addEventListener("click", async function() {
         if (message == "valid"){
             server_file_location_input_info.textContent = "Found file!";
             root_folder_input_info.textContent = "Found folder";
+        }
+        if (message == "ecosystem exists"){
+            port_input_info.textContent = "";
+            server_file_location_input_info.textContent = "";
+            root_folder_input_info.textContent = "Ecosystem config already exists!";
         }
         else{
             console.log(message);
