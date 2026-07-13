@@ -297,27 +297,30 @@ create_new_server_btn.addEventListener("click", async function() {
     let valid_root = false;
     let valid_server = false;
     // Get the port nubmer and validate it
-    let port = port_input.value;
+    let port = port_input.value.trim();
     // Check if the port is a number
     if (isNaN(port) || port.length < 1){
         // Update the port info
         port_input_info.textContent = "Enter a number!";
     }
-    port = Number(port_input.value);
-    // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
-    if (port < 1001){
-        // Update port info
-        port_input_info.textContent = "Enter a valid port > 1000!";
-    }
-    // Check if the port is in use
-    else if (ports_in_use.includes(port)){
-        // Update port info
-        port_input_info.textContent = "Enter a port not in use!";
-    }
     else{
-        port_input_info.textContent = "Port available";
-        valid_port = true;
+        port = Number(port_input.value);
+        // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
+        if (port < 1001){
+            // Update port info
+            port_input_info.textContent = "Enter a valid port > 1000!";
+        }
+        // Check if the port is in use
+        else if (ports_in_use.includes(port)){
+            // Update port info
+            port_input_info.textContent = "Enter a port not in use!";
+        }
+        else{
+            port_input_info.textContent = "Port available";
+            valid_port = true;
+        }
     }
+    
 
     // Get the root folder and server location
     let root_folder = root_folder_input.value;
@@ -345,7 +348,8 @@ create_new_server_btn.addEventListener("click", async function() {
     // Ask the server to validate the inputs
     try{
         let response = await fetch(`api/validate-server-dir?root=${root_folder}&server_path=${server_path}`)
-        let message = await response.body.message;
+        let data = await response.json();
+        let message = await data.message;
         if (message == "server file not found"){
             server_file_location_input_info.textContent = "File not found!";
             root_folder_input_info.textContent = ""

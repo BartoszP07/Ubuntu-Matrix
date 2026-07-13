@@ -132,10 +132,11 @@ app.get("/api/validate-server-dir", (req, res) => {
   const root_folder = req.query.root;
   const server_path = req.query.server_path;
   const full_path = path.join(os.homedir(), root_folder, server_path);
+  const root_path = path.join(os.homedir(), root_folder);
   if (fs.existsSync(full_path)){
     return res.status(200).json({ message: "valid" });
   }
-  else if (fs.existsSync(path.join(os.homedir(), root_folder))){
+  else if (fs.existsSync(root_path)){
     return res.status(404).json({ message: "server file not found"});
   }
   else{
