@@ -176,6 +176,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
       {
         name: "${root_folder}",
         script: "${server_path}",
+        cwd: "${path.join(os.homedir(), root_folder)}",
         env: {
           NODE_ENV: "production",
           SERVER_PORT: "${port}",
