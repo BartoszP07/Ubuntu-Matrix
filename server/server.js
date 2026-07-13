@@ -206,6 +206,10 @@ app.post("/api/create-new-server", (req, res) => {
     const app_config = ecosystem_data.apps[0]; 
     const name = app_config.name;
 
+    console.log(ecosystem_path);
+    console.log(root_folder);
+    console.log(ecosystem_data);
+
 
     StartPM2(ecosystem_path, name);
 });
