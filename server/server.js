@@ -37,7 +37,6 @@ function StartPM2(script_path, name, port, cwd){
   pm2.start({
       script: script_path,
       name: name,
-      cwd: cwd,
       env: {
         SERVER_PORT: port,
         NODE_ENV: "production",
@@ -96,6 +95,7 @@ app.get("/api/process/:id", (req, res) => {
     }
 
     // Return the raw data
+    console.log(process_description[0]);
     res.json(process_description[0]);
   });
 });
