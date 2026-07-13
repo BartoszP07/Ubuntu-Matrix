@@ -421,6 +421,7 @@ create_new_server_btn.addEventListener("click", async function(){
             let response = await fetch(`/api/create-new-server?root=${file_location}`, {
                 method: "POST",
             });
+            console.log("HERE BRU")
             CloseNewServerOverlay();
             allow_create_server = false;
         }
