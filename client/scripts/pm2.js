@@ -309,7 +309,7 @@ create_new_server_btn.addEventListener("click", function() {
         return;
     }
     // Check if the port is in use
-    if (ports_in_use.contains(port)){
+    if (ports_in_use.includes(port)){
         // Update port info
         port_input_info.textContent = "Enter a port not in use!";
         return;
