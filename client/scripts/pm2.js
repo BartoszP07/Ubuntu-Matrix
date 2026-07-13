@@ -393,22 +393,43 @@ check_new_server_btn.addEventListener("click", async function() {
 create_new_server_btn.addEventListener("click", async function(){
     // Check if the ecosystem file should be created?
     if (create_ecosystem_checkbox.checked == true){
-        if (!allow_create_server) { return false; }
+        if (!allow_create_server) { return; }
         // Get the root folder and server location
         let port = Number(port_input.value.trim());
         const root_folder = root_folder_input.value;
         const server_path = server_file_location_input.value;
-        let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}$port=${port}`);
-        if (response.ok){
-            CloseNewServerOverlay();
+        try{
+            let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}$port=${port}`);
+            if (response.ok){
+                allow_create_server = false;
+                CloseNewServerOverlay();
+            }
+        }
+        catch (err){
+            console.log(err);
         }
     }
+    // Just run the ecosystem file.
     else{
-        
+        // Check if the port is in use already (The same server is running)
+        if (!allow_create_server) { return; }
+        // Get ecosystem file location
+        const file_location = eco_file_location_input.value;
+        try{
+            let response = await fetch(`/api/create-new-server?root=${file_location}`);
+            if (response.ok){
+                CloseNewServerOverlay();
+                allow_create_server = false;
+            }
+        }
+        catch (err){
+            console.log(err);
+        }
     }
 })
 
 load_ecosystem_file_btn.addEventListener("click", async function(){
+    allow_create_server = false;
     // Get ecosystem file location
     const file_location = eco_file_location_input.value;
     if (file_location.length < 1) { return; }
@@ -419,6 +440,7 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
         const name = data.name;
         eco_server_name.textContent = `Name: ${name}`;
         eco_server_port.textContent = `Port: ${port}`;
+        allow_create_server = true;
     }
     catch (err){
         console.log("error:", err);
@@ -444,6 +466,9 @@ function CloseNewServerOverlay(){
     server_file_location_input.value = "";
     server_file_location_input_info.textContent = "";
     create_ecosystem_checkbox.checked = false;
+    eco_file_location_input.value = "";
+    eco_server_name.textContent = "Name";
+    eco_server_port.textContent = "Port";
     CheckEcosystemBox();
 }
 
