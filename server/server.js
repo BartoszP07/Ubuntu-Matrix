@@ -33,35 +33,19 @@ pm2.connect(function (err) {
 });
 
 // Funcion to start pm2 server
-// function StartPM2(script_path, name, port, cwd){
-//   pm2.start({
-//       script: script_path,
-//       name: name,
-//       cwd: cwd,
-//       env: {
-//         SERVER_PORT: port,
-//         NODE_ENV: "production",
-//       }
-//     }, function(err, apps) {
-//       if (err){
-//         console.log(err);
-//         return pm2.disconnect();
-//       }
-//     });
-// }
 
 function StartPM2(ecosystem_file_path) {
   try {
-    // 1. Clear the cache so Node doesn't use an old version of the file
+    // Clear the cache so Node doesn't use an old version of the file
     delete require.cache[require.resolve(ecosystem_file_path)];
     
-    // 2. Read the ecosystem file into a JavaScript object
+    // Read the ecosystem file into a JavaScript object
     const ecosystemConfig = require(ecosystem_file_path);
     
-    // 3. Extract the app configuration (the first item in the apps array)
+    // Extract the app configuration (the first item in the apps array)
     const appConfig = ecosystemConfig.apps[0];
 
-    // 4. Pass the parsed object directly to PM2!
+    // Pass the parsed object directly to PM2!
     pm2.start(appConfig, function(err, apps) {
         if (err) {
           console.error("PM2 Start Error:", err);
@@ -121,7 +105,6 @@ app.get("/api/process/:id", (req, res) => {
     }
 
     // Return the raw data
-    console.log(process_description[0]);
     res.json(process_description[0]);
   });
 });
@@ -219,7 +202,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
   try{
     await fs.writeFile(ecosystem_path, file_content, "utf8");
     // Start the server
-    StartPM2(ecosystem_path, root_folder, port, current_working_directory);
+    StartPM2(ecosystem_path);
     res.status(200).json({ message: "Started server" });
   }
   catch (error){
@@ -243,7 +226,6 @@ app.post("/api/create-new-server", (req, res) => {
     const port = app_config.env.SERVER_PORT;
 
 
-    // StartPM2(ecosystem_path, name, Number(port), current_working_directory);
     StartPM2(ecosystem_path);
     res.status(200)
   }
