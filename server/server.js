@@ -33,10 +33,11 @@ pm2.connect(function (err) {
 });
 
 // Funcion to start pm2 server
-function StartPM2(script_path, name, port){
+function StartPM2(script_path, name, port, cwd){
   pm2.start({
       script: script_path,
       name: name,
+      cwd: cwd,
       env: {
         SERVER_PORT: port,
         NODE_ENV: "production",
@@ -190,7 +191,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
   try{
     await fs.writeFile(ecosystem_path, file_content, "utf8");
     // Start the server
-    StartPM2(ecosystem_path, root_folder);
+    StartPM2(ecosystem_path, root_folder, port, root_folder);
     res.status(200).json({ message: "Started server" });
   }
   catch (error){
@@ -212,9 +213,8 @@ app.post("/api/create-new-server", (req, res) => {
     const name = app_config.name;
     const port = app_config.env.SERVER_PORT;
 
-    console.log(`PORT: ${port}`);
 
-    StartPM2(ecosystem_path, name, Number(port));
+    StartPM2(ecosystem_path, name, Number(port), root_folder);
     res.status(200)
   }
   catch (err){
