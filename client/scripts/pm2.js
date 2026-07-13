@@ -292,7 +292,7 @@ create_ecosystem_checkbox.addEventListener("change", function(){
     }
 })
 
-create_new_server_btn.addEventListener("click", function() {
+create_new_server_btn.addEventListener("click", async function() {
     // Get the port nubmer and validate it
     let port = port_input.value;
     // Check if the port is a number
@@ -303,7 +303,7 @@ create_new_server_btn.addEventListener("click", function() {
     }
     port = Number(port_input.value);
     // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
-    if (port < 1000){
+    if (port < 1001){
         // Update port info
         port_input_info.textContent = "Enter a valid port > 1000!";
         return;
@@ -315,6 +315,32 @@ create_new_server_btn.addEventListener("click", function() {
         return;
     }
     port_input_info.textContent = "Port available";
+
+    // Get the root folder and server location
+    let root_folder = root_folder_input.value;
+    let server_path = server_file_location_input.value;
+    // Ask the server to validate the inputs
+    try{
+        let response = await fetch(`api/validate-server-dir?root=${root_folder}&server_path=${server_path}`)
+        let message = await response.body.message;
+        if (message == "server file not found"){
+            server_file_location_input_info.textContent = "File not found!";
+            root_folder_input_info.textContent = ""
+            return;
+        }
+        if (message == "root folder not found"){
+            root_folder_input_info.textContent = "Root folder not found!"
+            server_file_location_input_info.textContent = "File not found!";
+            return;
+        }
+
+        server_file_location_input_info.textContent = "Found file!";
+        root_folder_input_info.textContent = "Found folder";
+        
+    }
+    catch (err){
+        console.log(err);
+    }
 });
 
 // Open the new server overlay
@@ -327,4 +353,12 @@ new_server_btn.addEventListener("click", function(){
 close_new_server_btn.addEventListener("click", function() {
     new_server_overlay.classList.remove("appear");
     overlay_shadow.classList.remove("appear");
+
+    // Clear all of the inputs
+    port_input.value = "";
+    port_input_info.textContent = "";
+    root_folder_input.value = "";
+    root_folder_input_info.textContent = "";
+    server_file_location_input.value = "";
+    server_file_location_input_info.textContent = "";
 })

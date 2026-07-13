@@ -127,6 +127,28 @@ app.post("/api/process/:id/delete", (req, res) => {
   res.status(200);
 });
 
+// Dir validaton
+app.get("/api/validate-server-dir", (req, res) => {
+  const root_folder = req.query.root;
+  const server_path = req.query.server_path;
+  const full_path = path.join(os.homedir(), root_folder, server_path);
+  if (os.existsSync(full_path)){
+    res.status(200);
+    res.json({ message: "valid" });
+    return;
+  }
+  else if (os.existsSync(path.join(os.homedir(), root_folder))){
+    res.status(404);
+    res.json({ message: "server file not found"});
+    return;
+  }
+  else{
+    res.status(404);
+    res.json({ message: "root folder not found"});
+    return;
+  }
+})
+
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
 
 // Create cache varaibles to store the system information variables
