@@ -302,7 +302,6 @@ create_new_server_btn.addEventListener("click", async function() {
     if (isNaN(port) || port.length < 1){
         // Update the port info
         port_input_info.textContent = "Enter a number!";
-        return;
     }
     port = Number(port_input.value);
     // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
