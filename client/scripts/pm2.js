@@ -414,7 +414,7 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
     if (file_location.length < 1) { return; }
     try{
         let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}`);
-        let data = response.json();
+        let data = await response.json();
         const port = data.port;
         const name = data.name;
         eco_server_name.textContent = `Name: ${name}`;
