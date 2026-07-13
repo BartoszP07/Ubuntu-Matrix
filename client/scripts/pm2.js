@@ -293,6 +293,9 @@ create_ecosystem_checkbox.addEventListener("change", function(){
 })
 
 create_new_server_btn.addEventListener("click", async function() {
+    let valid_port = false;
+    let valid_root = false;
+    let valid_server = false;
     // Get the port nubmer and validate it
     let port = port_input.value;
     // Check if the port is a number
@@ -306,19 +309,40 @@ create_new_server_btn.addEventListener("click", async function() {
     if (port < 1001){
         // Update port info
         port_input_info.textContent = "Enter a valid port > 1000!";
-        return;
     }
     // Check if the port is in use
-    if (ports_in_use.includes(port)){
+    else if (ports_in_use.includes(port)){
         // Update port info
         port_input_info.textContent = "Enter a port not in use!";
-        return;
     }
-    port_input_info.textContent = "Port available";
+    else{
+        port_input_info.textContent = "Port available";
+        valid_port = true;
+    }
 
     // Get the root folder and server location
     let root_folder = root_folder_input.value;
     let server_path = server_file_location_input.value;
+
+    if (root_folder.length == 0){
+        root_folder_input_info.textContent = "Enter the server root folder";
+    }
+    else{
+        root_folder_input_info.textContent = "";
+        valid_root = true;
+    }
+    if (server_path.length == 0){
+        server_file_location_input_info.textContent = "Enter the server path";
+    }
+    else{
+        server_file_location_input_info.textContent = "";
+        valid_server = true;
+    }
+
+    if (!(valid_port && valid_root && valid_server)){
+        return;
+    }
+
     // Ask the server to validate the inputs
     try{
         let response = await fetch(`api/validate-server-dir?root=${root_folder}&server_path=${server_path}`)
