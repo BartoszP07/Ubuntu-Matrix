@@ -207,9 +207,9 @@ app.post("/api/create-new-server", (req, res) => {
     const ecosystem_data = require(ecosystem_path);
     const app_config = ecosystem_data.apps[0]; 
     const name = app_config.name;
-    const port = app.config.env.SERVER_PORT;
+    const port = app_config.env.SERVER_PORT;
 
-    StartPM2(ecosystem_path, name, port);
+    StartPM2(ecosystem_path, name, Number(port));
     res.status(200)
   }
   catch (err){
