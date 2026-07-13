@@ -32,6 +32,19 @@ pm2.connect(function (err) {
   }
 });
 
+// Funcion to start pm2 server
+function StartPM2(script_path, name){
+  pm2.start({
+      script: ecosystem_path,
+      name: root_folder
+    }, function(err, apps) {
+      if (err){
+        console.log(err);
+        return pm2.disconnect();
+      }
+    });
+}
+
 // Api to get pm2 information
 app.get("/api/get-pm2-data", (req, res) => {
   pm2.list(function (error, processes) {
@@ -80,12 +93,6 @@ app.get("/api/process/:id", (req, res) => {
     // Return the raw data
     res.json(process_description[0]);
   });
-});
-
-// Start a server
-// This needs the path of the server script to start!
-app.post("/api/process/:id/start", async (req, res) => {
-  
 });
 
 // Stop a server
@@ -148,8 +155,90 @@ app.get("/api/validate-server-dir", (req, res) => {
     return res.status(404).json({ message: "root folder not found"});
   }
   return res.status(500).json({ message: "Something went wrong "});
-})
+});
 
+// Create new server with new ecosystem config
+app.post("/api/create-new-server-config", async (req, res) => {
+  // Get rqeuest variables
+  const root_folder = req.query.root;
+  const server_path = req.query.server_path;
+  const port = req.quert.port;
+
+  // Create template for the file
+  const file_content = `module.exports = {
+    apps: [
+      {
+        name: "${root_folder}",
+        script: "${server_path}",
+        env: {
+          NODE_ENV: "production",
+          SERVER_PORT: "${port}",
+        },
+      },
+    ],
+  };
+  `;
+
+  // Get the path of the file
+  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+
+  // Write to the file
+  try{
+    await fs.writeFile(ecosystem_path, file_content, "utf8");
+    // Start the server
+    StartPM2(ecosystem_path, root_folder);
+    res.status(200).json({ message: "Started server" });
+  }
+  catch (error){
+    console.log(error);
+    res.status(500).json({ error: "Failed to write to file" });
+  }
+});
+
+// Create new server with existing ecosystem config
+app.post("/api/create-new-server", (req, res) => {
+  const root_folder = req.query.root;
+  const name = req.query.name;
+  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+  StartPM2(ecosystem_path, name);
+});
+
+// Api to get the data from an ecosystem file
+app.get("/api/get-ecosystem-config-data", (req, res) => {
+  try {
+    const file_location = req.query.file_location;
+    
+    if (!file_location) {
+      return res.status(400).json({ error: "Missing file_location parameter" });
+    }
+
+    const file_path = path.join(os.homedir(), file_location, "ecosystem.config.js");
+
+    delete require.cache[require.resolve(file_path)];
+
+    const ecosystemData = require(file_path);
+
+    const app_config = ecosystemData.apps[0]; 
+    const server_name = app_config.name;
+    const server_port = app_config.env.SERVER_PORT;
+
+    // 5. Send it back to the client
+    return res.status(200).json({ 
+      name: server_name, 
+      port: server_port 
+    });
+
+  } catch (error) {
+
+    console.error("Failed to read ecosystem file:", error.message);
+    
+    if (error.code === 'MODULE_NOT_FOUND') {
+      return res.status(404).json({ error: "Ecosystem file not found at this location." });
+    }
+    
+    return res.status(500).json({ error: "Something went wrong while reading the config." });
+  }
+});
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
 
 // Create cache varaibles to store the system information variables

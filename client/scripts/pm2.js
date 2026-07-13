@@ -41,11 +41,15 @@ let server_file_location_input_info = document.getElementById("server-file-locat
 let eco_file_location_input = document.getElementById("ecosystem-file-location-input");
 let create_ecosystem_div = document.getElementById("create-ecosystem-file-div");
 let existing_ecosystem_div = document.getElementById("existing-ecosystem-file-div");
+let load_ecosystem_file_btn = document.getElementById("load-ecosystem-file-btn");
+let eco_server_name = document.getElementById("ecosystem-server-name");
+let eco_server_port = document.getElementById("ecosystem-server-port");
 
 // Variables
 let current_server = undefined;
 let current_server_id = undefined;
 let ports_in_use = [];
+let allow_create_server = false;
 
 // Main program  --------------------------------------------------------------------
 
@@ -282,17 +286,22 @@ async function SendServerCommand(command){
 
 // Creating a new server ------------------------------------------------------------
 
-create_ecosystem_checkbox.addEventListener("change", function(){
+function CheckEcosystemBox(){
     if (this.checked == true){
         create_ecosystem_div.style.display = "flex";
         existing_ecosystem_div.style.display = "none";
+        check_new_server_btn.style.display = "block";
     }
     else{
         create_ecosystem_div.style.display = "none";
         existing_ecosystem_div.style.display = "flex";
+        check_new_server_btn.style.display = "none";
     }
-})
+}
 
+create_ecosystem_checkbox.addEventListener("change", CheckEcosystemBox);
+
+// Check the inputted data before creating server
 check_new_server_btn.addEventListener("click", async function() {
     let valid_port = false;
     let valid_root = false;
@@ -364,6 +373,7 @@ check_new_server_btn.addEventListener("click", async function() {
         else if (message == "valid"){
             server_file_location_input_info.textContent = "Found file!";
             root_folder_input_info.textContent = "Found folder";
+            allow_create_server = true;
         }
         else if (message == "ecosystem exists"){
             port_input_info.textContent = "";
@@ -379,6 +389,42 @@ check_new_server_btn.addEventListener("click", async function() {
     }
 });
 
+// Create new server request
+create_new_server_btn.addEventListener("click", async function(){
+    // Check if the ecosystem file should be created?
+    if (create_ecosystem_checkbox.checked == true){
+        if (!allow_create_server) { return false; }
+        // Get the root folder and server location
+        let port = Number(port_input.value.trim());
+        const root_folder = root_folder_input.value;
+        const server_path = server_file_location_input.value;
+        let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}$port=${port}`);
+        if (response.ok){
+            CloseNewServerOverlay();
+        }
+    }
+    else{
+        
+    }
+})
+
+load_ecosystem_file_btn.addEventListener("click", async function(){
+    // Get ecosystem file location
+    const file_location = eco_file_location_input.value;
+    if (file_location.length < 1) { return; }
+    try{
+        let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}`);
+        let data = response.json();
+        const port = data.port;
+        const name = data.name;
+        eco_server_name.textContent = `Name: ${name}`;
+        eco_server_port.textContent = `Port: ${port}`;
+    }
+    catch (err){
+        console.log("error:", err);
+    }
+})
+
 // Open the new server overlay
 new_server_btn.addEventListener("click", function(){
     new_server_overlay.classList.add("appear");
@@ -386,7 +432,7 @@ new_server_btn.addEventListener("click", function(){
 })
 
 // Close the new server overlay
-close_new_server_btn.addEventListener("click", function() {
+function CloseNewServerOverlay(){
     new_server_overlay.classList.remove("appear");
     overlay_shadow.classList.remove("appear");
 
@@ -397,4 +443,8 @@ close_new_server_btn.addEventListener("click", function() {
     root_folder_input_info.textContent = "";
     server_file_location_input.value = "";
     server_file_location_input_info.textContent = "";
-})
+    create_ecosystem_checkbox.checked = false;
+    CheckEcosystemBox();
+}
+
+close_new_server_btn.addEventListener("click", CloseNewServerOverlay);
