@@ -197,6 +197,8 @@ app.post("/api/create-new-server-config", async (req, res) => {
 
 // Create new server with existing ecosystem config
 app.post("/api/create-new-server", (req, res) => {
+  try{
+
     const root_folder = req.query.root;
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
@@ -210,8 +212,13 @@ app.post("/api/create-new-server", (req, res) => {
     console.log(root_folder);
     console.log(ecosystem_data);
 
-
     StartPM2(ecosystem_path, name);
+    res.status(200)
+  }
+  catch (err){
+    console.log(err);
+    res.status(500);
+  }
 });
 
 // Api to get the data from an ecosystem file
