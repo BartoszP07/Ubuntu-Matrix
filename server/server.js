@@ -35,7 +35,7 @@ pm2.connect(function (err) {
 // Funcion to start pm2 server
 function StartPM2(script_path, name){
   pm2.start({
-      script: ecosystem_path,
+      script: script_path,
       name: root_folder
     }, function(err, apps) {
       if (err){
@@ -198,7 +198,6 @@ app.post("/api/create-new-server-config", async (req, res) => {
 // Create new server with existing ecosystem config
 app.post("/api/create-new-server", (req, res) => {
   try{
-
     const root_folder = req.query.root;
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
