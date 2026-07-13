@@ -193,7 +193,8 @@
     border-color: var(--accent-colour);
     box-shadow: 0px 0px 5px 1px var(--accent-colour);
     text-shadow: 0px 0px 5px white;
-    width: 30rem;
+    width: 50%;
+    box-sizing: border-box;
 }
 
 .new-server-input:focus{
@@ -224,12 +225,21 @@
 
 .new-server-input-info{
     display: flex;
-    width: max-content;
+    width: 100%;
     flex-direction: row;
     gap: 1rem;
     align-items: center;
     word-break: normal;
     flex-wrap: wrap;
+    white-space: normal;
+    flex: 1;
+    width: auto;
+}
+
+.new-server-input-info p{
+    flex: 1;
+    white-space: normal;
+    word-break: break-all;
 }
 
 #ecosystem-checkbox{
@@ -294,8 +304,10 @@
         font-size: 1.75rem;
     }
     .server-overlay-button{
-        font-size: 1.1rem;
+        font-size: 0.8rem;
         height: 2rem;
+        width: max-content;
+        padding: 0.5rem;
     }
     .pm2-card-name{
         font-size: 1rem;
@@ -311,6 +323,20 @@
         height: 70%;
         gap: 1rem;
     }
+
+    .new-server-input{
+        width: 10rem;
+        font-size: 1rem;
+    }
+
+    .new-server-input-info p{
+        font-size: 0.75rem;
+    }
+
+    .new-server-input-info{
+        gap: 0.5rem;
+    }
+
 
 }
 
