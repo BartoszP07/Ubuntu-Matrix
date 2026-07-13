@@ -37,7 +37,10 @@ function StartPM2(script_path, name, port){
   pm2.start({
       script: script_path,
       name: name,
-      port: port,
+      env: {
+        SERVER_PORT: port,
+        NODE_ENV: "production",
+      }
     }, function(err, apps) {
       if (err){
         console.log(err);
