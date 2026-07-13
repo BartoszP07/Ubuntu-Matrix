@@ -29,10 +29,14 @@ const server_delete_btn = document.getElementById("delete-edit-server-overlay-bu
 let new_server_btn = document.getElementById("new-server-button");
 let new_server_overlay = document.getElementById("new-server-overlay");
 let close_new_server_btn = document.getElementById("close-new-server-overlay-button");
+let create_new_server_btn = document.getElementById("create-new-server-overlay-button");
 let create_ecosystem_checkbox = document.getElementById("ecosystem-checkbox");
 let port_input = document.getElementById("port-number-input");
+let port_input_info = document.getElementById("port-number-input-info");
 let root_folder_input = document.getElementById("root-folder-input");
+let root_folder_input_info = document.getElementById("root-folder-input-info");
 let server_file_location_input = document.getElementById("server-file-location-input");
+let server_file_location_input_info = document.getElementById("server-file-location-input-info");
 let eco_file_location_input = document.getElementById("ecosystem-file-location-input");
 let create_ecosystem_div = document.getElementById("create-ecosystem-file-div");
 let existing_ecosystem_div = document.getElementById("existing-ecosystem-file-div");
@@ -40,6 +44,7 @@ let existing_ecosystem_div = document.getElementById("existing-ecosystem-file-di
 // Variables
 let current_server = undefined;
 let current_server_id = undefined;
+let ports_in_use = [];
 
 // Main program  --------------------------------------------------------------------
 
@@ -118,6 +123,7 @@ async function GetPM2Data(){
         }
       });
 
+      ports_in_use = [];
       // Add each server to the card div
       pm2_servers.forEach((server) => {
         const server_port = server.port;
@@ -131,6 +137,7 @@ async function GetPM2Data(){
           server_id,
         );
         pm2_cards_div.appendChild(card);
+        ports_in_use.push(Number(server_port));
       });
         // Get all edit buttons from the cards
         edit_server_buttons =
@@ -284,6 +291,31 @@ create_ecosystem_checkbox.addEventListener("change", function(){
         existing_ecosystem_div.style.display = "flex";
     }
 })
+
+create_new_server_btn.addEventListener("click", function() {
+    // Get the port nubmer and validate it
+    let port = port_input.value;
+    // Check if the port is a number
+    if (isNaN(port) || port.length < 1){
+        // Update the port info
+        port_input_info.textContent = "Enter a number!";
+        return;
+    }
+    port = Number(port_input.value);
+    // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
+    if (port < 1000){
+        // Update port info
+        port_input_info.textContent = "Enter a valid port > 1000!";
+        return;
+    }
+    // Check if the port is in use
+    if (ports_in_use.contains(port)){
+        // Update port info
+        port_input_info.textContent = "Enter a port not in use!";
+        return;
+    }
+    port_input_info.textContent = "Port available";
+});
 
 // Open the new server overlay
 new_server_btn.addEventListener("click", function(){

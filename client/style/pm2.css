@@ -222,6 +222,16 @@
     gap: 1rem;
 }
 
+.new-server-input-info{
+    display: flex;
+    width: max-content;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    word-break: normal;
+    flex-wrap: wrap;
+}
+
 #ecosystem-checkbox{
     appearance: none;
     -webkit-appearance: none;

@@ -18,6 +18,8 @@ const port = process.env.SERVER_PORT;
 // Use the static content
 app.use(cors());
 app.use(express.static(path.join(__dirname, "../client")));
+app.use(express.static(path.join(__dirname, "../client", "scripts")));
+app.use(express.static(path.join(__dirname, "../client", "style")));
 
 
 // PM2 -------------------------------------------------------------------------------------------------------------------

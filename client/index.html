@@ -339,13 +339,24 @@
             <input type="checkbox" id="ecosystem-checkbox">
         </div>
         <div class="create-server-section" id="create-ecosystem-file-div" style="display: none;">
-            <input type="text" id="port-number-input" class="new-server-input" placeholder="Port" autocomplete="off">
-            <input type="text" id="root-folder-input" class="new-server-input" placeholder="Root Folder"autocomplete="off">
-            <input type="text" id="server-file-location-input" class="new-server-input" placeholder="Server File Location In Root" autocomplete="off">
+            <div class="new-server-input-info">
+                <input type="text" id="port-number-input" class="new-server-input" placeholder="Port" autocomplete="off">
+                <p id="port-number-input-info">Info</p>
+            </div>
+            <div class="new-server-input-info">
+                <input type="text" id="root-folder-input" class="new-server-input" placeholder="Root Folder"autocomplete="off">
+                <p id="root-folder-input-info">Info</p>
+            </div>
+            <div class="new-server-input-info">
+                <input type="text" id="server-file-location-input" class="new-server-input" placeholder="Server File Location In Root" autocomplete="off">
+                <p id="server-file-location-input-info">Info</p>
+            </div>
         </div>
         <div class="create-server-section" id="existing-ecosystem-file-div">
             <div class="ecosystem-input-div">
-                <input type="text" id="ecosystem-file-location-input" class="new-server-input" placeholder="File Location" autocomplete="off">
+                <div class="new-server-input-info">
+                    <input type="text" id="ecosystem-file-location-input" class="new-server-input" placeholder="File Location" autocomplete="off">
+                </div>
                 <button class="server-overlay-button">Load File</button>
             </div>
             <div class="ecosystem-file-details-div">
@@ -356,7 +367,7 @@
 
         <div class="server-overlay-buttons">
             <button class="server-overlay-button" id="close-new-server-overlay-button">Close</button>
-            <button class="server-overlay-button" id="close-new-server-overlay-button">Create</button>
+            <button class="server-overlay-button" id="create-new-server-overlay-button">Create</button>
         </div>
     </div>  
     
