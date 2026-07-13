@@ -227,11 +227,11 @@ app.post("/api/create-new-server", (req, res) => {
 
 
     StartPM2(ecosystem_path);
-    res.status(200)
+    res.status(200).json({ message: "created server" });
   }
   catch (err){
     console.log(err);
-    res.status(500);
+    res.status(500).json({ error: "something went wrong" });
   }
 });
 
