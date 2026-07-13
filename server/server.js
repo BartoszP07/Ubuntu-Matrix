@@ -141,7 +141,7 @@ app.get("/api/validate-server-dir", (req, res) => {
   else{
     return res.status(404).json({ message: "root folder not found"});
   }
-  return res.status(500).json({ error: "Something went wrong "});
+  return res.status(500).json({ message: "Something went wrong "});
 })
 
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------

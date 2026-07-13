@@ -360,6 +360,9 @@ create_new_server_btn.addEventListener("click", async function() {
             server_file_location_input_info.textContent = "Found file!";
             root_folder_input_info.textContent = "Found folder";
         }
+        else{
+            console.log(message);
+        }
     }
     catch (err){
         console.log(err);
