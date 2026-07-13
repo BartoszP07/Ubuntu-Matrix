@@ -404,10 +404,8 @@ create_new_server_btn.addEventListener("click", async function(){
                     method: "POST"
                 }
             );
-            if (response.ok){
-                allow_create_server = false;
-                CloseNewServerOverlay();
-            }
+            allow_create_server = false;
+            CloseNewServerOverlay();
         }
         catch (err){
             console.log(err);

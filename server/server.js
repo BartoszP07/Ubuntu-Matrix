@@ -33,10 +33,11 @@ pm2.connect(function (err) {
 });
 
 // Funcion to start pm2 server
-function StartPM2(script_path, name){
+function StartPM2(script_path, name, port){
   pm2.start({
       script: script_path,
-      name: name
+      name: name,
+      port: port,
     }, function(err, apps) {
       if (err){
         console.log(err);
@@ -206,12 +207,9 @@ app.post("/api/create-new-server", (req, res) => {
     const ecosystem_data = require(ecosystem_path);
     const app_config = ecosystem_data.apps[0]; 
     const name = app_config.name;
+    const port = app.config.env.SERVER_PORT;
 
-    console.log(ecosystem_path);
-    console.log(root_folder);
-    console.log(ecosystem_data);
-
-    StartPM2(ecosystem_path, name);
+    StartPM2(ecosystem_path, name, port);
     res.status(200)
   }
   catch (err){
