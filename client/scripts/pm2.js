@@ -421,10 +421,8 @@ create_new_server_btn.addEventListener("click", async function(){
             let response = await fetch(`/api/create-new-server?root=${file_location}`, {
                 method: "POST",
             });
-            if (response.ok){
-                CloseNewServerOverlay();
-                allow_create_server = false;
-            }
+            CloseNewServerOverlay();
+            allow_create_server = false;
         }
         catch (err){
             console.log(err);
