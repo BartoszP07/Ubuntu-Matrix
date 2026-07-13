@@ -198,14 +198,14 @@ app.post("/api/create-new-server-config", async (req, res) => {
 // Create new server with existing ecosystem config
 app.post("/api/create-new-server", (req, res) => {
     const root_folder = req.query.root;
-
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
-    delete require.cache[require.resolve(file_path)];
+    delete require.cache[require.resolve(ecosystem_path)];
 
-    const ecosystemData = require(file_path);
-    const app_config = ecosystemData.apps[0]; 
+    const ecosystem_data = require(ecosystem_path);
+    const app_config = ecosystem_data.apps[0]; 
     const name = app_config.name;
+
 
     StartPM2(ecosystem_path, name);
 });
