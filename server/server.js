@@ -36,7 +36,7 @@ pm2.connect(function (err) {
 function StartPM2(script_path, name){
   pm2.start({
       script: script_path,
-      name: root_folder
+      name: name
     }, function(err, apps) {
       if (err){
         console.log(err);
