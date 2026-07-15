@@ -309,7 +309,7 @@ check_new_server_btn.addEventListener("click", async function() {
     let valid_server = false;
     // Get the port nubmer and validate it
     let port = port_input.value
-    valid_port = ValidatePort(port);
+    valid_port = ValidatePort(port, ports_in_use);
     if (!valid_port){
         port_input_info.textContent = "Can't use port";
     }
@@ -404,8 +404,9 @@ create_new_server_btn.addEventListener("click", async function(){
         const file_location = eco_file_location_input.value;
          // Get the new port input
         let new_port = new_port_input.value;
+        console.log(new_port);
         // Check if there is a new port to be added
-        if (!ValidatePort(new_port)) { new_port = -1; }
+        if (!ValidatePort(new_port, ports_in_use)) { new_port = -1; }
         console.log(new_port);
         try{
             let response = await fetch(`/api/create-new-server?root=${file_location}&port=${new_port}`, {
