@@ -182,10 +182,6 @@ app.post("/api/create-new-server-config", async (req, res) => {
   const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
   const current_working_directory = path.join(os.homedir(), root_folder);
 
-  console.log("got paths")
-  console.log(ecosystem_path);
-  console.log(current_working_directory);
-
   // Create template for the file
   const file_content = `module.exports = {
     apps: [
@@ -201,20 +197,19 @@ app.post("/api/create-new-server-config", async (req, res) => {
     ],
   };
   `;
-
-  console.log("made template");
-  console.log(file_content);
   
   // Write to the file
   try{
-    console.log("Writing to file")
-    await fs.writeFile(ecosystem_path, file_content, "utf8");
+    await fs.writeFile(ecosystem_path, file_content, err => {
+      if (err){
+        console.log(err);
+      }
+    });
     // Start the server
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "Started server" });
   }
   catch (error){
-    console.log("error of some kind");
     console.log(error);
     res.status(500).json({ error: "Failed to write to file" });
   }
