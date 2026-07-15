@@ -225,22 +225,27 @@ app.post("/api/create-new-server", async (req, res) => {
 
     // Only change the port if there is a valid value
     if (port != -1){
-      ChangeENVPort(root_folder, port);
+      try{
+        ChangeENVPort(root_folder, port);
 
-      // Clear the require cache so an outdated version isnt read from memory
-      delete require.cache[require.resolve(ecosystem_path)];
-      
-      // Load the file as a JavaScript object
-      const config = require(ecosystem_path);
-      
-      // Update the port
-      config.apps[0].env.SERVER_PORT = String(port);
-      
-      // Convert the object back into a module.exports string
-      const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
-      
-      // Write to file
-      await fs_promises.writeFile(ecosystem_path, updated_content, "utf8");
+        // Clear the require cache so an outdated version isnt read from memory
+        delete require.cache[require.resolve(ecosystem_path)];
+        
+        // Load the file as a JavaScript object
+        const config = require(ecosystem_path);
+        
+        // Update the port
+        config.apps[0].env.SERVER_PORT = String(port);
+        
+        // Convert the object back into a module.exports string
+        const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
+        
+        // Write to file
+        await fs_promises.writeFile(ecosystem_path, updated_content, "utf8");
+      }
+      catch (err){
+        console.log(err);
+      }
     };
 
     StartPM2(ecosystem_path);
@@ -254,27 +259,32 @@ app.post("/api/create-new-server", async (req, res) => {
 
 // Function to change port in env file
 function ChangeENVPort(root_folder, new_port){
-  // Check if the root has a .env file
-  const env_path = path.join(os.homedir(), root_folder, ".env");
-  if (fs.existsSync(env_path)){
-    // Read the env file
-    const env_data = fs.readFileSync(env_path, "utf8");
-    // Loop through each file line
-    let lines = env_data.split("\n");
-    for (let i=0; i < lines.length; i++){
-      if (lines[i].startsWith("SERVER_PORT=")){
-        // Check if the server port has changed
-        const current_port = Number(lines[i].split("=")[1]);
-        if (new_port != current_port){
-          // Set the new port
-          lines[i] = `SERVER_PORT=${new_port}`;
-        }
-      } 
-    }
-    let updated_lines = lines.join("\n");
-    // Write to the file
-    fs.writeFileSync(env_path, updated_lines, "utf8")
+  try{
+    // Check if the root has a .env file
+    const env_path = path.join(os.homedir(), root_folder, ".env");
+    if (fs.existsSync(env_path)){
+      // Read the env file
+      const env_data = fs.readFileSync(env_path, "utf8");
+      // Loop through each file line
+      let lines = env_data.split("\n");
+      for (let i=0; i < lines.length; i++){
+        if (lines[i].startsWith("SERVER_PORT=")){
+          // Check if the server port has changed
+          const current_port = Number(lines[i].split("=")[1]);
+          if (new_port != current_port){
+            // Set the new port
+            lines[i] = `SERVER_PORT=${new_port}`;
+          }
+        } 
+      }
+      let updated_lines = lines.join("\n");
+      // Write to the file
+      fs.writeFileSync(env_path, updated_lines, "utf8")
+    } 
   }
+  catch (err){
+      console.log(err);
+    }
 }
 
 // Api to get the data from an ecosystem file
