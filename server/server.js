@@ -224,7 +224,7 @@ app.post("/api/create-new-server", async (req, res) => {
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
     // Only change the port if there is a valid value
-    if (port != -1){
+    if (port != "-1" || port != -1){
       try{
         ChangeENVPort(root_folder, port);
 
