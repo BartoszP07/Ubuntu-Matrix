@@ -404,10 +404,8 @@ create_new_server_btn.addEventListener("click", async function(){
         const file_location = eco_file_location_input.value;
          // Get the new port input
         let new_port = new_port_input.value;
-        console.log(new_port);
         // Check if there is a new port to be added
         if (ValidatePort(new_port, ports_in_use)) { new_port = -1; }
-        console.log(new_port);
         try{
             let response = await fetch(`/api/create-new-server?root=${file_location}&port=${new_port}`, {
                 method: "POST",
@@ -466,6 +464,7 @@ function CloseNewServerOverlay(){
     eco_file_location_input.value = "";
     eco_server_name.textContent = "Name";
     eco_server_port.textContent = "Port";
+    new_port_input.value = "";
     CheckEcosystemBox();
 }
 
