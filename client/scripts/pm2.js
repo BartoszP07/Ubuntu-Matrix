@@ -402,8 +402,12 @@ create_new_server_btn.addEventListener("click", async function(){
         if (!allow_create_server) { return; }
         // Get ecosystem file location
         const file_location = eco_file_location_input.value;
+         // Get the new port input
+        let new_port = new_port_input.value;
+        // Check if there is a new port to be added
+        if (!ValidatePort(new_port)) { new_port = -1; }
         try{
-            let response = await fetch(`/api/create-new-server?root=${file_location}`, {
+            let response = await fetch(`/api/create-new-server?root=${file_location}&port=${new_port}`, {
                 method: "POST",
             });
             if (response.ok){
@@ -422,14 +426,11 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
     allow_create_server = false;
     // Get ecosystem file location
     const file_location = eco_file_location_input.value;
-    // Get the new port input
-    let new_port = new_port_input.value;
-    // Check if there is a new port to be added
-    if (!ValidatePort(new_port)) { new_port = -1; }
+   
 
     if (file_location.length < 1) { return; }
     try{
-        let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}&port=${new_port}`);
+        let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}`);
         let data = await response.json();
         const port = data.port;
         const name = data.name;
