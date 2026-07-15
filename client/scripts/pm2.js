@@ -399,11 +399,9 @@ create_new_server_btn.addEventListener("click", async function(){
         const root_folder = root_folder_input.value;
         const server_path = server_file_location_input.value;
         try{
-            let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}$port=${port}`,
-                {
+            let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}&port=${port}`, {
                     method: "POST"
-                }
-            );
+                });
             if (response.ok){
                 CloseNewServerOverlay();
                 allow_create_server = false;

@@ -214,6 +214,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
     res.status(200).json({ message: "Started server" });
   }
   catch (error){
+    console.log("error of some kind");
     console.log(error);
     res.status(500).json({ error: "Failed to write to file" });
   }
