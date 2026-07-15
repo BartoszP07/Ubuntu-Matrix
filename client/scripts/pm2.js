@@ -406,7 +406,6 @@ create_new_server_btn.addEventListener("click", async function(){
         let new_port = new_port_input.value;
         // Check if there is a new port to be added
         if (ValidatePort(new_port, ports_in_use) == false) { new_port = "-1"; }
-        console.log(new_port);
         try{
             let response = await fetch(`/api/create-new-server?root=${file_location}&port=${new_port}`, {
                 method: "POST",

@@ -107,19 +107,13 @@ function ValidatePort(port, used_ports){
     let p = String(port);
     // Check if there is a port
     if (p.length < 1) { return false; }
-    console.log("passed length");
     // Check if its a number
     if (isNaN(p)) { return false; }
-    console.log("is a number")
     // Convert port to a number
     p = Number(p);
-    console.log("made a number")
     if (p < 1001) { return false; }
-    console.log("out of  lower range")
     if (p > 65535) { return false; }
-    console.log("out of upper range")
     if (used_ports.includes(p)) { return false; }
-    console.log("not in used ports!");
     return true;
 }
 

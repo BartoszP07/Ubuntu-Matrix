@@ -220,8 +220,6 @@ app.post("/api/create-new-server", async (req, res) => {
   try{
     const root_folder = req.query.root;
     const port = req.query.port;
-    console.log(req.query);
-    
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
     // Only change the port if there is a valid value
