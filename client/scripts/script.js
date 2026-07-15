@@ -109,7 +109,7 @@ function ValidatePort(port, used_ports){
     if (p.length < 1) { return false; }
     console.log("passed length");
     // Check if its a number
-    if (!isNaN(p)) { return false; }
+    if (isNaN(p)) { return false; }
     console.log("is a number")
     // Convert port to a number
     p = Number(p);
