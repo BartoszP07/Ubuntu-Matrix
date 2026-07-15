@@ -176,7 +176,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
   // Get rqeuest variables
   const root_folder = req.query.root;
   const server_path = req.query.server_path;
-  const port = req.quert.port;
+  const port = req.query.port;
 
   // Get the path of the file
   const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
