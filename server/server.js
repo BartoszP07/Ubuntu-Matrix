@@ -178,13 +178,21 @@ app.post("/api/create-new-server-config", async (req, res) => {
   const server_path = req.query.server_path;
   const port = req.quert.port;
 
+  // Get the path of the file
+  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+  const current_working_directory = path.join(os.homedir(), root_folder);
+
+  console.log("got paths")
+  console.log(ecosystem_path);
+  console.log(current_working_directory);
+
   // Create template for the file
   const file_content = `module.exports = {
     apps: [
       {
         name: "${root_folder}",
         script: "${server_path}",
-        cwd: "${path.join(os.homedir(), root_folder)}",
+        cwd: "${current_working_directory}",
         env: {
           NODE_ENV: "production",
           SERVER_PORT: "${port}",
@@ -194,12 +202,12 @@ app.post("/api/create-new-server-config", async (req, res) => {
   };
   `;
 
-  // Get the path of the file
-  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
-  const current_working_directory = path.join(os.homedir(), root_folder);
-
+  console.log("made template");
+  console.log(file_content);
+  
   // Write to the file
   try{
+    console.log("Writing to file")
     await fs.writeFile(ecosystem_path, file_content, "utf8");
     // Start the server
     StartPM2(ecosystem_path);
