@@ -41,18 +41,18 @@ function StartPM2(ecosystem_file_path) {
     delete require.cache[require.resolve(ecosystem_file_path)];
     
     // Read the ecosystem file into a JavaScript object
-    const ecosystemConfig = require(ecosystem_file_path);
+    const ecosystem_config = require(ecosystem_file_path);
     
     // Extract the app configuration (the first item in the apps array)
-    const appConfig = ecosystemConfig.apps[0];
+    const app_config = ecosystem_config.apps[0];
 
     // Pass the parsed object directly to PM2!
-    pm2.start(appConfig, function(err, apps) {
+    pm2.start(app_config, function(err, apps) {
         if (err) {
           console.error("PM2 Start Error:", err);
           return pm2.disconnect();
         }
-        console.log(`Server ${appConfig.name} started successfully on port ${appConfig.env.SERVER_PORT}`);
+        console.log(`Server ${app_config.name} started successfully on port ${app_config.env.SERVER_PORT}`);
     });
     
   } catch (err) {
@@ -199,25 +199,8 @@ app.post("/api/create-new-server-config", async (req, res) => {
   };
   `;
   
-
-  // Check if the root has a .env file
-  const env_path = path.join(os.homedir(), root_folder, ".env");
-  if (fs.existsSync(env_path)){
-    // Read the env file
-    const env_data = fs.readFileSync(env_path, "utf-8");
-    // Loop through each file line
-    let lines = env_data.split("\n");
-    for (let i=0; i < lines.length; i++){
-      if (lines[i].startsWith("SERVER_PORT=")){
-        // Check if the server port has changed
-        const current_port = Number(lines[i].split("=")[1]);
-        if (port != current_port){
-          // Set the new port
-          lines[i] = `SERVER_PORT=${port}`;
-        }
-      } 
-    }
-  }
+  // Change port in env file if needed
+  ChangeENVPort(root_folder, port);
 
   // Write to the file
   try{
@@ -236,7 +219,30 @@ app.post("/api/create-new-server-config", async (req, res) => {
 app.post("/api/create-new-server", (req, res) => {
   try{
     const root_folder = req.query.root;
+    const port = req.query.port;
+    
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+
+    // Only change the port if there is a valid value
+    if (port != -1){
+      ChangeENVPort(root_folder, port);
+
+      // Clear the require cache so an outdated version isnt read from memory
+      delete require.cache[require.resolve(ecosystem_path)];
+      
+      // Load the file as a JavaScript object
+      const config = require(ecosystem_path);
+      
+      // Update the port
+      config.apps[0].env.SERVER_PORT = port.toString();
+      
+      // Convert the object back into a module.exports string
+      const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
+      
+      // Write to file
+      await fs.promises.writeFile(ecosystem_path, updated_content, "utf8");
+    };
+
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "created server" });
   }
@@ -245,6 +251,31 @@ app.post("/api/create-new-server", (req, res) => {
     res.status(500).json({ error: "something went wrong" });
   }
 });
+
+// Function to change port in env file
+function ChangeENVPort(root_folder, new_port){
+  // Check if the root has a .env file
+  const env_path = path.join(os.homedir(), root_folder, ".env");
+  if (fs.existsSync(env_path)){
+    // Read the env file
+    const env_data = fs.readFileSync(env_path, "utf8");
+    // Loop through each file line
+    let lines = env_data.split("\n");
+    for (let i=0; i < lines.length; i++){
+      if (lines[i].startsWith("SERVER_PORT=")){
+        // Check if the server port has changed
+        const current_port = Number(lines[i].split("=")[1]);
+        if (new_port != current_port){
+          // Set the new port
+          lines[i] = `SERVER_PORT=${new_port}`;
+        }
+      } 
+    }
+    let updated_lines = lines.join("\n");
+    // Write to the file
+    fs.writeFileSync(env_path, updated_lines, "utf8")
+  }
+}
 
 // Api to get the data from an ecosystem file
 app.get("/api/get-ecosystem-config-data", (req, res) => {

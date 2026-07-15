@@ -103,6 +103,20 @@ function FormatUptime(ms) {
     };
 }
 
+function ValidatePort(port){
+    let p = String(port);
+    // Check if there is a port
+    if (p.length < 1) { return false; }
+    // Check if its a number
+    if (!isNaN(port)) { return false; }
+    // Convert port to a number
+    let p = Number(p);
+    if (p < 1001) { return false; }
+    if (p > 65535) { return false; }
+    if (ports_in_use.includes(p)) { return false; }
+    return true;
+}
+
 // ONLY WORKS FOR MOBILE (MAX-WIDTH <= 768)
 
 // Close the side bar

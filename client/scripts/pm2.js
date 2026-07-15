@@ -44,6 +44,7 @@ let existing_ecosystem_div = document.getElementById("existing-ecosystem-file-di
 let load_ecosystem_file_btn = document.getElementById("load-ecosystem-file-btn");
 let eco_server_name = document.getElementById("ecosystem-server-name");
 let eco_server_port = document.getElementById("ecosystem-server-port");
+let new_port_input = document.getElementById("new-port-input");
 
 // Variables
 let current_server = undefined;
@@ -307,30 +308,14 @@ check_new_server_btn.addEventListener("click", async function() {
     let valid_root = false;
     let valid_server = false;
     // Get the port nubmer and validate it
-    let port = port_input.value.trim();
-    // Check if the port is a number
-    if (isNaN(port) || port.length < 1){
-        // Update the port info
-        port_input_info.textContent = "Enter a number!";
+    let port = port_input.value
+    valid_port = ValidatePort(port);
+    if (!valid_port){
+        port_input_info.textContent = "Can't use port";
     }
     else{
-        port = Number(port_input.value);
-        // Allow for ports larger than 1000 (avoid any ubuntu taken ports)
-        if (port < 1001){
-            // Update port info
-            port_input_info.textContent = "Enter a valid port > 1000!";
-        }
-        // Check if the port is in use
-        else if (ports_in_use.includes(port)){
-            // Update port info
-            port_input_info.textContent = "Enter a port not in use!";
-        }
-        else{
-            port_input_info.textContent = "Port available";
-            valid_port = true;
-        }
+        port_input_info.textContent = "Port is valid";
     }
-    
 
     // Get the root folder and server location
     let root_folder = root_folder_input.value;
@@ -437,9 +422,14 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
     allow_create_server = false;
     // Get ecosystem file location
     const file_location = eco_file_location_input.value;
+    // Get the new port input
+    let new_port = new_port_input.value;
+    // Check if there is a new port to be added
+    if (!ValidatePort(new_port)) { new_port = -1; }
+
     if (file_location.length < 1) { return; }
     try{
-        let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}`);
+        let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}&port=${new_port}`);
         let data = await response.json();
         const port = data.port;
         const name = data.name;
