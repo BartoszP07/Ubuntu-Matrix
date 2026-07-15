@@ -220,6 +220,7 @@ app.post("/api/create-new-server", async (req, res) => {
   try{
     const root_folder = req.query.root;
     const port = req.query.port;
+    console.log(port);
     
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
 
@@ -234,7 +235,7 @@ app.post("/api/create-new-server", async (req, res) => {
       const config = require(ecosystem_path);
       
       // Update the port
-      config.apps[0].env.SERVER_PORT = port.toString();
+      config.apps[0].env.SERVER_PORT = String(port);
       
       // Convert the object back into a module.exports string
       const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
