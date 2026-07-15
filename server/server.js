@@ -4,6 +4,7 @@ const express = require("express");
 const pm2 = require("pm2");
 const path = require("path");
 const fs = require("fs");
+const fs_promises = require("fs/promises");
 const sysinfo = require("systeminformation");
 const multer = require("multer");
 const adm_zip = require("adm-zip");
@@ -200,11 +201,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
   
   // Write to the file
   try{
-    await fs.writeFile(ecosystem_path, file_content, err => {
-      if (err){
-        console.log(err);
-      }
-    });
+    await fs_promises.writeFile(ecosystem_path, file_content);
     // Start the server
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "Started server" });
@@ -220,16 +217,6 @@ app.post("/api/create-new-server", (req, res) => {
   try{
     const root_folder = req.query.root;
     const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
-    const current_working_directory = path.join(os.homedir(), root_folder);
-
-    delete require.cache[require.resolve(ecosystem_path)];
-
-    const ecosystem_data = require(ecosystem_path);
-    const app_config = ecosystem_data.apps[0]; 
-    const name = app_config.name;
-    const port = app_config.env.SERVER_PORT;
-
-
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "created server" });
   }
