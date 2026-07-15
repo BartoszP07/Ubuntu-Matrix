@@ -216,7 +216,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
 });
 
 // Create new server with existing ecosystem config
-app.post("/api/create-new-server", (req, res) => {
+app.post("/api/create-new-server", async (req, res) => {
   try{
     const root_folder = req.query.root;
     const port = req.query.port;
@@ -240,7 +240,7 @@ app.post("/api/create-new-server", (req, res) => {
       const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
       
       // Write to file
-      await fs.promises.writeFile(ecosystem_path, updated_content, "utf8");
+      await fs_promises.writeFile(ecosystem_path, updated_content, "utf8");
     };
 
     StartPM2(ecosystem_path);
