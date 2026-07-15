@@ -406,6 +406,7 @@ create_new_server_btn.addEventListener("click", async function(){
         let new_port = new_port_input.value;
         // Check if there is a new port to be added
         if (!ValidatePort(new_port)) { new_port = -1; }
+        console.log(new_port);
         try{
             let response = await fetch(`/api/create-new-server?root=${file_location}&port=${new_port}`, {
                 method: "POST",
@@ -427,7 +428,6 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
     // Get ecosystem file location
     const file_location = eco_file_location_input.value;
    
-
     if (file_location.length < 1) { return; }
     try{
         let response = await fetch(`/api/get-ecosystem-config-data?file_location=${file_location}`);
