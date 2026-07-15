@@ -201,12 +201,12 @@ app.post("/api/create-new-server-config", async (req, res) => {
   
 
   // Check if the root has a .env file
-  const env_path = path.join(os.homedir, root_folder, ".env");
-  if (path.existsSync(env_path)){
+  const env_path = path.join(os.homedir(), root_folder, ".env");
+  if (fs.existsSync(env_path)){
     // Read the env file
-    const env_data = fs.readFileSync(env_path);
+    const env_data = fs.readFileSync(env_path, "utf-8");
     // Loop through each file line
-    let lines = env_data.split("/n");
+    let lines = env_data.split("\n");
     for (let i=0; i < lines.length; i++){
       if (lines[i].startsWith("SERVER_PORT=")){
         // Check if the server port has changed
