@@ -183,6 +183,10 @@
     border-color: var(--accent-colour);
     border-radius: 1rem;
     border-width: 2px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .server-overlay-button:hover{
@@ -396,19 +400,37 @@
         gap: 0.5rem;
     }
     #server-overlay-name{
-        font-size: 2.25rem;
+        font-size: 2rem;
     }
     #server-overlay-port{
-        font-size: 1.75rem;
+        font-size: 1rem;
     }
     #server-overlay-status{
-        font-size: 1.75rem;
+        font-size: 1rem;
+    }
+    .server-usage-text{
+        font-size: 0.7rem;
+    }
+    .server-overlay-buttons{
+        padding: 1rem;
+        padding-top: 0px;
     }
     .server-overlay-button{
         font-size: 0.8rem;
         height: 2rem;
-        width: max-content;
+        width: 5rem;;
         padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+    .server-overlay-button.top-bar{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.5rem;
+    }
+    .new-server-input.change-port{
+        width: 10rem;
+        font-size: 0.7rem;
+        border-radius: 0.5rem;
     }
     .pm2-card-name{
         font-size: 1rem;
