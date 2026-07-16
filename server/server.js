@@ -184,7 +184,7 @@ app.post("/api/create-new-server-config", async (req, res) => {
   const current_working_directory = path.join(os.homedir(), root_folder);
 
   // Create template for the file
-  const file_content = `module.exports = {c
+  const file_content = `module.exports = {
     apps: [
       {
         name: "${root_folder}",
