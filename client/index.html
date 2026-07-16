@@ -317,21 +317,44 @@
         <button class="side-button" id="close-side-btn">Close</button>
     </div>
 
-    <div id="overlay-shadow"></div>
-    <div id="edit-server-overlay" class="server-overlay">
-        <h3 class="pm2-card-name" id="server-overlay-name">Name</h3>
-        <p class="pm2-card-port" id=server-overlay-port>Port: </p>
-        <p id="server-overlay-status">Status:</p>
-        <p id="server-overlay-cpu">CPU:</p>
-        <p id="server-overlay-mem">Memory:</p>
-        <p id="server-overlay-uptime">Uptime:</p>
+    <div id="overlay-shadow" class="appear"></div>
+    <div id="edit-server-overlay" class="server-overlay appear">
+
+        <div class="server-top-bar-div">
+            <button id="close-edit-server-overlay-button" class="server-overlay-button top-bar">X</button>
+            <button id="delete-edit-server-overlay-button" class="server-overlay-button top-bar"></button>
+        </div>
+
+        <div class="server-name-div">
+            <h3 class="pm2-card-name" id="server-overlay-name">Name</h3>
+        </div>
+
+
+        <div class="server-info-div">
+            <div class="website-server-info-div">
+                <p class="pm2-card-port" id=server-overlay-port>Port</p>
+                <p id="server-overlay-status">Status</p>
+            </div>
+            <div class="website-server-usage-div">
+                <p id="server-overlay-cpu" class="server-usage-text">CPU</p>
+                <p id="server-overlay-mem" class="server-usage-text">Memory</p>
+                <p id="server-overlay-uptime" class="server-usage-text">Uptime</p>
+            </div>
+        </div>
+            
+        <div class="change-port-div">
+            <input type="text" class="new-server-input change-port" placeholder="Port?">
+            <button class="server-overlay-button">Save</button>
+        </div>
+        
         <div class="server-overlay-buttons">
-            <button id="close-edit-server-overlay-button" class="server-overlay-button">Close</button>
             <button id="stop-edit-server-overlay-button" class="server-overlay-button">Stop</button>
             <button id="start-edit-server-overlay-button" class="server-overlay-button">Start</button>
             <button id="restart-edit-server-overlay-button" class="server-overlay-button">Restart</button>
-            <button id="delete-edit-server-overlay-button" class="server-overlay-button">Delete</button>
         </div>
+
+
+
     </div>
     <div id="new-server-overlay" class="server-overlay">
         <div class="checkbox-div">

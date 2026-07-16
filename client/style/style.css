@@ -2,7 +2,9 @@
 
 :root{
     --main-colour: rgb(25, 25, 25);
-    --accent-colour: rgb(200, 0, 0);
+    --lighter-main-colour: rgb(35, 35, 35);
+    --accent-colour: rgb(150, 0, 0);
+    --darker-accent-colour: rgb(100, 0, 0);
     /* --accent-colour: rgb(83, 0, 76); */
     --side-bar-width: 14rem;
 }
@@ -18,6 +20,8 @@ html{
     margin: 0px;
     font-family: "Elms Sans";
     color: rgb(255, 255, 255);
+    /* box-shadow: none !important; */
+    transition: 0s !important;
 }
 
 body{
