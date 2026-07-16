@@ -211,6 +211,18 @@ p{
     display: none;
 }
 
+.label-value-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.value-text{
+    white-space: nowrap;
+}
+
 
 @media (max-width: 768px){
     h1{

@@ -332,13 +332,26 @@
 
         <div class="server-info-div">
             <div class="website-server-info-div">
-                <p class="pm2-card-port" id=server-overlay-port>Port</p>
+                <div class="label-value-container">
+                    <p class="pm2-card-port">Port: </p>
+                    <p class="pm2-card-port value-text" id="server-overlay-port"></p>
+                </div>
+                
                 <p id="server-overlay-status">Status</p>
             </div>
             <div class="website-server-usage-div">
-                <p id="server-overlay-cpu" class="server-usage-text">CPU</p>
-                <p id="server-overlay-mem" class="server-usage-text">Memory</p>
-                <p id="server-overlay-uptime" class="server-usage-text">Uptime</p>
+                <div class="label-value-container">
+                    <p class="server-usage-text">CPU: </p>
+                     <p id="server-overlay-cpu" class="server-usage-text value-text"></p>
+                </div>
+                <div class="label-value-container">
+                    <p class="server-usage-text">Memory: </p>
+                    <p id="server-overlay-mem" class="server-usage-text value-text"></p>
+                </div>
+                <div class="label-value-container">
+                    <p class="server-usage-text">Uptime: </p>
+                    <p id="server-overlay-uptime" class="server-usage-text value-text"></p>
+                </div>
             </div>
         </div>
             

@@ -432,6 +432,9 @@
         font-size: 0.7rem;
         border-radius: 0.5rem;
     }
+    #server-overlay-uptime{
+        font-size: 0.5rem;
+    }
     .pm2-card-name{
         font-size: 1rem;
     }
