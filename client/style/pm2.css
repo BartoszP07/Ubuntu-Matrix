@@ -292,6 +292,10 @@
     font-size: 2rem;
 }
 
+.label-text{
+    font-size: 2rem;
+}
+
 .new-server-input{
     font-size: 1.5rem;
     background-color: var(--main-colour);
@@ -493,6 +497,15 @@
     }
     .pm2-card-name{
         font-size: 1rem;
+    }
+    .server-usage-text{
+        font-size: 0.5rem;
+    }
+    .label-text{
+        font-size: 1rem;
+    }
+    .small-label-text{
+        font-size: 0.5rem;
     }
     #add-server-card{
         padding: 0.5rem;
