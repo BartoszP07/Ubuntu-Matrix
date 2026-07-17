@@ -288,6 +288,9 @@
     border-radius: 1rem;
 }
 
+.value-text{
+    font-size: 2rem;
+}
 
 .new-server-input{
     font-size: 1.5rem;
@@ -298,8 +301,10 @@
     border-color: var(--accent-colour);
     box-shadow: 0px 0px 4px 1px var(--accent-colour);
     text-shadow: 0px 0px 5px white;
-    width: 30rem;
+    /* width: 30rem; */
+    width: 80%;
     box-sizing: border-box;
+    padding: 0.3rem;
 }
 
 .new-server-input:focus{
@@ -310,41 +315,27 @@
     text-shadow: none;
 }
 
+.new-server-input.full-width{
+    width: 100%;
+}
+
 .checkbox-div{
     display: flex;
-    align-items: center; 
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
+    width: calc(100% - 2rem);
+    margin: 1rem;
+    margin-bottom: 0px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    background-color: var(--lighter-main-colour);
+    border-radius: 0.7rem;
+    border: none;
 }
 
 .checkbox-div label{
     font-size: 1.5rem;
-}
-
-.create-server-section{
-    width: max-content;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.new-server-input-info{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    word-break: normal;
-    flex-wrap: wrap;
-    white-space: normal;
-    flex: 1;
-    width: auto;
-}
-
-.new-server-input-info p{
-    flex: 1;
-    white-space: normal;
-    word-break: break-all;
 }
 
 #ecosystem-checkbox{
@@ -362,29 +353,94 @@
     place-content: center;
 }
 
-
 #ecosystem-checkbox:checked {
   background-color: rgb(0, 148, 12);
   border-color: rgb(0, 148, 12);
 }
 
-.ecosystem-input-div{
+.create-server-section{
+    width: 100%;
     display: flex;
+    flex-shrink: 0;
     flex-direction: column;
-    width: max-content;
     gap: 1rem;
+}
+
+.new-server-inputs-div{
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--lighter-main-colour);
+    border: none;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.inputs-section-holder-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 48%;
+    gap: 1rem;
+    background-color: var(--main-colour);
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+}
+
+.inputs-section-holder-div.column{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.new-server-input-info{
+    width: 100%;
+    height: max-content;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: normal;
+    flex-wrap: wrap;
+    white-space: normal;
+    flex: 1;
+    
+}
+
+.new-server-input-info p{
+    flex: 1;
+    white-space: normal;
+    word-break: break-all;
+}
+
+.input-button{
+    height: 2.4rem;
+    border-radius: 0.4rem;
+    width: 30%;
+}
+
+.ecosystem-file-details-div{
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: var(--lighter-main-colour);
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
 }
 
 #server-overlay-name{
     font-size: 4rem;
-}
-
-#server-overlay-port{
-    font-size: 2.5rem;
-}
-
-#server-overlay-status{
-    font-size: 2.5rem;
 }
 
 
@@ -451,8 +507,25 @@
     }
 
     .new-server-input{
-        width: 10rem;
-        font-size: 1rem;
+        width: 5rem;
+        font-size: 0.6rem;
+    }
+
+    .new-server-inputs-div{
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .inputs-section-holder-div{
+        padding: 1rem;
+        flex-direction: column;
+        gap: 0.67rem;
+    }
+
+    .input-button{
+        font-size: 0.5rem;
+        height: 1rem;
+        border-radius: 0.5rem;
     }
 
     .new-server-input-info p{

@@ -329,27 +329,26 @@
             <h3 class="pm2-card-name" id="server-overlay-name">Name</h3>
         </div>
 
-
         <div class="server-info-div">
             <div class="website-server-info-div">
                 <div class="label-value-container">
-                    <p class="pm2-card-port">Port: </p>
+                    <p class="pm2-card-port server-usage-text">Port:</p>
                     <p class="pm2-card-port value-text" id="server-overlay-port"></p>
                 </div>
                 
-                <p id="server-overlay-status">Status</p>
+                <p id="server-overlay-status" class="value-text">Status</p>
             </div>
             <div class="website-server-usage-div">
                 <div class="label-value-container">
-                    <p class="server-usage-text">CPU: </p>
+                    <p class="server-usage-text label-text">CPU:</p>
                      <p id="server-overlay-cpu" class="server-usage-text value-text"></p>
                 </div>
                 <div class="label-value-container">
-                    <p class="server-usage-text">Memory: </p>
+                    <p class="server-usage-text">Memory:</p>
                     <p id="server-overlay-mem" class="server-usage-text value-text"></p>
                 </div>
                 <div class="label-value-container">
-                    <p class="server-usage-text">Uptime: </p>
+                    <p class="server-usage-text">Uptime:</p>
                     <p id="server-overlay-uptime" class="server-usage-text value-text"></p>
                 </div>
             </div>
@@ -357,7 +356,7 @@
             
         <div class="change-port-div">
             <input type="text" class="new-server-input change-port" placeholder="Port?">
-            <button class="server-overlay-button">Save</button>
+            <button class="server-overlay-button" id="check-new-port-button">Check</button>
         </div>
         
         <div class="server-overlay-buttons">
@@ -366,38 +365,62 @@
             <button id="restart-edit-server-overlay-button" class="server-overlay-button">Restart</button>
         </div>
 
-
-
     </div>
     <div id="new-server-overlay" class="server-overlay">
+
         <div class="checkbox-div">
             <label for="ecosystem-checkbox">Create Ecosystem File?</label>
             <input type="checkbox" id="ecosystem-checkbox">
         </div>
+
+
+
         <div class="create-server-section" id="create-ecosystem-file-div" style="display: none;">
-            <div class="new-server-input-info">
-                <input type="text" id="port-number-input" class="new-server-input" placeholder="Port" autocomplete="off">
-                <p id="port-number-input-info"></p>
-            </div>
-            <div class="new-server-input-info">
-                <input type="text" id="root-folder-input" class="new-server-input" placeholder="Root Folder"autocomplete="off">
-                <p id="root-folder-input-info"></p>
-            </div>
-            <div class="new-server-input-info">
-                <input type="text" id="server-file-location-input" class="new-server-input" placeholder="Server File Location In Root" autocomplete="off">
-                <p id="server-file-location-input-info"></p>
+            
+            <div class="new-server-inputs-div">
+
+
+                <div class="inputs-section-holder-div column">
+                    <input type="text" id="port-number-input" class="new-server-input full-width" placeholder="Port" autocomplete="off">
+    
+                    <input type="text" id="root-folder-input" class="new-server-input full-width" placeholder="Root Folder"autocomplete="off">
+                        
+                    <input type="text" id="server-file-location-input" class="new-server-input full-width" placeholder="Server File Location" autocomplete="off">
+                </div>
+
+                <div class="inputs-section-holder-div column">
+                    <p id="port-number-input-info">Port Info</p>
+                    <p id="root-folder-input-info">Root Folder Info</p>
+                    <p id="server-file-location-input-info">Server File Location Info</p>
+                </div>
+
             </div>
         </div>
+
+
+
         <div class="create-server-section" id="existing-ecosystem-file-div">
-            <div class="ecosystem-input-div">
-                <div class="new-server-input-info">
-                    <input type="text" id="ecosystem-file-location-input" class="new-server-input" placeholder="File Location" autocomplete="off">
+
+            <div class="new-server-inputs-div">
+
+                <div class="inputs-section-holder-div">
+                    <div class="new-server-input-info">
+                        <input type="text" id="ecosystem-file-location-input" class="new-server-input" placeholder="File Location" autocomplete="off">
+                    </div>
+                    <button class="server-overlay-button input-button" id="load-ecosystem-file-btn">Load</button>
                 </div>
-                <div class="new-server-input-info">
-                    <input type="text" id="new-port-input" class="new-server-input" placeholder="Change Port?" autocomplete="off">
+
+
+                <div class="inputs-section-holder-div">    
+                    <div class="new-server-input-info">
+                        <input type="text" id="new-port-input" class="new-server-input" placeholder="Change Port?" autocomplete="off">
+                    </div>
+                    <button class="server-overlay-button input-button" id="load-ecosystem-file-btn">Check</button>
                 </div>
-                <button class="server-overlay-button" id="load-ecosystem-file-btn">Load File</button>
             </div>
+    
+
+
             <div class="ecosystem-file-details-div">
                 <p id="ecosystem-server-name">Name</p>
                 <p id="ecosystem-server-port">Port</p>

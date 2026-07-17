@@ -21,7 +21,7 @@ html{
     font-family: "Elms Sans";
     color: rgb(255, 255, 255);
     /* box-shadow: none !important; */
-    transition: 0s !important;
+    /* transition: 0s !important; */
 }
 
 body{

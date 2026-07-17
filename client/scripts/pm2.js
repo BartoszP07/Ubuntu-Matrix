@@ -291,7 +291,7 @@ function CheckEcosystemBox(){
     if (this.checked == true){
         create_ecosystem_div.style.display = "flex";
         existing_ecosystem_div.style.display = "none";
-        check_new_server_btn.style.display = "block";
+        check_new_server_btn.style.display = "flex";
     }
     else{
         create_ecosystem_div.style.display = "none";
@@ -455,11 +455,11 @@ function CloseNewServerOverlay(){
 
     // Clear all of the inputs
     port_input.value = "";
-    port_input_info.textContent = "";
+    port_input_info.textContent = "Port Info";
     root_folder_input.value = "";
-    root_folder_input_info.textContent = "";
+    root_folder_input_info.textContent = "Root Folder Info";
     server_file_location_input.value = "";
-    server_file_location_input_info.textContent = "";
+    server_file_location_input_info.textContent = "Server File Location Info";
     create_ecosystem_checkbox.checked = false;
     eco_file_location_input.value = "";
     eco_server_name.textContent = "Name";
