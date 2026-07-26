@@ -330,13 +330,13 @@ app.post("/api/change-server-port", (req, res) => {
   const pm_id = req.query.id;
   try{
     ChangeENVPort(root, port);
-    pm2.restart(pm_id, (error) => {
-      if (error){
-        console.log(error);
-        res.status(500).json({ error: error });
-      }
+    // pm2.restart(pm_id, (error) => {
+    //   if (error){
+    //     console.log(error);
+    //     res.status(500).json({ error: error });
+    //   }
       res.status(200).json({ message: `changed server port to ${port}` });
-    });
+    // });
   }
   catch (err){
     console.log(err);
