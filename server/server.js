@@ -322,6 +322,25 @@ app.get("/api/get-ecosystem-config-data", (req, res) => {
     return res.status(500).json({ error: "Something went wrong while reading the config." });
   }
 });
+
+// Api to change the port of an already running server
+app.post("api/change-server-port", (req, res) => {
+  const port = req.query.port;
+  const root = req.query.root;
+  const pm_id = req.query.id;
+  try{
+    ChangeENVPort(root, port);
+    pm2.restart(pm_id, (error) => {
+      console.log(error);
+      res.status(500).JSON({ error: error });
+    });
+    res.status(200).JSON({ message: `changed server port to ${port}` });
+  }
+  catch (err){
+    console.log(err);
+    res.status(500).JSON({ error: err });
+  }
+});
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
 
 // Create cache varaibles to store the system information variables

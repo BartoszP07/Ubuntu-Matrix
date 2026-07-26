@@ -274,7 +274,7 @@ server_delete_btn.addEventListener("click", function() {
 });
 
 // Change server port
-change_port_button.addEventListener("click", function() {
+change_port_button.addEventListener("click", async function() {
     // Get port
     let port = change_port_text.value;
     if (ValidatePort(port, ports_in_use) == false) {
@@ -284,12 +284,19 @@ change_port_button.addEventListener("click", function() {
     change_port_info_p.innerText = "";
     port = Number(change_port_text.value.trim());
 
-    // Need to write to the ecosystem file
-        // Get file location
-            // Already have the current server since in the overlay
-            console.log(current_server);
-        // Api call to server to change file
-    // Need to restart the server
+    const root = current_server.name;
+    const pm_id = current_server.pm_id;
+    
+    try{
+        const response = await fetch(`api/change-server-port?port=${port}&root=${root}&id=${pm_id}`, {
+            method: "POST",
+        });
+        const data = await response.json();
+        console.log(data.message);
+    }   
+    catch (err){
+        console.log(err);
+    }
 })
 
 // Helper function for the buttons to send the commands to the server
