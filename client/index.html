@@ -318,7 +318,7 @@
     </div>
 
     <div id="overlay-shadow"></div>
-    <div id="edit-server-overlay" class="server-overlay">
+    <div id="edit-server-overlay" class="server-overlay appear">
 
         <div class="server-top-bar-div">
             <button id="delete-edit-server-overlay-button" class="server-overlay-button top-bar"></button>
@@ -355,8 +355,9 @@
         </div>
             
         <div class="change-port-div">
-            <input type="text" class="new-server-input change-port" placeholder="Port?">
-            <button class="server-overlay-button" id="check-new-port-button">Check</button>
+            <input type="text" class="new-server-input change-port" id="change-port-text" placeholder="Port?">
+            <button class="server-overlay-button" id="change-port-button">Change</button>
+            <p id="change-port-info-text">This is a test</p>
         </div>
         
         <div class="server-overlay-buttons">

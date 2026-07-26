@@ -262,6 +262,7 @@
     font-size: 2rem;
 }
 
+
 .change-port-div{
     width: calc(100% - 2rem);
     margin-left: 1rem;
@@ -279,6 +280,7 @@
     background-color: var(--lighter-main-colour);
     box-shadow: 0px 0px 5px 1px var(--lighter-main-colour);
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .new-server-input.change-port{
