@@ -286,10 +286,10 @@ change_port_button.addEventListener("click", async function() {
 
     const root = current_server.name;
     const pm_id = current_server.pm_id;
-    
+
     try{
-        const response = await fetch(`api/change-server-port?port=${port}&root=${root}&id=${pm_id}`, {
-            method: "POST",
+        let response = await fetch(`/api/change-server-port?port=${port}&root=${root}&id=${pm_id}`, {
+            method: "POST"
         });
         const data = await response.json();
         console.log(data.message);
