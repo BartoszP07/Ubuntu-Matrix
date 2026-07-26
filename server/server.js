@@ -324,21 +324,23 @@ app.get("/api/get-ecosystem-config-data", (req, res) => {
 });
 
 // Api to change the port of an already running server
-app.post("api/change-server-port", (req, res) => {
+app.post("/api/change-server-port", (req, res) => {
   const port = req.query.port;
   const root = req.query.root;
   const pm_id = req.query.id;
   try{
     ChangeENVPort(root, port);
     pm2.restart(pm_id, (error) => {
-      console.log(error);
-      res.status(500).JSON({ error: error });
+      if (error){
+        console.log(error);
+        res.status(500).json({ error: error });
+      }
+      res.status(200).json({ message: `changed server port to ${port}` });
     });
-    res.status(200).JSON({ message: `changed server port to ${port}` });
   }
   catch (err){
     console.log(err);
-    res.status(500).JSON({ error: err });
+    res.status(500).json({ error: err });
   }
 });
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
