@@ -183,28 +183,20 @@ app.post("/api/create-new-server-config", async (req, res) => {
   const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
   const current_working_directory = path.join(os.homedir(), root_folder);
 
-  // Create template for the file
-  const file_content = `module.exports = {
-    apps: [
-      {
-        name: "${root_folder}",
-        script: "${server_path}",
-        cwd: "${current_working_directory}",
-        env: {
-          NODE_ENV: "production",
-          SERVER_PORT: "${port}",
-        },
-      },
-    ],
-  };
-  `;
+  
   
   // Change port in env file if needed
   ChangeENVPort(root_folder, port);
 
-  // Write to the file
+  // Write to ecosystem file
   try{
-    await fs_promises.writeFile(ecosystem_path, file_content);
+    await WriteEcosystem(root_folder, port, current_working_directory, server_path, ecosystem_path);
+  }
+  catch (error){
+    console.log(`Error writing to ecosystem file: ${error}`);
+  }
+
+  try{
     // Start the server
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "Started server" });
@@ -225,20 +217,14 @@ app.post("/api/create-new-server", async (req, res) => {
     // Only change the port if there is a valid value
     if (port != "-1" || port != -1){
       try{
+        // Change the port in the env file
         ChangeENVPort(root_folder, port);
-
-        // Clear the require cache so an outdated version isnt read from memory
-        delete require.cache[require.resolve(ecosystem_path)];
-        
-        // Load the file as a JavaScript object
-        const config = require(ecosystem_path);
-        
-        // Update the port
-        config.apps[0].env.SERVER_PORT = String(port);
-        
+        // Read from the ecosystem file
+        const config = ReadEcosystem(ecosystem_path);
+        // Update the port in the ecosystem file
+        config.env.SERVER_PORT = String(port);
         // Convert the object back into a module.exports string
         const updated_content = `module.exports = ${JSON.stringify(config, null, 2)};`;
-        
         // Write to file
         await fs_promises.writeFile(ecosystem_path, updated_content, "utf8");
       }
@@ -246,7 +232,7 @@ app.post("/api/create-new-server", async (req, res) => {
         console.log(err);
       }
     };
-
+    // Start the server
     StartPM2(ecosystem_path);
     res.status(200).json({ message: "created server" });
   }
@@ -279,11 +265,42 @@ function ChangeENVPort(root_folder, new_port){
       let updated_lines = lines.join("\n");
       // Write to the file
       fs.writeFileSync(env_path, updated_lines, "utf8")
+      console.log("written new port!");
     } 
   }
   catch (err){
       console.log(err);
     }
+}
+
+// Function to write to ecosystem file
+async function WriteEcosystem(root_folder, port, current_working_directory, server_path, ecosystem_path){
+  // Create template for the file
+  const file_content = `module.exports = {
+    apps: [
+      {
+        name: "${root_folder}",
+        script: "${server_path}",
+        cwd: "${current_working_directory}",
+        env: {
+          NODE_ENV: "production",
+          SERVER_PORT: "${port}",
+        },
+      },
+    ],
+  };
+  `;
+  await fs_promises.writeFile(ecosystem_path, file_content);
+}
+
+// Function to read the ecosystem as a json obj.
+function ReadEcosystem(ecosystem_path){
+  // Clear the require cache so an outdated version isnt read from memory
+  delete require.cache[require.resolve(ecosystem_path)];
+  
+  // Load the file as a JavaScript object
+  const config = require(ecosystem_path);
+  return config.apps[0];
 }
 
 // Api to get the data from an ecosystem file
@@ -320,6 +337,32 @@ app.get("/api/get-ecosystem-config-data", (req, res) => {
     }
     
     return res.status(500).json({ error: "Something went wrong while reading the config." });
+  }
+});
+
+// Api to change the port of an already running server
+app.post("/api/change-server-port", async (req, res) => {
+  const port = req.query.port;
+  const root = req.query.root;
+  const pm_id = req.query.id;
+  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+  const config = ReadEcosystem(ecosystem_path);
+  const cwd = config.cwd;
+  const server_path = config.script;
+  try{
+    ChangeENVPort(root, port);
+    await WriteEcosystem(root, port, cwd, server_path, ecosystem_path);
+    pm2.restart(pm_id, (error) => {
+      if (error){
+        console.log(error);
+        res.status(500).json({ error: error });
+      }
+      res.status(200).json({ message: `changed server port to ${port}` });
+    });
+  }
+  catch (err){
+    console.log(err);
+    res.status(500).json({ error: err });
   }
 });
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------

@@ -45,6 +45,9 @@ let load_ecosystem_file_btn = document.getElementById("load-ecosystem-file-btn")
 let eco_server_name = document.getElementById("ecosystem-server-name");
 let eco_server_port = document.getElementById("ecosystem-server-port");
 let new_port_input = document.getElementById("new-port-input");
+let change_port_text = document.getElementById("change-port-text");
+let change_port_button = document.getElementById("change-port-button");
+let change_port_info_p = document.getElementById("change-port-info-text");
 
 // Variables
 let current_server = undefined;
@@ -270,6 +273,32 @@ server_delete_btn.addEventListener("click", function() {
     CloseServerOverlay();
 });
 
+// Change server port
+change_port_button.addEventListener("click", async function() {
+    // Get port
+    let port = change_port_text.value;
+    if (ValidatePort(port, ports_in_use) == false) {
+        change_port_info_p.innerText = "Invalid Port";
+        return;
+    }
+    change_port_info_p.innerText = "";
+    port = Number(change_port_text.value.trim());
+
+    const root = current_server.name;
+    const pm_id = current_server.pm_id;
+
+    try{
+        let response = await fetch(`/api/change-server-port?port=${port}&root=${root}&id=${pm_id}`, {
+            method: "POST"
+        });
+        const data = await response.json();
+        console.log(data.message);
+    }   
+    catch (err){
+        console.log(err);
+    }
+})
+
 // Helper function for the buttons to send the commands to the server
 async function SendServerCommand(command){
     try{
@@ -383,18 +412,7 @@ create_new_server_btn.addEventListener("click", async function(){
         let port = Number(port_input.value.trim());
         const root_folder = root_folder_input.value;
         const server_path = server_file_location_input.value;
-        try{
-            let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}&port=${port}`, {
-                    method: "POST"
-                });
-            if (response.ok){
-                CloseNewServerOverlay();
-                allow_create_server = false;
-            }
-        }
-        catch (err){
-            console.log(err);
-        }
+        CreateNewServer(port, root_folder, server_path);
     }
     // Just run the ecosystem file.
     else{
@@ -447,6 +465,22 @@ new_server_btn.addEventListener("click", function(){
     new_server_overlay.classList.add("appear");
     overlay_shadow.classList.add("appear");
 })
+
+// Function to create a new server
+async function CreateNewServer(port, root_folder, server_path){
+    try{
+        let response = await fetch(`/api/create-new-server-config?root=${root_folder}&server_path=${server_path}&port=${port}`, {
+                method: "POST"
+            });
+        if (response.ok){
+            CloseNewServerOverlay();
+            allow_create_server = false;
+        }
+    }
+    catch (err){
+        console.log(err);
+    }
+}
 
 // Close the new server overlay
 function CloseNewServerOverlay(){
