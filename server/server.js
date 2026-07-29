@@ -292,7 +292,7 @@ async function WriteEcosystem(root_folder, port, current_working_directory, serv
       ],
     };
     `;
-    await fs_promises.writeFile(ecosystem_path, file_content);
+    await fs_promises.writeFile(ecosystem_path, file_content, "utf-8");
   }
   catch (err){
     console.log("Couldn't write to file, " + ecosystem_path + " : " + err);
