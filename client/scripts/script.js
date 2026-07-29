@@ -20,6 +20,8 @@ let close_side_btn = document.getElementById("close-side-btn");
 let side_bar = document.getElementById("side-bar");
 let menu_btn = document.getElementById("menu-btn");
 
+let current_page = "welcome";
+
 // Hide all sections -- function removes repeated code and enforces all sections are hidden
 function HideAllSections(){
     welcome_section.style.display = "none";
@@ -42,14 +44,15 @@ function ShowSection(element){
 title_button.addEventListener("click", function(){
     HideAllSections();
     ShowSection(welcome_section);
+    current_page = "welcome";
 })
 
 // Show the pm2 servers page
 pm2_server_button.addEventListener("click", async function(){
     HideAllSections();
     ShowSection(pm2_section);
+    current_page = "pm2";
     pm2_server_button.classList.add("active");
-
     await GetPM2Data();
 })
 
@@ -57,6 +60,7 @@ pm2_server_button.addEventListener("click", async function(){
 cloudflare_button.addEventListener("click", function(){
     HideAllSections();
     ShowSection(cloudflare_section);
+    current_page = "cloudflare";
     cloudflare_button.classList.add("active");
 })
 
@@ -64,6 +68,7 @@ cloudflare_button.addEventListener("click", function(){
 storage_button.addEventListener("click", function(){
     HideAllSections();
     ShowSection(storage_section);
+    current_page = "storage";
     storage_button.classList.add("active");
 })
 
@@ -71,6 +76,7 @@ storage_button.addEventListener("click", function(){
 details_button.addEventListener("click", function(){
     HideAllSections();
     ShowSection(details_section);
+    current_page = "details";
     details_button.classList.add("active");
 })
 

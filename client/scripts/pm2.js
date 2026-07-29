@@ -186,7 +186,12 @@ function GetManageButtons(){
 }
 
 // Update pm2 server cards every second
-setInterval(GetPM2Data, 1000);
+setInterval(function() {
+    // Only get data if on the page
+    if (current_page == "pm2"){
+        GetPM2Data();
+    }
+}, 1000);
 
 // Handle editing a server ----------------------------------------------------------
 
@@ -256,13 +261,13 @@ async function LoadServerOverlayData(){
     server_overlay_uptime.textContent = `${uptime_str}`;
 }
 
-// Call this load server function very 0.2s
+// Call this load server function
 setInterval(function() {
     // Only load the data if the overlay is open
     if (edit_server_overlay_open){
         LoadServerOverlayData();
     }
-}, 200);
+}, 1000);
 
 // Stop a server from running
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));

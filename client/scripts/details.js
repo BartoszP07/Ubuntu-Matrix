@@ -334,7 +334,11 @@ function ShowData(){
 
 async function PollServer(){
     await HandleData();
-    setTimeout(PollServer, 1000);
+    setTimeout(function() {
+        if (current_page == "details"){
+            PollServer();
+        }
+    }, 1000);
 }
 
 PollServer();
