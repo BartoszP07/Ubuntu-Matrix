@@ -230,6 +230,7 @@ function GetCurrentServerData(pm2_id){
     pm2_servers.forEach(server => {
         // Compare id's -- make sure they are the same type
         if (Number(server.pm_id) == Number(pm2_id)){
+            console.log("here", server);
             // Return the found server
             return server;
         }
