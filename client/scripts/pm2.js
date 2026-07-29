@@ -54,6 +54,7 @@ let current_server = undefined;
 let current_server_id = undefined;
 let ports_in_use = [];
 let allow_create_server = false;
+let edit_server_overlay_open = false;
 
 // Main program  --------------------------------------------------------------------
 
@@ -122,54 +123,66 @@ function ChangeStatusIndicator(element, status) {
 // Function to get data from the pm2 servers
 async function GetPM2Data(){
     try {
-      let response = await fetch("/api/get-pm2-data");
-      pm2_servers = await response.json();
+        // Get pm2 servers data
+        let response = await fetch("/api/get-pm2-data");
+        pm2_servers = await response.json();
 
-      // Remove all existing cards
-      Array.from(pm2_cards_div.children).forEach((child) => {
-        if (child != add_server_card) {
-          child.remove();
-        }
-      });
-
-      ports_in_use = [];
-      // Add each server to the card div
-      pm2_servers.forEach((server) => {
-        const server_port = server.port;
-        const server_name = server.name;
-        const server_status = server.status;
-        const server_id = server.pm_id;
-        const card = CreateServerCard(
-          server_name,
-          server_port,
-          server_status,
-          server_id,
-        );
-        pm2_cards_div.appendChild(card);
-        ports_in_use.push(Number(server_port));
-      });
-        // Get all edit buttons from the cards
-        edit_server_buttons =
-            document.getElementsByClassName("edit-server-button");
-        // Make the buttons an array
-        edit_server_buttons = Array.from(edit_server_buttons);
-
-        // Loop through all buttons
-        edit_server_buttons.forEach((button) => {
-            button.addEventListener("click", function (event) {
-            if (!overlay_shadow.classList.contains("appear")) {
-                overlay_shadow.classList.add("appear");
+        // Remove all existing cards
+        Array.from(pm2_cards_div.children).forEach((child) => {
+            if (child != add_server_card) {
+            child.remove();
             }
-            if (!edit_server_overlay.classList.contains("appear")) {
-                edit_server_overlay.classList.add("appear");
-            }
-            GetCurrentServer(event);
-            });
         });
+
+        ports_in_use = [];
+        // Add each server to the card div
+        pm2_servers.forEach((server) => {
+            const server_port = server.port;
+            const server_name = server.name;
+            const server_status = server.status;
+            const server_id = server.pm_id;
+            // Create the actuale server card
+            const card = CreateServerCard(
+                server_name,
+                server_port,
+                server_status,
+                server_id
+            );
+            // Add it to the cards div
+            pm2_cards_div.appendChild(card);
+            ports_in_use.push(Number(server_port));
+        });
+        // Get the manage buttons for all cards
+        GetManageButtons();
     } 
     catch (error) {
         console.log(error);
     }
+}
+
+// Function to get the manage buttons for each pm2 server card
+function GetManageButtons(){
+    // Get all edit buttons from the cards
+    edit_server_buttons = document.getElementsByClassName("edit-server-button");
+    // Make the buttons an array
+    edit_server_buttons = Array.from(edit_server_buttons);
+    // Loop through all buttons
+    edit_server_buttons.forEach((button) => {
+        // Click event listener
+        button.addEventListener("click", function (event) {
+            // Show the overlay shadow
+            if (!overlay_shadow.classList.contains("appear")) {
+                overlay_shadow.classList.add("appear");
+                edit_server_overlay_open = true;
+            }
+            // Show the actual overlay
+            if (!edit_server_overlay.classList.contains("appear")) {
+                edit_server_overlay.classList.add("appear");
+                edit_server_overlay_open = true;
+        }
+        GetCurrentServer(event);
+        });
+    });
 }
 
 // Update pm2 server cards every second
@@ -182,6 +195,7 @@ function CloseServerOverlay(){
     edit_server_overlay.classList.remove("appear");
     current_server = undefined;
     current_server_id = undefined;
+    edit_server_overlay_open = false;
 }
 
 // Close the server overlay
@@ -219,8 +233,6 @@ async function LoadServerOverlayData(){
     }
 
     // Get server data
-    console.log(data.pm2_env.SERVER_PORT);
-    console.log(data.pm2_env);
     const server_status = data.pm2_env.status;
     const server_name = data.name;
     const server_port = data.pm2_env.SERVER_PORT;
@@ -245,7 +257,12 @@ async function LoadServerOverlayData(){
 }
 
 // Call this load server function very 0.2s
-setInterval(LoadServerOverlayData, 200);
+setInterval(function() {
+    // Only load the data if the overlay is open
+    if (edit_server_overlay_open){
+        LoadServerOverlayData();
+    }
+}, 200);
 
 // Stop a server from running
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
