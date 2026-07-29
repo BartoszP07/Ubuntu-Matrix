@@ -239,15 +239,7 @@ function GetCurrentServerData(pm2_id){
 // Function to get the data from the server to display the pm2 server info
 async function LoadServerOverlayData(){
     if (!current_server || !current_server_id) { return; }
-    let data;
-    try{
-        const response = await fetch(`api/process/${current_server_id}`);
-        data = await response.json();
-    }
-    catch (error){
-        console.log(error);
-    }
-
+    
     // Get the current server data
     let data = GetCurrentServerData(current_server_id);
     data.uptime = 10000000000;

@@ -73,14 +73,13 @@ app.get("/api/get-pm2-data", (req, res) => {
         (proc.pm2_env.env && proc.pm2_env.env.SERVER_PORT) ||
         proc.pm2_env.SERVER_PORT ||
         "N/A";
-      console.log(proc);
       return {
         name: proc.name,
         port: port,
         status: proc.pm2_env.status,
         cpu: proc.monit.cpu,
         memory: proc.monit.memory,
-        uptime: proc.pm2_env.uptime,
+        uptime: proc.pm_uptime,
         pm_id: proc.pm_id,
       };
     });
