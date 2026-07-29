@@ -186,6 +186,7 @@ function GetManageButtons(){
         // Add an event listener to load overlay data when hovering
         button.addEventListener("mouseover", function (event) {
             LoadServerOverlayData();
+            GetCurrentServer(event);
         });
     });
 
