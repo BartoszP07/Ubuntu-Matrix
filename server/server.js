@@ -275,22 +275,28 @@ function ChangeENVPort(root_folder, new_port){
 
 // Function to write to ecosystem file
 async function WriteEcosystem(root_folder, port, current_working_directory, server_path, ecosystem_path){
-  // Create template for the file
-  const file_content = `module.exports = {
-    apps: [
-      {
-        name: "${root_folder}",
-        script: "${server_path}",
-        cwd: "${current_working_directory}",
-        env: {
-          NODE_ENV: "production",
-          SERVER_PORT: "${port}",
+  try{
+
+    // Create template for the file
+    const file_content = `module.exports = {
+      apps: [
+        {
+          name: "${root_folder}",
+          script: "${server_path}",
+          cwd: "${current_working_directory}",
+          env: {
+            NODE_ENV: "production",
+            SERVER_PORT: "${port}",
+          },
         },
-      },
-    ],
-  };
-  `;
-  await fs_promises.writeFile(ecosystem_path, file_content);
+      ],
+    };
+    `;
+    await fs_promises.writeFile(ecosystem_path, file_content);
+  }
+  catch (err){
+    console.log("Couldn't write to file, " + ecosystem_path + " : " + err);
+  }
 }
 
 // Function to read the ecosystem as a json obj.
@@ -348,6 +354,7 @@ app.post("/api/change-server-port", async (req, res) => {
   const ecosystem_path = path.join(os.homedir(), root, "ecosystem.config.js");
   try{
     const config = ReadEcosystem(ecosystem_path);
+    console.log(`Got the Ecosystem data: ${config}`);
   }
   catch (err){
     console.log(error);
@@ -358,6 +365,7 @@ app.post("/api/change-server-port", async (req, res) => {
   try{
     ChangeENVPort(root, port);
     await WriteEcosystem(root, port, cwd, server_path, ecosystem_path);
+    // Restart the server with the new ecosystem data
     pm2.restart(pm_id, (error) => {
       if (error){
         console.log("Restarting error", error);
@@ -365,6 +373,7 @@ app.post("/api/change-server-port", async (req, res) => {
       }
       res.status(200).json({ message: `changed server port to ${port}` });
     });
+
   }
   catch (err){
     console.log(err);
