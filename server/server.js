@@ -46,8 +46,8 @@ function StartPM2(ecosystem_file_path) {
     // Extract the app configuration (the first item in the apps array)
     const app_config = ecosystem_config.apps[0];
 
-    // Pass the parsed object directly to PM2!
-    pm2.start(app_config, function(err, apps) {
+    // Pass the parsed object directly to PM2
+    pm2.start(app_config, { update_env: true }, function(err, apps) {
         if (err) {
           console.error("PM2 Start Error:", err);
           return pm2.disconnect();
