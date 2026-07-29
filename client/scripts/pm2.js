@@ -294,7 +294,7 @@ change_port_button.addEventListener("click", async function() {
             method: "POST"
         });
         const data = await response.json();
-        console.log(data.message);
+        console.log(data);
     }   
     catch (err){
         console.log(err);

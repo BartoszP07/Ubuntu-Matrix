@@ -345,7 +345,7 @@ app.post("/api/change-server-port", async (req, res) => {
   const port = req.query.port;
   const root = req.query.root;
   const pm_id = req.query.id;
-  const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
+  const ecosystem_path = path.join(os.homedir(), root, "ecosystem.config.js");
   try{
     const config = ReadEcosystem(ecosystem_path);
   }
