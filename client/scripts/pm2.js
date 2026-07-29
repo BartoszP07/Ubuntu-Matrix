@@ -225,6 +225,17 @@ function GetCurrentServer(event){
     }
 }
 
+function GetCurrentServerData(pm2_id){
+    // Loop through all servers
+    pm2_servers.forEach(server => {
+        // Compate id's
+        if (server.pm_id == pm2_id){
+            // Return the found server
+            return server;
+        }
+    });
+}
+
 // Function to get the data from the server to display the pm2 server info
 async function LoadServerOverlayData(){
     if (!current_server || !current_server_id) { return; }
@@ -237,16 +248,17 @@ async function LoadServerOverlayData(){
         console.log(error);
     }
 
-    // Figure out which server is open
-    console.log(pm2_servers);
+    // Get the current server data
+    let data = GetCurrentServerData(current_server_id);
+    data.uptime = 10000000000;
 
     // Get server data
-    const server_status = data.pm2_env.status;
+    const server_status = data.status;
     const server_name = data.name;
-    const server_port = data.pm2_env.SERVER_PORT;
-    const server_cpu = data.monit.cpu;
-    const server_mem = FormatMemory(data.monit.memory);
-    const server_uptime = FormatUptime(Date.now() - data.pm2_env.pm_uptime);
+    const server_port = data.port;
+    const server_cpu = data.cpu;
+    const server_mem = FormatMemory(data.memory);
+    const server_uptime = FormatUptime(Date.now() - data.uptime);
     const uptime_str = `${server_uptime.days}D : ${server_uptime.hours}H : ${server_uptime.minutes}M : ${server_uptime.seconds}S`
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")

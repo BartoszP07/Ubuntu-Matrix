@@ -73,7 +73,7 @@ app.get("/api/get-pm2-data", (req, res) => {
         (proc.pm2_env.env && proc.pm2_env.env.SERVER_PORT) ||
         proc.pm2_env.SERVER_PORT ||
         "N/A";
-
+      console.log(proc);
       return {
         name: proc.name,
         port: port,
