@@ -228,7 +228,8 @@ function GetCurrentServer(event){
 function GetCurrentServerData(pm2_id){
     // Loop through all servers
     pm2_servers.forEach(server => {
-        // Compate id's
+        // Compare id's
+        console.log(server.pm_id, pm2_id);
         if (server.pm_id == pm2_id){
             // Return the found server
             return server;
