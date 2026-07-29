@@ -207,6 +207,7 @@ setInterval(function() {
 function CloseServerOverlay(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
+    change_port_text.value = "";
     current_server = undefined;
     current_server_id = undefined;
     edit_server_overlay_open = false;
@@ -250,7 +251,7 @@ async function LoadServerOverlayData(){
     const server_port = server_data.port;
     const server_cpu = server_data.cpu;
     const server_mem = FormatMemory(server_data.memory);
-    const server_uptime = FormatUptime(Date.now() - server_data.uptime);
+    const server_uptime = FormatUptime(Date.now() - (server_data.uptime + 3000));
     const uptime_str = `${server_uptime.days}D : ${server_uptime.hours}H : ${server_uptime.minutes}M : ${server_uptime.seconds}S`
     // Get overlay elements
     const server_overlay_status = document.getElementById("server-overlay-status")
