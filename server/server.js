@@ -346,7 +346,13 @@ app.post("/api/change-server-port", async (req, res) => {
   const root = req.query.root;
   const pm_id = req.query.id;
   const ecosystem_path = path.join(os.homedir(), root_folder, "ecosystem.config.js");
-  const config = ReadEcosystem(ecosystem_path);
+  try{
+    const config = ReadEcosystem(ecosystem_path);
+  }
+  catch (err){
+    console.log(error);
+    res.status(500).json({ message: error })
+  }
   const cwd = config.cwd;
   const server_path = config.script;
   try{
@@ -354,15 +360,16 @@ app.post("/api/change-server-port", async (req, res) => {
     await WriteEcosystem(root, port, cwd, server_path, ecosystem_path);
     pm2.restart(pm_id, (error) => {
       if (error){
-        console.log(error);
-        res.status(500).json({ error: error });
+        console.log("Restarting error", error);
+        res.status(500).json({ message: error });
       }
       res.status(200).json({ message: `changed server port to ${port}` });
     });
   }
   catch (err){
     console.log(err);
-    res.status(500).json({ error: err });
+    console.log("here is error", err);
+    res.status(500).json({ message: err });
   }
 });
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
