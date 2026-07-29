@@ -226,14 +226,8 @@ function GetCurrentServer(event){
 }
 
 function GetCurrentServerData(pm2_id){
-    // Loop through all servers
-    pm2_servers.forEach(server => {
-        // Compare id's -- make sure they are the same type
-        if (Number(server.pm_id) == Number(pm2_id)){
-            // Return the found server
-            return server;
-        }
-    });
+    // Return the server data
+    return pm2_servers.find(server => Number(server.pm_id) === Number(pm2_id));
 }
 
 // Function to get the data from the server to display the pm2 server info
@@ -242,7 +236,6 @@ async function LoadServerOverlayData(){
 
     // Get the current server data
     const server_data = GetCurrentServerData(current_server_id);
-    console.log(server_data);
 
     // Get server data
     const server_status = server_data.status;
