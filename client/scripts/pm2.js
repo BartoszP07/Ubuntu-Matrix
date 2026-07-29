@@ -185,6 +185,7 @@ function GetManageButtons(){
 
         // Add an event listener to load overlay data when hovering
         button.addEventListener("mouseover", function (event) {
+            console.log("hovering");
             LoadServerOverlayData();
             GetCurrentServer(event);
         });
@@ -274,7 +275,7 @@ setInterval(function() {
     if (edit_server_overlay_open){
         LoadServerOverlayData();
     }
-}, 1000);
+}, 100);
 
 // Stop a server from running
 server_stop_btn.addEventListener("click", () => SendServerCommand("stop"));
