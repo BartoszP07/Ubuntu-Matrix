@@ -185,7 +185,7 @@ function GetManageButtons(){
     });
 }
 
-// Update pm2 server cards every second
+// Get all pm2 server data
 setInterval(function() {
     // Only get data if on the page
     if (current_page == "pm2"){
@@ -236,6 +236,9 @@ async function LoadServerOverlayData(){
     catch (error){
         console.log(error);
     }
+
+    // Figure out which server is open
+    console.log(pm2_servers);
 
     // Get server data
     const server_status = data.pm2_env.status;
