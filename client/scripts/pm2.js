@@ -284,6 +284,8 @@ change_port_button.addEventListener("click", async function() {
     change_port_info_p.innerText = "";
     port = Number(change_port_text.value.trim());
 
+    if (!current_server) { return; }
+
     const root = current_server.name;
     const pm_id = current_server.pm_id;
 
