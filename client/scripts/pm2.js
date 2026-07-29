@@ -181,14 +181,15 @@ function GetManageButtons(){
                 edit_server_overlay_open = true;
         }
         GetCurrentServer(event);
+        LoadServerOverlayData();
         });
 
         // Add an event listener to load overlay data when hovering
-        button.addEventListener("mouseover", function (event) {
-            console.log("hovering");
-            LoadServerOverlayData();
-            GetCurrentServer(event);
-        });
+        // button.addEventListener("mouseover", function (event) {
+        //     console.log("hovering");
+            
+        //     GetCurrentServer(event);
+        // });
     });
 
 }
@@ -225,10 +226,8 @@ function GetCurrentServer(event){
 
         // Get the current server
         pm2_servers.forEach((server) => {
-        
-        if (current_server_id != server.pm_id) { return; }
-        else { current_server = server; }
-
+            if (current_server_id != server.pm_id) { return; }
+            else { current_server = server; }
         });
     }
 }
