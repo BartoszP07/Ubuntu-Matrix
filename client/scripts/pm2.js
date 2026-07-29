@@ -219,6 +219,8 @@ async function LoadServerOverlayData(){
     }
 
     // Get server data
+    console.log(data.pm2_env.SERVER_PORT);
+    console.log(data.pm2_env);
     const server_status = data.pm2_env.status;
     const server_name = data.name;
     const server_port = data.pm2_env.SERVER_PORT;
