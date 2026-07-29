@@ -182,7 +182,13 @@ function GetManageButtons(){
         }
         GetCurrentServer(event);
         });
+
+        // Add an event listener to load overlay data when hovering
+        button.addEventListener("mouseover", function (event) {
+            LoadServerOverlayData();
+        });
     });
+
 }
 
 // Get all pm2 server data
