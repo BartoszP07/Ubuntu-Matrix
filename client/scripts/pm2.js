@@ -316,7 +316,10 @@ change_port_button.addEventListener("click", async function() {
     change_port_info_p.innerText = "";
     port = Number(change_port_text.value.trim());
 
-    if (!current_server) { return; }
+    if (!current_server) { 
+        change_port_info_p.innerText = "Not a valid server!";
+        return;
+    }
 
     const root = current_server.name;
     const pm_id = current_server.pm_id;
@@ -326,10 +329,13 @@ change_port_button.addEventListener("click", async function() {
             method: "POST"
         });
         const data = await response.json();
-        console.log(data);
+        // Clear the input box
+        change_port_text.value = "";
+        change_port_info_p.innerText = "Success! Server Restarted"
     }   
     catch (err){
         console.log(err);
+        change_port_info_p.innerText = "Error"
     }
 })
 
@@ -350,8 +356,8 @@ async function SendServerCommand(command){
 
 // Creating a new server ------------------------------------------------------------
 
-function CheckEcosystemBox(){
-    if (this.checked == true){
+function CheckEcosystemBox(event){
+    if (create_ecosystem_checkbox.checked == true){
         create_ecosystem_div.style.display = "flex";
         existing_ecosystem_div.style.display = "none";
         check_new_server_btn.style.display = "flex";
@@ -533,6 +539,7 @@ function CloseNewServerOverlay(){
     eco_server_name.textContent = "Name";
     eco_server_port.textContent = "Port";
     new_port_input.value = "";
+    change_port_info_p.innerText = "";
     CheckEcosystemBox();
 }
 
