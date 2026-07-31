@@ -426,6 +426,10 @@
     word-break: break-all;
 }
 
+.inputs-section-holder-div p{
+        text-align: center;
+}
+
 .input-button{
     height: 2.4rem;
     border-radius: 0.4rem;
@@ -535,6 +539,10 @@
         padding: 1rem;
         flex-direction: column;
         gap: 0.67rem;
+    }
+
+    .inputs-section-holder-div p{
+        font-size: 0.75rem;
     }
 
     .input-button{
