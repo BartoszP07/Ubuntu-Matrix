@@ -310,14 +310,14 @@ change_port_button.addEventListener("click", async function() {
     // Get port
     let port = change_port_text.value;
     if (ValidatePort(port, ports_in_use) == false) {
-        change_port_info_p.innerText = "Invalid Port";
+        change_port_info_p.textContent = "Invalid Port";
         return;
     }
-    change_port_info_p.innerText = "";
+    change_port_info_p.textContent = "";
     port = Number(change_port_text.value.trim());
 
     if (!current_server) { 
-        change_port_info_p.innerText = "Not a valid server!";
+        change_port_info_p.textContent = "Not a valid server!";
         return;
     }
 
@@ -330,12 +330,13 @@ change_port_button.addEventListener("click", async function() {
         });
         const data = await response.json();
         // Clear the input box
+        console.log("here");
         change_port_text.value = "";
-        change_port_info_p.innerText = "Success! Server Restarted"
+        change_port_info_p.textContent = "Success! Server Restarted";
     }   
     catch (err){
         console.log(err);
-        change_port_info_p.innerText = "Error"
+        change_port_info_p.textContent = "Error"
     }
 })
 
