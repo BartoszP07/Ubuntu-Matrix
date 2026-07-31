@@ -356,8 +356,8 @@ async function SendServerCommand(command){
 
 // Creating a new server ------------------------------------------------------------
 
-function CheckEcosystemBox(event){
-    if (create_ecosystem_checkbox.checked == true){
+function CheckEcosystemBox(){
+    if (this.checked == true){
         create_ecosystem_div.style.display = "flex";
         existing_ecosystem_div.style.display = "none";
         check_new_server_btn.style.display = "flex";
