@@ -364,6 +364,7 @@ app.post("/api/change-server-port", async (req, res) => {
     await WriteEcosystem(root, port, cwd, server_path, ecosystem_path);
     // Start the server with the new ecosystem data
     StartPM2(ecosystem_path);
+    res.status(200).json({ message: "changed port"});
   }
   catch (err){
     console.log("here is error", err);

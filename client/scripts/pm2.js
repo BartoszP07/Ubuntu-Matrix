@@ -330,7 +330,6 @@ change_port_button.addEventListener("click", async function() {
         });
         const data = await response.json();
         // Clear the input box
-        console.log("here");
         change_port_text.value = "";
         change_port_info_p.textContent = "Success! Server Restarted";
     }   
