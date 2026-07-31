@@ -539,7 +539,7 @@ function CloseNewServerOverlay(){
     eco_server_name.textContent = "Name";
     eco_server_port.textContent = "Port";
     new_port_input.value = "";
-    change_port_info_p.innerText = "";
+    change_port_info_p.textContent = "";
     CheckEcosystemBox();
 }
 
