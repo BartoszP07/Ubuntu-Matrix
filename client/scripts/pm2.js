@@ -211,6 +211,7 @@ function CloseServerOverlay(){
     current_server = undefined;
     current_server_id = undefined;
     edit_server_overlay_open = false;
+    change_port_info_p.textContent = "";
 }
 
 // Close the server overlay
@@ -539,7 +540,7 @@ function CloseNewServerOverlay(){
     eco_server_name.textContent = "Name";
     eco_server_port.textContent = "Port";
     new_port_input.value = "";
-    change_port_info_p.textContent = "";
+    
     CheckEcosystemBox();
 }
 
