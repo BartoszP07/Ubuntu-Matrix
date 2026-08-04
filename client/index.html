@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style/details.css">
     <link rel="stylesheet" href="style/pm2.css">
     <link rel="stylesheet" href="style/storage.css">
+    <link rel="stylesheet" href="style/cloudflare.css">
 </head>
 <body>
     <div id="main-area">
@@ -38,6 +39,20 @@
 
         <section id="cloudflare-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Cloudflare Tunnels</h1>
+
+            <div class="cards" id="cloudflare-cards">
+                <article class="server-card cloudflare-card">
+                    <h3 class="pm2-card-name">Name</h3>
+                    <div class="status">
+                        <p>Status:</p>
+                        <div class="status-circle"></div>
+                    </div>
+                    <button class="edit-tunnel-button">Manage</button>
+                </article>
+            </div>
+
+
+
         </section>
 
         <section id="storage-section" class="main-section" style="display: none;">
@@ -431,11 +446,40 @@
             <button class="server-overlay-button" id="check-new-server-overlay-button" style="display:none;">Check</button>
             <button class="server-overlay-button" id="create-new-server-overlay-button">Create</button>
         </div>
-    </div>  
+    </div> 
+    
+    <div id="edit-tunnel-overlay" class="server-overlay">
+        <div class="server-top-bar-div">
+            <button id="delete-edit-tunnel-overlay-button" class="server-overlay-button top-bar"></button>
+            <button id="close-edit-tunnel-overlay-button" class="server-overlay-button top-bar">X</button>
+        </div>
+
+        <div class="tunnel-name-div">
+            <h3 class="tunnel-overlay-name" id="tunnel-overlay-name">Name</h3>
+        </div>
+
+        <div class="tunnel-data-div">
+            <div class="tunnel-details-section">
+                <p class="tunnel-detail-p" id="tunnel-id-p">Tunnel Id</p>
+                <p class="tunnel-detail-p" id="tunnel-created-p">Date Created</p>
+                <p class="tunnel-detail-p" id="tunnel-status-p">Status</p>
+            </div>
+            <div class="tunnel-domains-section">
+                <h3 class="tunnel-domains-title">Domains</h3>
+                <div class="tunnel-domains-div">
+                    <div class="tunnel-domain-separator-div">
+                        <p class="domain-hostname">Hostname</p>
+                        <p class="domain-service">Service</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <script src="scripts/script.js"></script>
     <script src="scripts/pm2.js"></script>
     <script src="scripts/details.js"></script>
     <script src="scripts/storage.js"></script>
+    <script src="scripts/cloudflare.js"></script>
 </body>
 </html>

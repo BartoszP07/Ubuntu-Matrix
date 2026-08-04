@@ -371,6 +371,7 @@ app.post("/api/change-server-port", async (req, res) => {
     res.status(500).json({ message: err });
   }
 });
+
 // SYSTEM INFORMATION ----------------------------------------------------------------------------------------------------
 
 // Create cache varaibles to store the system information variables
@@ -655,4 +656,70 @@ app.use((err, req, res, next) => {
 // Start the server on the given port
 app.listen(port, function () {
   console.log("Running server on port:", port);
+});
+
+// Cloudflare Tunnels ----------------------------------------------------------------------------------------------------
+app.get("/api/get-cloudflare-tunnels", async (req, res) => {
+  // Get the account token and api key from the environment
+  const account_id = process.env.CF_ACCOUNT_ID;
+  const api_token = process.env.CF_API_TOKEN;
+
+  try{
+    // Call the cloudflare tunnel api
+    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account_id}/tunnels`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${api_token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    // Get the data from the api call
+    const data = await response.json();
+
+    // Check if the fetch was ok
+    if (data.success){
+      res.status(200).json({ tunnels: data.result });
+    }
+    else{
+      res.status(400).json({ error: data.errors });
+    }
+  }
+  catch (err){
+    console.error("Cloudflare fetch failed:", err);
+    res.status(500).json({ error: "Server error fetching tunnels" });
+  }
+
+  
+
+});
+
+app.get("/api/get-cloudflare-tunnel-config", async (req, res) => {
+  const tunnel_id = req.query.tunnel_id;
+  const account_id = process.env.CF_ACCOUNT_ID;
+  const api_token = process.env.CF_API_TOKEN;
+
+  try{
+    // Call the cloudflare api
+    const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account_id}/cfd_tunnel/${tunnel_id}/configurations`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${api_token}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    const data = await response.json();
+
+    if (data.success){
+      res.status(200).json({ config: data.result });
+    }
+    else{
+      res.status(400).json({ error: data.errors });
+    }
+  }
+  catch (err){
+    console.error("Error getting tunnel config:", err);
+    res.status(500).json({ error: err });
+  }
 });
