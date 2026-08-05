@@ -170,6 +170,8 @@ function GetManageButtons(){
     edit_server_buttons.forEach((button) => {
         // Click event listener
         button.addEventListener("click", function (event) {
+
+            if (current_page != "pm2") { return; }
             // Show the overlay shadow
             if (!overlay_shadow.classList.contains("appear")) {
                 overlay_shadow.classList.add("appear");

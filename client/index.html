@@ -21,7 +21,7 @@
         <section id="pm2-section" class="main-section" style="display: none;">
             <h1 class="main-titles">PM2 Servers</h1>
             <div class="cards" id="pm2-cards">
-                <article class="server-card">
+                <!-- <article class="server-card">
                     <h3 class="pm2-card-name">Name</h3>
                     <p class="pm2-card-port">Port: </p>
                     <div class="status">
@@ -29,7 +29,7 @@
                         <div class="status-circle"></div>
                     </div>
                     <button class="edit-server-button">Manage</button>
-                </article>
+                </article> -->
                 <article class="server-card" id="add-server-card">
                     <h3 class="pm2-card-name">New Server</h3>
                     <button id="new-server-button">+</button>
@@ -41,14 +41,14 @@
             <h1 class="main-titles">Cloudflare Tunnels</h1>
 
             <div class="cards" id="cloudflare-cards">
-                <article class="server-card cloudflare-card">
+                <!-- <article class="server-card cloudflare-card">
                     <h3 class="pm2-card-name">Name</h3>
                     <div class="status">
                         <p>Status:</p>
                         <div class="status-circle"></div>
                     </div>
                     <button class="edit-tunnel-button">Manage</button>
-                </article>
+                </article> -->
             </div>
 
 
@@ -465,11 +465,11 @@
                 <p class="tunnel-detail-p" id="tunnel-status-p">Status</p>
             </div>
             <div class="tunnel-domains-section">
-                <h3 class="tunnel-domains-title">Domains</h3>
-                <div class="tunnel-domains-div">
-                    <div class="tunnel-domain-separator-div">
-                        <p class="domain-hostname">Hostname</p>
-                        <p class="domain-service">Service</p>
+                <h3 id="tunnel-domains-title">Loading</h3>
+                <div id="tunnel-domains-div">
+                    <div class="center-div-text" id="tunnel-domain-separator-div">
+                        <p class="domain-text">Loading...</p>
+                        <p class="domain-text"></p>
                     </div>
                 </div>
             </div>
