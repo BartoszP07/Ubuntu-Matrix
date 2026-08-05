@@ -275,6 +275,7 @@ function CreateDomainSeparator(hostname, service){
 
     // Add class
     domain_div.classList.add("center-div-text");
+    domain_div.classList.add("tunnel-domain-separator");
     hostname_text.classList.add("domain-text");
     service_text.classList.add("domain-text");
 
