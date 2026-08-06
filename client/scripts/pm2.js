@@ -170,30 +170,10 @@ function GetManageButtons(){
     edit_server_buttons.forEach((button) => {
         // Click event listener
         button.addEventListener("click", function (event) {
-
-            if (current_page != "pm2") { return; }
-            // Show the overlay shadow
-            if (!overlay_shadow.classList.contains("appear")) {
-                overlay_shadow.classList.add("appear");
-                edit_server_overlay_open = true;
-            }
-            // Show the actual overlay
-            if (!edit_server_overlay.classList.contains("appear")) {
-                edit_server_overlay.classList.add("appear");
-                edit_server_overlay_open = true;
-            
-            ToggleAreaScroll(true);
-        }
-        GetCurrentServer(event);
-        LoadServerOverlayData();
+            OpenServerOverlay();
+            GetCurrentServer(event);
+            LoadServerOverlayData();
         });
-
-        // Add an event listener to load overlay data when hovering
-        // button.addEventListener("mouseover", function (event) {
-        //     console.log("hovering");
-            
-        //     GetCurrentServer(event);
-        // });
     });
 
 }
@@ -208,6 +188,10 @@ setInterval(function() {
 
 // Handle editing a server ----------------------------------------------------------
 
+// Close the server overlay
+close_server_overlay_button.addEventListener("click", CloseServerOverlay);
+
+// Function to close the edit server overlay
 function CloseServerOverlay(){
     overlay_shadow.classList.remove("appear");
     edit_server_overlay.classList.remove("appear");
@@ -219,8 +203,21 @@ function CloseServerOverlay(){
     ToggleAreaScroll(false);
 }
 
-// Close the server overlay
-close_server_overlay_button.addEventListener("click", CloseServerOverlay);
+// Function to open the edit server overlay
+function OpenServerOverlay(){
+    if (current_page != "pm2") { return; }
+    // Show the overlay shadow
+    if (!overlay_shadow.classList.contains("appear")) {
+        overlay_shadow.classList.add("appear");
+        edit_server_overlay_open = true;
+    }
+    // Show the actual overlay
+    if (!edit_server_overlay.classList.contains("appear")) {
+        edit_server_overlay.classList.add("appear");
+        edit_server_overlay_open = true;
+    }
+    ToggleAreaScroll(true);
+}
 
 // Function to get the current server for the overlay
 function GetCurrentServer(event){
@@ -506,12 +503,8 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
     }
 })
 
-// Open the new server overlay
-new_server_btn.addEventListener("click", function(){
-    new_server_overlay.classList.add("appear");
-    overlay_shadow.classList.add("appear");
-    ToggleAreaScroll(true);
-})
+// Open the new server overlay button
+new_server_btn.addEventListener("click", OpenNewServerOverlay);
 
 // Function to create a new server
 async function CreateNewServer(port, root_folder, server_path){
@@ -527,6 +520,13 @@ async function CreateNewServer(port, root_folder, server_path){
     catch (err){
         console.log(err);
     }
+}
+
+// Open the new server overlay
+function OpenNewServerOverlay(){
+    new_server_overlay.classList.add("appear");
+    overlay_shadow.classList.add("appear");
+    ToggleAreaScroll(true);
 }
 
 // Close the new server overlay

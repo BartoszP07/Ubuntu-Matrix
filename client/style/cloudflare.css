@@ -1,4 +1,8 @@
 
+#add-tunnel-card{
+    order: 999;
+}
+
 .server-card.cloudflare-card{
     border-width: 2px;
     border: solid;
@@ -37,6 +41,10 @@
     font-size: 4rem;
 }
 
+.tunnel-overlay-title{
+    font-size: 3rem;
+}
+
 #delete-edit-tunnel-overlay-button{
     background-image: url("/assets/delete.png");
     background-size: contain;
@@ -73,6 +81,7 @@
     padding: 1rem;
     width: 45%;
     position: relative;
+    text-align: center;
 }
 
 #tunnel-domain-separator-div{
@@ -139,6 +148,10 @@
 
 .tunnel-detail-p{
     font-size: 1.5rem;
+}
+
+.checkbox-div.cloudflare-checkbox{
+    margin-top: 0px;
 }
 
 @media (max-width: 768px){

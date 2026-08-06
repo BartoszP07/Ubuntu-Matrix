@@ -14,6 +14,12 @@ let tunnel_status_text = document.getElementById("tunnel-status-p");
 let tunnel_domains_div = document.getElementById("tunnel-domains-div");
 let tunnel_domains_title = document.getElementById("tunnel-domains-title");
 
+let add_tunnel_card = document.getElementById("add-tunnel-card");
+let new_tunnel_button = document.getElementById("new-tunnel-button");
+
+let new_tunnel_overlay = document.getElementById("new-tunnel-overlay");
+let close_new_tunnel_overlay_button = document.getElementById("close-new-tunnel-overlay-button");
+
 // Variables
 let tunnel_id = undefined;
 let current_tunnel_config = [];
@@ -22,7 +28,11 @@ let cloudflare_statuses = ["healthy", "down", "degraded", "inactive"];
 let opened_overlay = true;
 
 // Event listener for button for closing the overlay
-tunnel_close_overlay_button.addEventListener("click", CloseServerOverlay);
+tunnel_close_overlay_button.addEventListener("click", CloseTunnelOverlay);
+close_new_tunnel_overlay_button.addEventListener("click", CloseTunnelOverlay);
+
+// Event listener for button for opening new tunnel overlay
+new_tunnel_button.addEventListener("click", OpenNewTunnelOverlay);
 
 // Function to get the cloudflare tunnel data
 async function GetCloudflareTunnels(){
@@ -113,7 +123,9 @@ function UpdateTunnelStatus(status_div, status_data){
 function CreateCloudflareCards(tunnels_data){
     // Remove all cards from the div
     Array.from(cloudflare_cards_div.children).forEach(child => {
-        child.remove();
+        if (child != add_tunnel_card){
+            child.remove();
+        }
     });
 
     // Loop through each tunnel
@@ -163,9 +175,8 @@ function CreateSingleCard(name, status, id){
 
     // Add event listener to button
     manage_button.addEventListener("click", (event) => {
-        tunnel_id = GetCurrentTunnelId(event);
-        OpenServerOverlay();
-    });
+        ManageCardButtons(event);
+    })
 
     // Return the card
     return article;
@@ -180,8 +191,14 @@ function GetCurrentTunnelId(event){
     return card.dataset.tunnel_id;
 }
 
+// Function to manage the card buttons
+function ManageCardButtons(event){
+    tunnel_id = GetCurrentTunnelId(event);
+    OpenTunnelOverlay();
+}
+
 // Function to open the server overlay
-function OpenServerOverlay(){
+function OpenTunnelOverlay(){
     overlay_shadow.classList.add("appear");
     cloudflare_tunnel_overlay.classList.add("appear");
     opened_overlay = true;
@@ -190,11 +207,12 @@ function OpenServerOverlay(){
 }
 
 // Function to close the server overlay
-function CloseServerOverlay(){
+function CloseTunnelOverlay(){
     overlay_shadow.classList.remove("appear");
     cloudflare_tunnel_overlay.classList.remove("appear");
     opened_overlay = false;
     ToggleAreaScroll(false);
+    CloseNewTunnelOverlay();
 }
 
 // Function to get the relevant tunnel data
@@ -292,6 +310,19 @@ function CreateDomainSeparator(hostname, service){
     
     // Return the div
     return domain_div;
+}
+
+// Function to open the new tunnel overlay
+function OpenNewTunnelOverlay(){
+    new_tunnel_overlay.classList.add("appear");
+    overlay_shadow.classList.add("appear");
+    opened_overlay = true;
+}
+
+// Function to close the new tunnel overlay
+function CloseNewTunnelOverlay(){
+    // Called in "CloseTunnelOverlay" function
+    new_tunnel_overlay.classList.remove("appear");
 }
 
 setInterval(async function() {

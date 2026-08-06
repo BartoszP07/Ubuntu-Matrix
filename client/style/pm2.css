@@ -91,7 +91,7 @@
     order: 999;
 }
 
-#new-server-button{
+.new-server{
     font-size: 5rem;
     outline: solid;
     outline-color: var(--accent-colour);
@@ -105,7 +105,7 @@
     transition: 0.2s;
 }
 
-#new-server-button:hover{
+.new-server:hover{
     text-shadow: 0px 0px 20px white;
     box-shadow: 0px 0px 20px 5px var(--accent-colour);
 }
@@ -344,7 +344,7 @@
     font-size: 1.5rem;
 }
 
-#ecosystem-checkbox{
+.checkbox-style{
     appearance: none;
     -webkit-appearance: none;
     width: 1.5rem;
@@ -359,7 +359,7 @@
     place-content: center;
 }
 
-#ecosystem-checkbox:checked {
+.checkbox-style:checked {
   background-color: rgb(0, 148, 12);
   border-color: rgb(0, 148, 12);
 }

@@ -10,6 +10,7 @@ const multer = require("multer");
 const adm_zip = require("adm-zip");
 const cors = require("cors");
 const os = require("os");
+const crypto = require("crypto");
 
 const app = express();
 
@@ -659,6 +660,7 @@ app.listen(port, function () {
 });
 
 // Cloudflare Tunnels ----------------------------------------------------------------------------------------------------
+// Get all cloudflare tunnels
 app.get("/api/get-cloudflare-tunnels", async (req, res) => {
   // Get the account token and api key from the environment
   const account_id = process.env.CF_ACCOUNT_ID;
@@ -694,6 +696,7 @@ app.get("/api/get-cloudflare-tunnels", async (req, res) => {
 
 });
 
+// Get config of specific tunnel
 app.get("/api/get-cloudflare-tunnel-config", async (req, res) => {
   const tunnel_id = req.query.tunnel_id;
   const account_id = process.env.CF_ACCOUNT_ID;
@@ -722,4 +725,66 @@ app.get("/api/get-cloudflare-tunnel-config", async (req, res) => {
     console.error("Error getting tunnel config:", err);
     res.status(500).json({ error: err });
   }
+});
+
+// Create a permenant cloudflare tunnel
+app.post('/api/create-permanent-tunnel', async (req, res) => {
+    const account_id = process.env.CF_ACCOUNT_ID;
+    const api_token = process.env.CF_API_TOKEN;
+    const { tunnel_name, local_port, public_domain } = req.body; 
+
+    // Generate a 32-byte secret
+    const tunnel_secret = crypto.randomBytes(32).toString('base64');
+
+    try {
+        // 2. Create the Tunnel
+        const createRes = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account_id}/cfd_tunnel`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${api_token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: tunnel_name,
+                tunnel_secret: tunnel_secret
+            })
+        });
+        const tunnel_data = await createRes.json();
+        
+        if (!tunnel_data.success) throw new Error(tunnel_data.errors[0].message);
+        const tunnel_id = tunnel_data.result.id;
+
+        // Apply the Configuration
+        const config_res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account_id}/cfd_tunnel/${tunnel_id}/configurations`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${api_token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                config: {
+                    ingress: [
+                        {
+                            hostname: public_domain,
+                            service: `http://localhost:${local_port}`
+                        },
+                        { service: "http_status:404" } // The required catch-all rule
+                    ]
+                }
+            })
+        });
+
+        // Construct the Token so you can actually run it
+        const token_pay_load = Buffer.from(JSON.stringify({
+            a: account_id,
+            t: tunnel_id,
+            s: tunnel_secret
+        })).toString('base64');
+
+        res.json({ success: true, tunnel_id, token: token_pay_load });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: err.message });
+    }
 });

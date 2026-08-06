@@ -32,7 +32,7 @@
                 </article> -->
                 <article class="server-card" id="add-server-card">
                     <h3 class="pm2-card-name">New Server</h3>
-                    <button id="new-server-button">+</button>
+                    <button class="new-server" id="new-server-button">+</button>
                 </article>
             </div>
         </section>
@@ -49,10 +49,11 @@
                     </div>
                     <button class="edit-tunnel-button">Manage</button>
                 </article> -->
+                <article class="server-card cloudflare-card" id="add-tunnel-card">
+                    <h3 class="pm2-card-name">New Tunnel</h3>
+                    <button class="new-server" id="new-tunnel-button">+</button>
+                </article>
             </div>
-
-
-
         </section>
 
         <section id="storage-section" class="main-section" style="display: none;">
@@ -387,7 +388,7 @@
 
         <div class="checkbox-div">
             <label for="ecosystem-checkbox">Create Ecosystem File?</label>
-            <input type="checkbox" id="ecosystem-checkbox">
+            <input type="checkbox" id="ecosystem-checkbox" class="checkbox-style">
         </div>
 
         <div class="create-server-section" id="create-ecosystem-file-div" style="display: none;">
@@ -474,6 +475,26 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="new-tunnel-overlay" class="server-overlay">
+        <div class="server-top-bar-div">
+            <!-- <button id="delete-edit-tunnel-overlay-button" class="server-overlay-button top-bar"></button> -->
+            <div class="checkbox-div cloudflare-checkbox">
+                <label for="temp-tunnel-checkbox">Create Temporary Tunnel?</label>
+                <input type="checkbox" id="temp-tunnel-checkbox" class="checkbox-style">
+            </div>
+            <button id="close-new-tunnel-overlay-button" class="server-overlay-button top-bar">X</button>
+
+        </div>
+        <div class="tunnel-name-div">
+            <h3 class="tunnel-overlay-title">New Tunnel</h3>
+        </div>
+        <div class="inputs-section-holder-div column">
+                    <input type="text" id="tunnel-name-input" class="new-server-input full-width" placeholder="Name" autocomplete="off">
+                    <input type="text" id="tunnel-port-input" class="new-server-input full-width" placeholder="Local Port"autocomplete="off">
+                    <input type="text" id="tunnel-domain-input" class="new-server-input full-width" placeholder="Domain" autocomplete="off">
+                </div>
     </div>
     
     <script src="scripts/script.js"></script>
