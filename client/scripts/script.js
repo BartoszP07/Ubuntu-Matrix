@@ -136,3 +136,13 @@ menu_btn.addEventListener("click", function(){
     side_bar.classList.add("appear");
     menu_btn.classList.add("disappear");
 })
+
+// Stop scroll for main area for mobile
+function ToggleAreaScroll(scroll=true){
+    if (scroll){
+        document.getElementById("main-area").classList.add("stop-scroll");
+    }
+    else{
+        document.getElementById("main-area").classList.remove("stop-scroll");
+    }
+}

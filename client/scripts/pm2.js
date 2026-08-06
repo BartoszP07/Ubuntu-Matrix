@@ -181,6 +181,8 @@ function GetManageButtons(){
             if (!edit_server_overlay.classList.contains("appear")) {
                 edit_server_overlay.classList.add("appear");
                 edit_server_overlay_open = true;
+            
+            ToggleAreaScroll(true);
         }
         GetCurrentServer(event);
         LoadServerOverlayData();
@@ -214,6 +216,7 @@ function CloseServerOverlay(){
     current_server_id = undefined;
     edit_server_overlay_open = false;
     change_port_info_p.textContent = "";
+    ToggleAreaScroll(false);
 }
 
 // Close the server overlay
@@ -507,6 +510,7 @@ load_ecosystem_file_btn.addEventListener("click", async function(){
 new_server_btn.addEventListener("click", function(){
     new_server_overlay.classList.add("appear");
     overlay_shadow.classList.add("appear");
+    ToggleAreaScroll(true);
 })
 
 // Function to create a new server
@@ -543,6 +547,8 @@ function CloseNewServerOverlay(){
     eco_server_port.textContent = "Port";
     new_port_input.value = "";
     
+    ToggleAreaScroll(false);
+
     CheckEcosystemBox();
 }
 

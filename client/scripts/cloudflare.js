@@ -185,6 +185,7 @@ function OpenServerOverlay(){
     overlay_shadow.classList.add("appear");
     cloudflare_tunnel_overlay.classList.add("appear");
     opened_overlay = true;
+    ToggleAreaScroll(true);
     LoadTunnelOverlayData(tunnel_id);
 }
 
@@ -193,6 +194,7 @@ function CloseServerOverlay(){
     overlay_shadow.classList.remove("appear");
     cloudflare_tunnel_overlay.classList.remove("appear");
     opened_overlay = false;
+    ToggleAreaScroll(false);
 }
 
 // Function to get the relevant tunnel data
