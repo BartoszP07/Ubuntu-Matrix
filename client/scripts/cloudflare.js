@@ -269,6 +269,7 @@ function FormatLegibleDate(isoString) {
     }).replace(' at ', ', '); // Replaces "at" with a comma depending on browser locale quirks
 }
 
+// Function to create the div for the hostnames and services
 function CreateDomainSeparator(hostname, service){
     // Create elements
     domain_div = document.createElement("div");
@@ -282,8 +283,8 @@ function CreateDomainSeparator(hostname, service){
     service_text.classList.add("domain-text");
 
     // Add text
-    hostname_text.innerText = `Host: ${hostname}`;
-    service_text.innerText = `Service: ${service}`;
+    hostname_text.innerHTML = `<b>Host</b>: ${hostname}`;
+    service_text.innerHTML = `<b>Service</b>: ${service}`;
     
     // Add elements to div
     domain_div.appendChild(hostname_text);
