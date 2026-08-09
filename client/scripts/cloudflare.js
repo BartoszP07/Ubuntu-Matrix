@@ -20,6 +20,8 @@ let new_tunnel_button = document.getElementById("new-tunnel-button");
 let new_tunnel_overlay = document.getElementById("new-tunnel-overlay");
 let close_new_tunnel_overlay_button = document.getElementById("close-new-tunnel-overlay-button");
 
+let visit_tunnel_link = document.getElementById("visit-tunnel-link");
+
 // Variables
 let tunnel_id = undefined;
 let current_tunnel_config = [];
@@ -139,7 +141,7 @@ function CreateCloudflareCards(tunnels_data){
 }
 
 // Function to create single cloudflare card
-function CreateSingleCard(name, status, id, domain){
+function CreateSingleCard(name, status, id){
     // Create the card elements
     const article = document.createElement("article");
     const name_h3 = document.createElement("h3");
@@ -147,8 +149,6 @@ function CreateSingleCard(name, status, id, domain){
     const status_p = document.createElement("p");
     const status_circle = document.createElement("div");
     const manage_button = document.createElement("button");
-    const site_button = document.createElement("button")
-    const site_link = document.createElement("a");
 
     // Add element classes
     article.classList.add("server-card", "cloudflare-card");
@@ -156,18 +156,11 @@ function CreateSingleCard(name, status, id, domain){
     status_div.classList.add("status");
     status_circle.classList.add("status-circle");
     manage_button.classList.add("edit-server-button");
-    site_button.classList.add("edit-server-button");
-    site_button.classList.add("tunnel-site-button");
 
     // Add text
     name_h3.innerText = name;
     status_p.innerText = "Status:";
     manage_button.innerText = "Manage";
-    site_button.innerText = "Visit Site";
-
-    site_link.href = domain;
-    site_link.target = "_blank";
-    site_link.rel = "noopener noreferrer";
 
     // Show the correct status
     UpdateTunnelStatus(status_circle, status);
@@ -177,8 +170,6 @@ function CreateSingleCard(name, status, id, domain){
     status_div.appendChild(status_circle);
     article.appendChild(name_h3);
     article.appendChild(status_div);
-    article.appendChild(site_link);
-    site_link.appendChild(site_button);
     article.appendChild(manage_button);
 
     // Add the tunnel id to the card
@@ -277,6 +268,16 @@ function LoadTunnelOverlayData(tunnel_id){
         // Add it to the domain secion
         tunnel_domains_div.appendChild(separator_div);
     });
+
+    // Check if there are any domains
+    if (data.domains.length > 0){
+        // Check if there is a hostname
+        if (data.domains[0].hostname){
+            // Make the visit site link the hostname
+            visit_tunnel_link.href = `https://${data.domains[0].hostname}`
+        }
+        
+    }
 }
 
 // Function to convert iso string to legible date and time

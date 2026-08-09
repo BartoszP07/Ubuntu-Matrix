@@ -162,6 +162,11 @@
     width: 70%;
 }
 
+.server-overlay-buttons.cloudflare-tunnel{
+    padding: 1.5rem;
+    padding-top: 0px;
+}
+
 @media (max-width: 768px){
     .tunnel-detail-p{
         font-size: 0.75rem;
