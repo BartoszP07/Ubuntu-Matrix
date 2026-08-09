@@ -481,7 +481,7 @@
         <div class="server-top-bar-div">
             <!-- <button id="delete-edit-tunnel-overlay-button" class="server-overlay-button top-bar"></button> -->
             <div class="checkbox-div cloudflare-checkbox">
-                <label for="temp-tunnel-checkbox">Create Temporary Tunnel?</label>
+                <label for="temp-tunnel-checkbox" class="checkbox-label">Create Temporary Tunnel?</label>
                 <input type="checkbox" id="temp-tunnel-checkbox" class="checkbox-style">
             </div>
             <button id="close-new-tunnel-overlay-button" class="server-overlay-button top-bar">X</button>
@@ -490,11 +490,11 @@
         <div class="tunnel-name-div">
             <h3 class="tunnel-overlay-title">New Tunnel</h3>
         </div>
-        <div class="inputs-section-holder-div column">
-                    <input type="text" id="tunnel-name-input" class="new-server-input full-width" placeholder="Name" autocomplete="off">
-                    <input type="text" id="tunnel-port-input" class="new-server-input full-width" placeholder="Local Port"autocomplete="off">
-                    <input type="text" id="tunnel-domain-input" class="new-server-input full-width" placeholder="Domain" autocomplete="off">
-                </div>
+        <div class="inputs-section-holder-div column cloudflare-tunnel">
+            <input type="text" id="tunnel-name-input" class="new-server-input cloudflare-input" placeholder="Name" autocomplete="off">
+            <input type="text" id="tunnel-port-input" class="new-server-input cloudflare-input" placeholder="Local Port"autocomplete="off">
+            <input type="text" id="tunnel-domain-input" class="new-server-input cloudflare-input" placeholder="Domain" autocomplete="off">
+        </div>
     </div>
     
     <script src="scripts/script.js"></script>

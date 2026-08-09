@@ -453,7 +453,6 @@
     font-size: 4rem;
 }
 
-
 @media (max-width: 768px){
     .cards{
         margin-left: 0;
@@ -559,6 +558,15 @@
         gap: 0.5rem;
     }
 
+    .checkbox-style{
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 0.2rem;
+    }
+
+    label[for="ecosystem-checkbox"]{
+        font-size: 0.65rem;
+    }
 
 }
 

@@ -139,7 +139,7 @@ function CreateCloudflareCards(tunnels_data){
 }
 
 // Function to create single cloudflare card
-function CreateSingleCard(name, status, id){
+function CreateSingleCard(name, status, id, domain){
     // Create the card elements
     const article = document.createElement("article");
     const name_h3 = document.createElement("h3");
@@ -147,6 +147,8 @@ function CreateSingleCard(name, status, id){
     const status_p = document.createElement("p");
     const status_circle = document.createElement("div");
     const manage_button = document.createElement("button");
+    const site_button = document.createElement("button")
+    const site_link = document.createElement("a");
 
     // Add element classes
     article.classList.add("server-card", "cloudflare-card");
@@ -154,11 +156,18 @@ function CreateSingleCard(name, status, id){
     status_div.classList.add("status");
     status_circle.classList.add("status-circle");
     manage_button.classList.add("edit-server-button");
+    site_button.classList.add("edit-server-button");
+    site_button.classList.add("tunnel-site-button");
 
     // Add text
     name_h3.innerText = name;
     status_p.innerText = "Status:";
     manage_button.innerText = "Manage";
+    site_button.innerText = "Visit Site";
+
+    site_link.href = domain;
+    site_link.target = "_blank";
+    site_link.rel = "noopener noreferrer";
 
     // Show the correct status
     UpdateTunnelStatus(status_circle, status);
@@ -168,6 +177,8 @@ function CreateSingleCard(name, status, id){
     status_div.appendChild(status_circle);
     article.appendChild(name_h3);
     article.appendChild(status_div);
+    article.appendChild(site_link);
+    site_link.appendChild(site_button);
     article.appendChild(manage_button);
 
     // Add the tunnel id to the card
