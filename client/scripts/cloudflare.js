@@ -358,6 +358,9 @@ function OpenNewTunnelOverlay(){
 function CloseNewTunnelOverlay(){
     // Called in "CloseTunnelOverlay" function
     new_tunnel_overlay.classList.remove("appear");
+    tunnel_name_input.value = "";
+    tunnel_port_input.value = "";
+    tunnel_domain_input.value = "";
 }
 
 // Event listener for the new tunnel button
