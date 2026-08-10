@@ -408,8 +408,8 @@ async function DeleteTunnel(){
     try{
         const response = await fetch("/api/delete-tunnel", {
             method: "DELETE",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({tunnel_id: tunnel_id}),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tunnel_id: tunnel_id }),
         })
 
         const data = await response.json();

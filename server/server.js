@@ -803,6 +803,7 @@ app.post('/api/create-permanent-tunnel', async (req, res) => {
 
 // Delete a cloudflare tunnel
 app.delete('/api/delete-tunnel', async (req, res) => {
+    console.log(req.body);
     const { tunnel_id } = req.body;
     const account_id = process.env.CF_ACCOUNT_ID;
     const api_token = process.env.CF_API_TOKEN;
@@ -812,9 +813,9 @@ app.delete('/api/delete-tunnel', async (req, res) => {
     }
 
     // Kill the local cloudflared process if it's running
-    const process = activeTunnels.get(tunnel_id);
-    if (process) {
-        process.kill();
+    const connector_process = activeTunnels.get(tunnel_id);
+    if (connector_process) {
+        connector_process.kill();
         activeTunnels.delete(tunnel_id);
         console.log(`[${tunnel_id}] Local connector stopped.`);
     }
