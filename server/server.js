@@ -817,10 +817,10 @@ app.delete('/api/delete-tunnel', async (req, res) => {
     }
 
     // Kill the local cloudflared process if it's running
-    const connector_process = activeTunnels.get(tunnel_id);
+    const connector_process = active_tunnels.get(tunnel_id);
     if (connector_process) {
         connector_process.kill();
-        activeTunnels.delete(tunnel_id);
+        active_tunnels.delete(tunnel_id);
         console.log(`[${tunnel_id}] Local connector stopped.`);
     }
 
