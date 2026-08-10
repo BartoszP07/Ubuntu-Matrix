@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style/pm2.css">
     <link rel="stylesheet" href="style/storage.css">
     <link rel="stylesheet" href="style/cloudflare.css">
-    <link rel="stylesheet" href="style/temp_tunnels.css">
+    <link rel="stylesheet" href="style/ngrok.css">
 </head>
 <body>
     <div id="main-area">
@@ -57,21 +57,18 @@
             </div>
         </section>
 
-        <section id="temp-tunnels-section" class="main-section" style="display: none;">
+        <section id="ngrok-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Temporary Tunnels</h1>
 
-            <div class="cards" id="temp-tunnel-cards">
-                <!-- <article class="server-card cloudflare-card">
+            <div class="cards" id="ngrok-cards">
+                <!-- <article class="server-card ngrok-card">
                     <h3 class="pm2-card-name">Name</h3>
-                    <div class="status">
-                        <p>Status:</p>
-                        <div class="status-circle"></div>
-                    </div>
+                    <p>Port:</p>
                     <button class="edit-tunnel-button">Manage</button>
                 </article> -->
-                <article class="server-card temp-tunnel-card" id="add-temp-tunnel-card">
+                <article class="server-card ngrok-card" id="add-ngrok-card">
                     <h3 class="pm2-card-name">New Tunnel</h3>
-                    <button class="new-server" id="new-temp-tunnel-button">+</button>
+                    <button class="new-server" id="new-ngrok-button">+</button>
                 </article>
             </div>
         </section>
@@ -348,7 +345,7 @@
         </button>
         <button class="side-button" id="pm2-server-btn">PM2 Servers</button>
         <button class="side-button" id="cloudflare-btn">Cloudflare Tunnels</button>
-        <button class="side-button" id="temp-tunnel-btn">Ngrok Temp Tunnels</button>
+        <button class="side-button" id="ngrok-btn">Ngrok Temp Tunnels</button>
         <button class="side-button" id="storage-btn">Storage</button>
         <button class="side-button" id="details-btn">Details</button>
         <button class="side-button" id="close-side-btn">Close</button>
@@ -526,6 +523,6 @@
     <script src="scripts/details.js"></script>
     <script src="scripts/storage.js"></script>
     <script src="scripts/cloudflare.js"></script>
-    <script src="scripts//temp_tunnels.js"></script>
+    <script src="scripts/ngrok.js"></script>
 </body>
 </html>

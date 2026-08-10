@@ -46,7 +46,7 @@
 .status{
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: auto;
     gap: 1rem;
     align-items: center;
 }

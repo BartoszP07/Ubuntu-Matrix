@@ -857,7 +857,7 @@ app.delete('/api/delete-tunnel', async (req, res) => {
 
 // TEMP TUNNELS (NGROK) -------------------------------------------------------------------------------------------------
 // Create an ngrok temp tunnel
-app.post('/api/create-temp-tunnel', async (req, res) => {
+app.post('/api/create-ngrok-tunnel', async (req, res) => {
     const { local_port, tunnel_id } = req.body;
     
     try {
@@ -884,7 +884,7 @@ app.post('/api/create-temp-tunnel', async (req, res) => {
 });
 
 // Delete an ngrok temp tunnel
-app.post('/api/delete-temp-tunnel', async (req, res) => {
+app.post('/api/delete-ngrok-tunnel', async (req, res) => {
     const { tunnel_id } = req.body;
     const api_key = process.env.NGROK_API_KEY;
 
@@ -924,7 +924,7 @@ app.post('/api/delete-temp-tunnel', async (req, res) => {
 });
 
 // Get all ngrok temp tunnels
-app.get("/api/get-temp-tunnels", async (req, res) => {
+app.get("/api/get-ngrok-tunnels", async (req, res) => {
     const api_key = process.env.NGROK_API_KEY;
 
     if (!api_key) {
