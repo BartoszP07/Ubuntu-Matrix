@@ -12,6 +12,7 @@ const cors = require("cors");
 const os = require("os");
 const crypto = require("crypto");
 const { spawn } = require("child_process");
+const ngrok = require("@ngrok/ngrok");
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(express.static(path.join(__dirname, "../client", "scripts")));
 app.use(express.static(path.join(__dirname, "../client", "style")));
 
 const active_tunnels = new Map();
+const active_ngrok_tunnels = new Map();
 
 // PM2 -------------------------------------------------------------------------------------------------------------------
 
@@ -849,6 +851,112 @@ app.delete('/api/delete-tunnel', async (req, res) => {
 
     } catch (error) {
         console.error("Server Error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// TEMP TUNNELS (NGROK) -------------------------------------------------------------------------------------------------
+// Create an ngrok temp tunnel
+app.post('/api/create-temp-tunnel', async (req, res) => {
+    const { local_port, tunnel_id } = req.body;
+    
+    try {
+        // Spin up the ngrok tunnel programmatically
+        const listener = await ngrok.forward({ 
+            addr: local_port, 
+            authtoken: process.env.NGROK_AUTHTOKEN 
+        });
+
+        // The listener object contains all the data about your temp tunnel!
+        const public_url = listener.url();
+        console.log(`[${tunnel_id}] Temp tunnel live at: ${public_url}`);
+
+        // Save the listener to your map so you can kill it later
+        active_ngrok_tunnels.set(tunnel_id, listener);
+
+        // Send the generated URL back to the frontend
+        res.json({ success: true, url: public_url });
+
+    } catch (error) {
+        console.error("ngrok error:", error);
+        res.status(500).json({ error: "Failed to start ngrok tunnel" });
+    }
+});
+
+// Delete an ngrok temp tunnel
+app.post('/api/delete-temp-tunnel', async (req, res) => {
+    const { tunnel_id } = req.body;
+    const api_key = process.env.NGROK_API_KEY;
+
+    try {
+        // Check if we own it locally via the SDK
+        const listener = active_ngrok_tunnels.get(tunnel_id);
+        
+        if (listener) {
+            // We created it here, so kill it with the SDK
+            await listener.close();
+            active_ngrok_tunnels.delete(tunnel_id);
+            return res.json({ success: true, message: "Local SDK tunnel deleted." });
+        }
+
+        // If it's not in the Map, it must have been created via CMD or elsewhere.
+        // api call on ngrok's servers to kill it
+        const response = await fetch(`https://api.ngrok.com/tunnel_sessions/${tunnel_id}/stop`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${api_key}`,
+                "ngrok-version": "2",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({}) 
+        });
+
+        if (!response.ok) {
+            throw new Error(`ngrok API rejected the request: ${response.status}`);
+        }
+
+        res.json({ success: true, message: "Remote CMD tunnel deleted via API." });
+
+    } catch (error) {
+        console.error("Error closing ngrok tunnel:", error);
+        res.status(500).json({ error: "Failed to close tunnel" });
+    }
+});
+
+// Get all ngrok temp tunnels
+app.get("/api/get-temp-tunnels", async (req, res) => {
+    const api_key = process.env.NGROK_API_KEY;
+
+    if (!api_key) {
+        return res.status(500).json({ error: "Missing NGROK_API_KEY environment variable" });
+    }
+
+    try {
+        const response = await fetch("https://api.ngrok.com/tunnels", {
+            method: "GET",
+            headers: {
+                // Requests to the API must include an API key as a bearer token in the Authorization header.
+                "Authorization": `Bearer ${api_key}`,
+                "ngrok-version": "2",
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            console.error("ngrok API Error:", data);
+            return res.status(response.status).json({ 
+                error: "Failed to fetch ngrok tunnels", 
+                details: data 
+            });
+        }
+
+        // Return the array of tunnels to frontend
+        res.status(200).json({ success: true, tunnels: data.tunnels });
+
+    } catch (error) {
+        console.error("Server Error fetching ngrok tunnels:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 });

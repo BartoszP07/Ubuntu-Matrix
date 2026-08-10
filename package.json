@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@ngrok/ngrok": "^1.7.0",
     "adm-zip": "^0.6.0",
     "cors": "^2.8.6",
     "crypto": "^1.0.1",
