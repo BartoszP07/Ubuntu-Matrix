@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, "../client")));
 app.use(express.static(path.join(__dirname, "../client", "scripts")));
 app.use(express.static(path.join(__dirname, "../client", "style")));
 
+const active_tunnels = new Map();
 
 // PM2 -------------------------------------------------------------------------------------------------------------------
 
@@ -792,6 +793,9 @@ app.post('/api/create-permanent-tunnel', async (req, res) => {
           "--token",
           token_pay_load
         ]);
+
+        // Add to active tunnels map
+        active_tunnels.set(tunnel_id, connector);
 
         res.json({ success: true, tunnel_id, token: token_pay_load });
 
