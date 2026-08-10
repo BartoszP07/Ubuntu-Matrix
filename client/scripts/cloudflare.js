@@ -390,6 +390,8 @@ async function CreateNewTunnel(){
         });
 
         const data = await response.json();
+
+        CloseTunnelOverlay();
     }
     catch (err){
         console.error(err);
@@ -405,6 +407,10 @@ tunnel_delete_btn.addEventListener("click", async function(){
 async function DeleteTunnel(){
     if (!tunnel_id) { return; }
 
+    // Check the tunnel data to see if the tunnel is healthy or down, then delete
+    const tunnel_data = GetRelevantTunnelData(tunnel_id);
+    if (!(tunnel_data.status == "down" || tunnel_data.status == "healthy")) { return; }
+
     try{
         const response = await fetch("/api/delete-tunnel", {
             method: "DELETE",
@@ -414,10 +420,13 @@ async function DeleteTunnel(){
 
         const data = await response.json();
         console.log(data);
+        CloseTunnelOverlay();
     }
     catch (error){
         console.error(error);
     }
+
+    
 }
 
 setInterval(async function() {
