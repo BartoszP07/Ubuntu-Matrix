@@ -19,8 +19,13 @@ let new_tunnel_button = document.getElementById("new-tunnel-button");
 
 let new_tunnel_overlay = document.getElementById("new-tunnel-overlay");
 let close_new_tunnel_overlay_button = document.getElementById("close-new-tunnel-overlay-button");
-
 let visit_tunnel_link = document.getElementById("visit-tunnel-link");
+let permenant_tunnel_section = document.getElementById("create-permenant-tunnel-div");
+let create_tunnel_button = document.getElementById("create-tunnel-button");
+
+let tunnel_name_input = document.getElementById("tunnel-name-input");
+let tunnel_port_input = document.getElementById("tunnel-port-input");
+let tunnel_domain_input = document.getElementById("tunnel-domain-input");
 
 // Variables
 let tunnel_id = undefined;
@@ -204,6 +209,10 @@ function OpenTunnelOverlay(){
     overlay_shadow.classList.add("appear");
     cloudflare_tunnel_overlay.classList.add("appear");
     opened_overlay = true;
+    tunnel_domains_title.innerText = "Loading";
+    Array.from(tunnel_domains_div.children).forEach(child => {
+        child.remove();
+    });
     ToggleAreaScroll(true);
     LoadTunnelOverlayData(tunnel_id);
 }
@@ -213,6 +222,11 @@ function CloseTunnelOverlay(){
     overlay_shadow.classList.remove("appear");
     cloudflare_tunnel_overlay.classList.remove("appear");
     opened_overlay = false;
+    current_tunnel_config = [];
+    tunnel_domains_title.innerText = "Loading";
+    Array.from(tunnel_domains_div.children).forEach(child => {
+        child.remove();
+    });
     ToggleAreaScroll(false);
     CloseNewTunnelOverlay();
 }
@@ -245,6 +259,7 @@ function GetRelevantTunnelData(tunnel_id){
 // Function to load the overlay data
 function LoadTunnelOverlayData(tunnel_id){
     if (!tunnel_id) { return; }
+    if (!opened_overlay) { return; }
     
     const data = GetRelevantTunnelData(tunnel_id);
 
@@ -253,6 +268,14 @@ function LoadTunnelOverlayData(tunnel_id){
     tunnel_id_text.innerHTML = `<b>ID</b>: ${data.id}`;
     tunnel_created_text.innerHTML = `<b>Created</b>: ${FormatLegibleDate(data.date_created)}`
     tunnel_status_text.innerHTML = `<b>Status</b>: ${data.status}`;
+
+    if (!data.domains) {
+        tunnel_domains_title.innerText = "No Domains!";
+        Array.from(tunnel_domains_div.children).forEach(child => {
+            child.remove();
+        })
+        return;
+    }
 
     if (data.domains.length > 0) { tunnel_domains_title.innerText = "Domains"; }
 
@@ -335,6 +358,42 @@ function OpenNewTunnelOverlay(){
 function CloseNewTunnelOverlay(){
     // Called in "CloseTunnelOverlay" function
     new_tunnel_overlay.classList.remove("appear");
+}
+
+// Event listener for the new tunnel button
+create_tunnel_button.addEventListener("click", async function() {
+    await CreateNewTunnel();
+});
+
+// Function to create the new tunnel
+async function CreateNewTunnel(){
+    // Get the name, port and domain
+    const tunnel_name = tunnel_name_input.value;
+    const tunnel_port = tunnel_port_input.value;
+    const tunnel_domain = tunnel_domain_input.value;
+
+    if (tunnel_name.length < 1) { return; }
+    else if (!ValidatePort(tunnel_port, [])) { return; }
+    else if (tunnel_domain.length < 1) { return; }
+
+    try{
+        const response = await fetch("/api/create-permanent-tunnel", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                tunnel_name: tunnel_name,
+                local_port: tunnel_port,
+                public_domain: tunnel_domain
+            })
+        });
+
+        const data = await response.json();
+    }
+    catch (err){
+        console.error(err);
+    }
 }
 
 setInterval(async function() {

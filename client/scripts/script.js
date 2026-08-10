@@ -5,6 +5,7 @@
 let welcome_section = document.getElementById("welcome-section");
 let pm2_section = document.getElementById("pm2-section");
 let cloudflare_section = document.getElementById("cloudflare-section");
+let temp_tunnels_section = document.getElementById("temp-tunnels-section");
 let storage_section = document.getElementById("storage-section");
 let details_section = document.getElementById("details-section");
 
@@ -12,6 +13,7 @@ let details_section = document.getElementById("details-section");
 let title_button = document.getElementById("title-button");
 let pm2_server_button = document.getElementById("pm2-server-btn");
 let cloudflare_button = document.getElementById("cloudflare-btn");
+let temp_tunnels_button = document.getElementById("temp-tunnel-btn");
 let storage_button = document.getElementById("storage-btn");
 let details_button = document.getElementById("details-btn");
 
@@ -27,10 +29,12 @@ function HideAllSections(){
     welcome_section.style.display = "none";
     pm2_section.style.display = "none";
     cloudflare_section.style.display = "none";
+    temp_tunnels_section.style.display = "none";
     storage_section.style.display = "none";
     details_section.style.display = "none";
     pm2_server_button.classList.remove("active");
     cloudflare_button.classList.remove("active");
+    temp_tunnels_button.classList.remove("active");
     storage_button.classList.remove("active");
     details_button.classList.remove("active");
 }
@@ -62,6 +66,14 @@ cloudflare_button.addEventListener("click", function(){
     ShowSection(cloudflare_section);
     current_page = "cloudflare";
     cloudflare_button.classList.add("active");
+})
+
+// Show the temp tunnels page
+temp_tunnels_button.addEventListener("click", function(){ 
+    HideAllSections();
+    ShowSection(temp_tunnels_section);
+    current_page = "temp-tunnels";
+    temp_tunnels_button.classList.add("active");
 })
 
 // Show the server storage page

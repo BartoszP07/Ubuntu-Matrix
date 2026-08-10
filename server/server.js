@@ -11,6 +11,7 @@ const adm_zip = require("adm-zip");
 const cors = require("cors");
 const os = require("os");
 const crypto = require("crypto");
+const { spawn } = require("child_process");
 
 const app = express();
 
@@ -19,6 +20,7 @@ const port = process.env.SERVER_PORT;
 
 // Use the static content
 app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client")));
 app.use(express.static(path.join(__dirname, "../client", "scripts")));
 app.use(express.static(path.join(__dirname, "../client", "style")));
@@ -731,7 +733,9 @@ app.get("/api/get-cloudflare-tunnel-config", async (req, res) => {
 app.post('/api/create-permanent-tunnel', async (req, res) => {
     const account_id = process.env.CF_ACCOUNT_ID;
     const api_token = process.env.CF_API_TOKEN;
+    console.log(req.body);
     const { tunnel_name, local_port, public_domain } = req.body; 
+    
 
     // Generate a 32-byte secret
     const tunnel_secret = crypto.randomBytes(32).toString('base64');
@@ -780,6 +784,14 @@ app.post('/api/create-permanent-tunnel', async (req, res) => {
             t: tunnel_id,
             s: tunnel_secret
         })).toString('base64');
+
+        // Start the cloudflare connector
+        const connector = spawn("cloudflared", [
+          "tunnel",
+          "run",
+          "--token",
+          token_pay_load
+        ]);
 
         res.json({ success: true, tunnel_id, token: token_pay_load });
 

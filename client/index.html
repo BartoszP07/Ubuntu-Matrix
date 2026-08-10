@@ -56,6 +56,25 @@
             </div>
         </section>
 
+        <section id="temp-tunnels-section" class="main-section" style="display: none;">
+            <h1 class="main-titles">Temporary Tunnels</h1>
+
+            <div class="cards" id="temp-tunnel-cards">
+                <!-- <article class="server-card cloudflare-card">
+                    <h3 class="pm2-card-name">Name</h3>
+                    <div class="status">
+                        <p>Status:</p>
+                        <div class="status-circle"></div>
+                    </div>
+                    <button class="edit-tunnel-button">Manage</button>
+                </article> -->
+                <article class="server-card temp-tunnel-card" id="add-temp-tunnel-card">
+                    <h3 class="pm2-card-name">New Tunnel</h3>
+                    <button class="new-server" id="new-temp-tunnel-button">+</button>
+                </article>
+            </div>
+        </section>
+
         <section id="storage-section" class="main-section" style="display: none;">
             <h1 class="main-titles">Storage</h1>
             
@@ -327,7 +346,8 @@
             <h1 id="side-bar-title">Ubuntu<br><span id="title-matrix-span">Matrix</span></h1>
         </button>
         <button class="side-button" id="pm2-server-btn">PM2 Servers</button>
-        <button class="side-button" id="cloudflare-btn">Cloudflare tunnels</button>
+        <button class="side-button" id="cloudflare-btn">Cloudflare Tunnels</button>
+        <button class="side-button" id="temp-tunnel-btn">Temp Tunnels</button>
         <button class="side-button" id="storage-btn">Storage</button>
         <button class="side-button" id="details-btn">Details</button>
         <button class="side-button" id="close-side-btn">Close</button>
@@ -394,7 +414,6 @@
         <div class="create-server-section" id="create-ecosystem-file-div" style="display: none;">
             
             <div class="new-server-inputs-div">
-
 
                 <div class="inputs-section-holder-div column">
                     <input type="text" id="port-number-input" class="new-server-input full-width" placeholder="Port" autocomplete="off">
@@ -482,23 +501,23 @@
     </div>
 
     <div id="new-tunnel-overlay" class="server-overlay">
-        <div class="server-top-bar-div">
-            <!-- <button id="delete-edit-tunnel-overlay-button" class="server-overlay-button top-bar"></button> -->
-            <div class="checkbox-div cloudflare-checkbox">
-                <label for="temp-tunnel-checkbox" class="checkbox-label">Create Temporary Tunnel?</label>
-                <input type="checkbox" id="temp-tunnel-checkbox" class="checkbox-style">
-            </div>
+        <div class="server-top-bar-div flex-right">
             <button id="close-new-tunnel-overlay-button" class="server-overlay-button top-bar">X</button>
-
         </div>
-        <div class="tunnel-name-div">
-            <h3 class="tunnel-overlay-title">New Tunnel</h3>
+        <div class="create-server-section" id="create-permenant-tunnel-div" style="display: flex">
+            <div class="tunnel-name-div">
+                <h3 class="tunnel-overlay-title">New Tunnel</h3>
+            </div>
+            <div class="inputs-section-holder-div column cloudflare-tunnel">
+                <input type="text" id="tunnel-name-input" class="new-server-input cloudflare-input" placeholder="Name" autocomplete="off">
+                <input type="text" id="tunnel-port-input" class="new-server-input cloudflare-input" placeholder="Local Port"autocomplete="off">
+                <input type="text" id="tunnel-domain-input" class="new-server-input cloudflare-input" placeholder="Domain" autocomplete="off">
+            </div>
+            <div class="server-overlay-buttons">
+                <button id="create-tunnel-button" class="server-overlay-button">Create</button>
+            </div>
         </div>
-        <div class="inputs-section-holder-div column cloudflare-tunnel">
-            <input type="text" id="tunnel-name-input" class="new-server-input cloudflare-input" placeholder="Name" autocomplete="off">
-            <input type="text" id="tunnel-port-input" class="new-server-input cloudflare-input" placeholder="Local Port"autocomplete="off">
-            <input type="text" id="tunnel-domain-input" class="new-server-input cloudflare-input" placeholder="Domain" autocomplete="off">
-        </div>
+        
     </div>
     
     <script src="scripts/script.js"></script>

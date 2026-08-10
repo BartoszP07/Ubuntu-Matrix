@@ -144,6 +144,10 @@ p{
     background-image: url("/assets/shield.png");
 }
 
+#temp-tunnel-btn{
+    background-image: url("/assets/hourglass.png");
+}
+
 #storage-btn {
     background-image: url("/assets/hdd.png");
 }

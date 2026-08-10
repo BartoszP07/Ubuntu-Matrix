@@ -155,7 +155,12 @@
 }
 
 .inputs-section-holder-div.cloudflare-tunnel {
-    width: 100%;
+    width: calc(100% - 4rem);
+    background-color: var(--lighter-main-colour);
+    margin: 2rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 1.5rem;
 }
 
 .new-server-input.cloudflare-input{
