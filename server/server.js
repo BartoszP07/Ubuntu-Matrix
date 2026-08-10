@@ -800,3 +800,50 @@ app.post('/api/create-permanent-tunnel', async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+// Delete a cloudflare tunnel
+app.delete('/api/delete-tunnel', async (req, res) => {
+    const { tunnel_id } = req.body;
+    const account_id = process.env.CF_ACCOUNT_ID;
+    const api_token = process.env.CF_API_TOKEN;
+
+    if (!tunnel_id) {
+        return res.status(400).json({ error: "Missing tunnel id" });
+    }
+
+    // Kill the local cloudflared process if it's running
+    const process = activeTunnels.get(tunnel_id);
+    if (process) {
+        process.kill();
+        activeTunnels.delete(tunnel_id);
+        console.log(`[${tunnel_id}] Local connector stopped.`);
+    }
+
+    try {
+        // Make the DELETE fetch call to the Cloudflare API
+        const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account_id}/cfd_tunnel/${tunnel_id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${api_token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            console.error("Cloudflare API Error:", data.errors);
+            return res.status(500).json({ 
+                error: "Failed to delete tunnel from Cloudflare", 
+                details: data.errors 
+            });
+        }
+
+        // Return success
+        res.json({ success: true, message: "Tunnel successfully deleted from Cloudflare and local connector stopped." });
+
+    } catch (error) {
+        console.error("Server Error:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});

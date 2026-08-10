@@ -396,6 +396,30 @@ async function CreateNewTunnel(){
     }
 }
 
+// Event listener for delete tunnel button
+tunnel_delete_btn.addEventListener("click", async function(){
+    await DeleteTunnel();
+})
+
+// Function to delete a tunnel
+async function DeleteTunnel(){
+    if (!tunnel_id) { return; }
+
+    try{
+        const response = await fetch("/delete-tunnel", {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({tunnel_id: tunnel_id}),
+        })
+
+        const data = await response.JSON();
+        console.log(data);
+    }
+    catch (error){
+        console.error(error);
+    }
+}
+
 setInterval(async function() {
     if (current_page == "cloudflare"){
         await GetCloudflareTunnels();
