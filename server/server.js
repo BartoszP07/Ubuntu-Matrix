@@ -885,7 +885,7 @@ app.post('/api/create-ngrok-tunnel', async (req, res) => {
 
 // Delete an ngrok temp tunnel
 app.post('/api/delete-ngrok-tunnel', async (req, res) => {
-    const { tunnel_id } = req.body;
+    const { tunnel_id, session_id } = req.body;
     const api_key = process.env.NGROK_API_KEY;
 
     try {
@@ -901,7 +901,7 @@ app.post('/api/delete-ngrok-tunnel', async (req, res) => {
 
         // If it's not in the Map, it must have been created via CMD or elsewhere.
         // api call on ngrok's servers to kill it
-        const response = await fetch(`https://api.ngrok.com/tunnel_sessions/${tunnel_id}/stop`, {
+        const response = await fetch(`https://api.ngrok.com/tunnel_sessions/${session_id}/stop`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${api_key}`,
@@ -912,6 +912,8 @@ app.post('/api/delete-ngrok-tunnel', async (req, res) => {
         });
 
         if (!response.ok) {
+            const error_details = await response.json();
+            console.log("error details: ", error_details); 
             throw new Error(`ngrok API rejected the request: ${response.status}`);
         }
 

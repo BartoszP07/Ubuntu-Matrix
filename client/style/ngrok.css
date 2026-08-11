@@ -3,12 +3,41 @@
 }
 
 .server-card.ngrok-card{
+    border-width: 2px;
+    border: solid;
+    border-color: var(--lighter-main-colour);
+    display: flex;
     justify-content: space-between;
+    overflow-y: auto;
     align-items: center;
 }
 
+#delete-edit-ngrok-overlay-button{
+    background-image: url("/assets/delete.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+}
+
+.ngrok-overlay-name{
+    font-size: 3rem;
+}
+
+.tunnel-details-section.ngrok-tunnel-section{
+    width: 80%;
+}
+
+.tunnel-data-div.ngrok-data-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 768px){
-    #new-ngrok-tunnel-button{
+    #new-ngrok-button{
         font-size: 3rem;
         width: 80%;
         height: 70%;
