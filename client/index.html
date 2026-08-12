@@ -540,6 +540,24 @@
             <a href="" target="_blank" target="noopener noreferrer" id="visit-ngrok-link"><button class="server-overlay-button">Visit Site</button></a>
         </div>
     </div>
+
+    <div id="new-ngrok-overlay" class="server-overlay">
+        <div class="server-top-bar-div flex-right">
+            <button id="close-new-ngrok-overlay-button" class="server-overlay-button top-bar">X</button>
+        </div>
+
+        <div class="tunnel-name-div">
+            <h3 class="tunnel-overlay-title">New Temp Tunnel</h3>
+        </div>
+
+        <div class="inputs-section-holder-div column cloudflare-tunnel">
+            <input type="text" id="ngrok-port-input" class="new-server-input cloudflare-input" placeholder="Port" autocomplete="off">
+            <input type="text" id="ngrok-domain-input" class="new-server-input cloudflare-input" placeholder="Domain - Not Needed" autocomplete="off">
+    </div>
+        <div class="server-overlay-buttons">
+            <button id="create-ngrok-button" class="server-overlay-button">Create</button>
+        </div>
+    </div>
     
     <script src="scripts/script.js"></script>
     <script src="scripts/pm2.js"></script>

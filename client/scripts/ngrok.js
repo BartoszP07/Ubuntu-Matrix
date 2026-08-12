@@ -5,15 +5,22 @@ let add_ngrok_card = document.getElementById("add-ngrok-card");
 
 let delete_ngrok_button = document.getElementById("delete-edit-ngrok-overlay-button");
 let edit_ngrok_overlay = document.getElementById("edit-ngrok-overlay");
+let new_ngrok_overlay = document.getElementById("new-ngrok-overlay");
 let close_ngrok_button = document.getElementById("close-edit-ngrok-overlay-button");
+let close_new_ngrok_button = document.getElementById("close-new-ngrok-overlay-button");
 let ngrok_id_text = document.getElementById("ngrok-id-p");
 let ngrok_created_text = document.getElementById("ngrok-created-p");
 let ngrok_forwards_text = document.getElementById("ngrok-forwards-p");
 let ngrok_visit_site_link = document.getElementById("visit-ngrok-link");
+let new_ngrok_tunnel_button = document.getElementById("new-ngrok-button");
+let new_ngrok_port = document.getElementById("ngrok-port-input");
+let new_ngrok_domain = document.getElementById("ngrok-domain-input");
+let create_new_ngrok_button = document.getElementById("create-ngrok-button");
 
 let ngrok_tunnels = [];
 let current_ngrok_tunnel_id = undefined;
 let current_ngrok_tunnel_session_id = undefined;
+let current_tunnel_id = 0;
 
 // Object
 // forwards_to : "http://localhost:3000"
@@ -130,10 +137,28 @@ function OpenNgrokOverlay(){
 function CloseNgrokOverlay(){
     edit_ngrok_overlay.classList.remove("appear");
     overlay_shadow.classList.remove("appear");
+    CloseNewNgrokOverlay();
+}
+
+// Fucntion to open the new ngrok tunnel overlay
+function OpenNewNgrokOverlay(){
+    new_ngrok_overlay.classList.add("appear");
+    overlay_shadow.classList.add("appear");
+}
+
+// Function to close the new ngrok tunnel overlay -- also called in close ngrok overlay functon
+function CloseNewNgrokOverlay(){
+    new_ngrok_overlay.classList.remove("appear");
 }
 
 // Event listener for buton to close overlay
 close_ngrok_button.addEventListener("click", CloseNgrokOverlay);
+
+// Event listener for closing new overlay
+close_new_ngrok_button.addEventListener("click", CloseNgrokOverlay);
+
+// Event listener for button to open new overlay
+new_ngrok_tunnel_button.addEventListener("click", OpenNewNgrokOverlay);
 
 // Function to delete an ngrok tunnel
 async function DeleteNgrokTunnel(tunnel_id, session_id){
@@ -179,6 +204,40 @@ function LoadNgrokOverlayData(tunnel_id){
     ngrok_visit_site_link.href = tunnel_data.public_url;
 
 }
+
+// Function to create new ngrok tunnel
+async function CreateNewNgrokTunnel(){
+    const port = new_ngrok_port.value;
+    console.log(port);
+    const domain = new_ngrok_domain.value;
+    if (!ValidatePort(port, [])) { return; }
+
+    try{
+        const response = await fetch("/api/create-ngrok-tunnel", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                local_port: port,
+                tunnel_id: current_tunnel_id,
+                domain: domain
+            })
+        })
+
+        const data = await response.json();
+        console.log(data);
+
+        current_tunnel_id += 1;
+        if (current_tunnel_id > 999) { current_tunnel_id = 0; }
+    }
+    catch (error){
+        console.error(error);
+    }
+}
+
+// Event listener for button to create new tunnel
+create_new_ngrok_button.addEventListener("click", async function() {
+    await CreateNewNgrokTunnel();
+});
 
 // Call the get tunnels function every second
 setInterval(async function() {

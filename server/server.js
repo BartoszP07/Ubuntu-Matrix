@@ -858,15 +858,25 @@ app.delete('/api/delete-tunnel', async (req, res) => {
 // TEMP TUNNELS (NGROK) -------------------------------------------------------------------------------------------------
 // Create an ngrok temp tunnel
 app.post('/api/create-ngrok-tunnel', async (req, res) => {
-    const { local_port, tunnel_id } = req.body;
+    const { local_port, tunnel_id, domain} = req.body;
     
-    try {
-        // Spin up the ngrok tunnel programmatically
-        const listener = await ngrok.forward({ 
-            addr: local_port, 
-            authtoken: process.env.NGROK_AUTHTOKEN 
-        });
+    if (!local_port) {
+        return res.status(400).json({ error: "Missing local_port in request body" });
+    }
 
+    try {
+        const ngrok_config = {
+            addr: `localhost:${local_port}`, 
+            authtoken: process.env.NGROK_AUTHTOKEN 
+        }
+
+        if (domain){
+          ngrok_config.domain = domain;
+        }
+
+        // Spin up the ngrok tunnel programmatically
+        const listener = await ngrok.forward(ngrok_config);
+        
         // The listener object contains all the data about your temp tunnel!
         const public_url = listener.url();
         console.log(`[${tunnel_id}] Temp tunnel live at: ${public_url}`);
