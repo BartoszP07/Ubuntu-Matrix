@@ -228,6 +228,8 @@ async function CreateNewNgrokTunnel(){
 
         current_tunnel_id += 1;
         if (current_tunnel_id > 999) { current_tunnel_id = 0; }
+
+        CloseNgrokOverlay();
     }
     catch (error){
         console.error(error);

@@ -865,27 +865,26 @@ app.post('/api/create-ngrok-tunnel', async (req, res) => {
     }
 
     try {
-        const ngrok_config = {
-            addr: `localhost:${local_port}`, 
-            authtoken: process.env.NGROK_AUTHTOKEN 
-        }
-
-        if (domain){
-          ngrok_config.domain = domain;
-        }
-
-        // Spin up the ngrok tunnel programmatically
-        const listener = await ngrok.forward(ngrok_config);
+        // Build the arguments you would normally type in CMD
+        const args = ['http', local_port];
         
-        // The listener object contains all the data about your temp tunnel!
-        const public_url = listener.url();
-        console.log(`[${tunnel_id}] Temp tunnel live at: ${public_url}`);
+        if (domain) {
+            args.push(`--domain=${domain}`);
+        }
 
-        // Save the listener to your map so you can kill it later
-        active_ngrok_tunnels.set(tunnel_id, listener);
+        // This executes: ngrok http {port} [--domain={domain}]
+        const ngrok_cli = spawn('ngrok', args, {
+            detached: true, // keep ngrok running even if Node.js restarts
+            stdio: 'ignore' // This hides the visual terminal UI of ngrok
+        });
 
-        // Send the generated URL back to the frontend
-        res.json({ success: true, url: public_url });
+        // Unreference the child process so it lives completely independently of backend
+        ngrok_cli.unref(); 
+
+        res.json({ 
+            success: true, 
+            message: `ngrok CLI started on port ${local_port}` 
+        });
 
     } catch (error) {
         console.error("ngrok error:", error);
