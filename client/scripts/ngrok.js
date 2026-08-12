@@ -11,6 +11,7 @@ let close_new_ngrok_button = document.getElementById("close-new-ngrok-overlay-bu
 let ngrok_id_text = document.getElementById("ngrok-id-p");
 let ngrok_created_text = document.getElementById("ngrok-created-p");
 let ngrok_forwards_text = document.getElementById("ngrok-forwards-p");
+let ngrok_url_text = document.getElementById("ngrok-url-p");
 let ngrok_visit_site_link = document.getElementById("visit-ngrok-link");
 let new_ngrok_tunnel_button = document.getElementById("new-ngrok-button");
 let new_ngrok_port = document.getElementById("ngrok-port-input");
@@ -149,6 +150,8 @@ function OpenNewNgrokOverlay(){
 // Function to close the new ngrok tunnel overlay -- also called in close ngrok overlay functon
 function CloseNewNgrokOverlay(){
     new_ngrok_overlay.classList.remove("appear");
+    const port = new_ngrok_port.value = "";
+    const domain = new_ngrok_domain.value = "";
 }
 
 // Event listener for buton to close overlay
@@ -201,6 +204,7 @@ function LoadNgrokOverlayData(tunnel_id){
     ngrok_id_text.innerHTML = `<b>ID</b>: ${tunnel_data.id}`;
     ngrok_created_text.innerHTML = `<b>Created</b>: ${FormatLegibleDate(tunnel_data.started_at)}`;
     ngrok_forwards_text.innerHTML = `<b>Forwards</b>: ${tunnel_data.forwards_to}`;
+    ngrok_url_text.innerHTML = `<b>URL</b>: ${tunnel_data.public_url}`;
     ngrok_visit_site_link.href = tunnel_data.public_url;
 
 }
@@ -208,7 +212,6 @@ function LoadNgrokOverlayData(tunnel_id){
 // Function to create new ngrok tunnel
 async function CreateNewNgrokTunnel(){
     const port = new_ngrok_port.value;
-    console.log(port);
     const domain = new_ngrok_domain.value;
     if (!ValidatePort(port, [])) { return; }
 
