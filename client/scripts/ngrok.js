@@ -32,6 +32,7 @@ async function GetNgrokTunnels(){
             }
         );
         const data = await response.json();
+        console.log(data);
         ngrok_tunnels = data.tunnels;
         CreateNgrokCards(ngrok_tunnels);
     }
@@ -54,6 +55,8 @@ function CreateNgrokCards(tunnels_data){
             child.remove();
         }
     });
+
+    console.log(tunnel_data);
 
     // Loop through each tunnel
     tunnels_data.forEach(tunnel => {
