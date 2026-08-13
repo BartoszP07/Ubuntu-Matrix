@@ -44,3 +44,33 @@ A portal to show all the running ports and servers on an ubuntu server using pm2
 * **Secure Tunnelling:** Integrated Ngrok support for secure external access -- **mainly used for temporary tunnels**.
 * **Cloudflare Integration:** Tunneling with a cloudflare domain.
 * **Uploading Files:** Allows to upload any zipped file to the main directory of the server.
+
+## Start Page
+<p align="center">
+  <img src="Dashboard%20Images/start.png" width="80%">
+</p>
+
+## Pm2 Page
+<p align="center">
+  <img src="Dashboard%20Images/pm2.png" width="80%">
+</p>
+
+## Cloudflare Page
+<p align="center">
+  <img src="Dashboard%20Images/cloudflare.png" width="80%">
+</p>
+
+## Ngrok Page
+<p align="center">
+  <img src="Dashboard%20Images/ngrok.png" width="80%">
+</p>
+
+## Storage Page
+<p align="center">
+  <img src="Dashboard%20Images/storage.png" width="80%">  
+</p>
+
+## Details Page
+<p align="center">
+  <img src="Dashboard%20Images/details.png" width="80%">
+</p>
