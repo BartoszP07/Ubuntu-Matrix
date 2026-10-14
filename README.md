@@ -1,5 +1,6 @@
 # Ubuntu-Matrix
-A portal to show all the running ports and servers on an ubuntu server using pm2 to host servers
+A portal to show all the running servers on an ubuntu server using pm2 to host local servers, along with the ability to connect them to a cloudflare domain.
+Also allowing the use of temporary tunnels using Ngrok and a displaying whole monitoring system.
 
 ## Requirements
  - Ubuntu Linux Server
