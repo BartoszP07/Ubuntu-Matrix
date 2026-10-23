@@ -93,6 +93,22 @@ p{
     border-color: var(--accent-colour);
 }
 
+#side-bar::-webkit-scrollbar{
+    width: 0.3rem;
+}
+
+#side-bar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#side-bar::-webkit-scrollbar-thumb{
+    background: var(--accent-colour);
+    border-radius: 0.3rem;
+
+    background-clip: padding-box;
+}
+
+
 #side-bar.appear{
     opacity: 100%;
     pointer-events: all;
