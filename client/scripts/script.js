@@ -8,6 +8,7 @@ let cloudflare_section = document.getElementById("cloudflare-section");
 let ngrok_section = document.getElementById("ngrok-section");
 let storage_section = document.getElementById("storage-section");
 let details_section = document.getElementById("details-section");
+let tasks_section = document.getElementById("tasks-section");
 
 // Get side buttons
 let title_button = document.getElementById("title-button");
@@ -16,6 +17,7 @@ let cloudflare_button = document.getElementById("cloudflare-btn");
 let ngrok_button = document.getElementById("ngrok-btn");
 let storage_button = document.getElementById("storage-btn");
 let details_button = document.getElementById("details-btn");
+let tasks_button = document.getElementById("tasks-btn");
 
 // Get elements which affect the side bar
 let close_side_btn = document.getElementById("close-side-btn");
@@ -37,6 +39,7 @@ function HideAllSections(){
     ngrok_button.classList.remove("active");
     storage_button.classList.remove("active");
     details_button.classList.remove("active");
+    tasks_button.classList.remove("active");
 }
 
 // Function to show an element -- every section does use flex as display
@@ -90,6 +93,14 @@ details_button.addEventListener("click", function(){
     ShowSection(details_section);
     current_page = "details";
     details_button.classList.add("active");
+})
+
+// Show the tasks page
+tasks_button.addEventListener("click", function() {
+    HideAllSections();
+    ShowSection(tasks_section);
+    current_page = "tasks";
+    tasks_button.classList.add("active");
 })
 
 // Convert Bytes to MB or GB
