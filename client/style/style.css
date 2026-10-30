@@ -172,6 +172,10 @@ p{
     background-image: url("/assets/clipboard.png");
 }
 
+#helper-btn{
+    background-image: url("/assets/gear.png");
+}
+
 #main-area{
     width: calc(100% - var(--side-bar-width));
     height: 100%;
@@ -195,6 +199,10 @@ p{
     justify-content: center;
 }
 
+#helper-section{
+    background-color: var(--main-colour);
+}
+
 #welcome-section{
     align-items: center;
 }
@@ -209,6 +217,11 @@ p{
 .main-titles{
     color: var(--main-colour);
     text-shadow: -2px 2px 7px var(--main-colour);
+}
+
+.main-titles.helper{
+    color: white;
+    text-shadow: -2px 2px 7px white;
 }
 
 
