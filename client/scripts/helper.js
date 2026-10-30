@@ -45,12 +45,21 @@ if (modelSelector && modelSelectorBtn) {
 
 // Chat Formatting & Server Communication
 const send_prompt_button = document.getElementById("send-prompt-btn");
+const clear_chat_button = document.getElementById("clear-chat-btn");
 const prompt_input = document.getElementById("prompt-input");
 const helper_holder_div = document.getElementById("helper-holder-div");
 const helper_chat_area = document.getElementById("helper-chat-area");
 
-// Unique chat session ID per page load so sgpt remembers conversation history
-const chat_session_id = "matrix_" + Date.now();
+// Unique chat session ID per page load (or reset when clearing chat)
+let chat_session_id = "matrix_" + Date.now();
+
+if (clear_chat_button) {
+    clear_chat_button.addEventListener("click", function () {
+        helper_chat_area.innerHTML = "";
+        helper_holder_div.classList.remove("active");
+        chat_session_id = "matrix_" + Date.now();
+    });
+}
 
 // Escape raw HTML to prevent XSS before formatting markdown
 function escapeHtml(str) {

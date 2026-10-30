@@ -599,6 +599,44 @@
     transform: scale(0.95);
 }
 
+#clear-chat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.78rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(248, 113, 113, 0.25);
+    color: #fca5a5;
+    font-size: 0.84rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    text-shadow: none;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+#clear-chat-btn svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    stroke: currentColor;
+}
+
+#clear-chat-btn span {
+    color: inherit;
+    text-shadow: none;
+}
+
+#clear-chat-btn:hover {
+    background: rgba(220, 38, 38, 0.24);
+    border-color: rgba(248, 113, 113, 0.65);
+    color: #fef2f2;
+    box-shadow: 0 0 14px rgba(220, 38, 38, 0.35);
+}
+
+#clear-chat-btn:active {
+    transform: scale(0.95);
+}
+
 /* AI Model Selector Menu */
 .model-selector {
     position: relative;
@@ -815,6 +853,11 @@
         right: auto;
         transform-origin: bottom left;
         min-width: 13.5rem;
+    }
+
+    #clear-chat-btn {
+        padding: 0.36rem 0.65rem;
+        font-size: 0.78rem;
     }
 
     #send-prompt-btn {
