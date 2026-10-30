@@ -49,6 +49,9 @@ const prompt_input = document.getElementById("prompt-input");
 const helper_holder_div = document.getElementById("helper-holder-div");
 const helper_chat_area = document.getElementById("helper-chat-area");
 
+// Unique chat session ID per page load so sgpt remembers conversation history
+const chat_session_id = "matrix_" + Date.now();
+
 // Escape raw HTML to prevent XSS before formatting markdown
 function escapeHtml(str) {
     return str
@@ -185,6 +188,7 @@ async function sendPrompt() {
             body: JSON.stringify({
                 prompt: prompt,
                 model: model,
+                session_id: chat_session_id,
             }),
         });
 

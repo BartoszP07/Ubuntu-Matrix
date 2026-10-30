@@ -978,6 +978,7 @@ app.get("/api/get-ngrok-tunnels", async (req, res) => {
 app.post("/api/send-prompt", (req, res) => {
   const user_prompt = req.body.prompt;
   const model = req.body.model;
+  const session_id = req.body.session_id || "default_matrix_chat";
   
   let litellm_model;
   if (model === "gemini-3.5-flash-lite") {
@@ -992,6 +993,8 @@ app.post("/api/send-prompt", (req, res) => {
   // Spawn the sgpt process
   const sgpt_process = spawn(sgpt_path, [
     "--no-cache",
+    "--chat",
+    session_id,
     "--model",
     litellm_model,
     user_prompt
