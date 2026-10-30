@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="style/storage.css">
     <link rel="stylesheet" href="style/cloudflare.css">
     <link rel="stylesheet" href="style/ngrok.css">
-    <link rel="stylesheet" href="style/tasks.css">
+    <link rel="stylesheet" href="style/helper.css">
 </head>
 <body>
     <div id="main-area">
         <button id="menu-btn">☰</button>
 
-        <section id="welcome-section" class="main-section" style="display:flex">
+        <section id="welcome-section" class="main-section" style="display:none">
             <h1 id="welcome-title">Welcome to the <br><span id="title-ubuntu-span">Ubuntu</span> <span id="title-matrix-span">Matrix</span> <span id="title-ubuntu-span">Portal</span></h1>
         </section>
 
@@ -339,45 +339,67 @@
 
         </section>
 
-        <section id="tasks-section" class="main-section" style="display:none">
-            <h1 class="main-titles">Tasks</h1>
+        <section id="helper-section" class="main-section" style="display:flex">
+            <div class="ai-orbs-container" aria-hidden="true">
+                <div class="ai-orb orb-1"></div>
+                <div class="ai-orb orb-2"></div>
+                <div class="ai-orb orb-3"></div>
+                <div class="ai-orb orb-4"></div>
+                <div class="ai-grid-overlay"></div>
+            </div>
 
-            <div id="task-input-div">
-                <div id="task-text-input-div">
-                    <div id="task-inputs-separator">
-                        <div class="input-label-holder">
-                            <label for="task-title" class="input-task-label">Title</label>
-                            <input type="text" class="task-input" id="task-title">
+            <div class="helper-header">
+                <span class="ai-badge">✦ AI ASSISTANT</span>
+                <h1 class="main-titles helper">Matrix Helper</h1>
+                <p class="helper-subtitle">Ask anything about your Ubuntu Matrix servers, tunnels, or system status</p>
+            </div>
+
+            <div id="helper-holder-div">
+                <div id="helper-chat-area">
+                
+                </div>
+                <div class="input-holder">
+                    <div class="input-glow-wrapper">
+                        <span class="input-sparkle" aria-hidden="true">✦</span>
+                        <textarea id="prompt-input" rows="1" placeholder="Ask away..."></textarea>
+
+                        <div class="model-selector" id="model-selector" data-selected-model="gemini-3.5-flash-lite">
+                            <button type="button" id="model-selector-btn" class="model-selector-btn" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="model-dot"></span>
+                                <span id="selected-model-label">Gemini 3.5 Flash Lite</span>
+                                <svg class="model-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+
+                            <div class="model-dropdown-menu" id="model-dropdown-menu" role="listbox" aria-label="Select AI Model">
+                                <div class="model-dropdown-header">Select Model</div>
+                                <button type="button" class="model-option active" role="option" aria-selected="true" data-model="gemini-3.5-flash-lite" data-label="Gemini 3.5 Flash Lite">
+                                    <span class="model-option-info">
+                                        <span class="model-option-name">Gemini 3.5 Flash Lite</span>
+                                        <span class="model-option-tag">Cloud • Fast</span>
+                                    </span>
+                                    <span class="model-option-check">✓</span>
+                                </button>
+                                <button type="button" class="model-option" role="option" aria-selected="false" data-model="llama3.2:3b" data-label="llama3.2:3b">
+                                    <span class="model-option-info">
+                                        <span class="model-option-name">llama3.2:3b</span>
+                                        <span class="model-option-tag">Local • Ollama</span>
+                                    </span>
+                                    <span class="model-option-check">✓</span>
+                                </button>
+                            </div>
                         </div>
-                        <div class="input-label-holder">
-                            <label for="task-description" class="input-task-label">Description</label>
-                            <input type="text" class="task-input" id="task-description">
-                        </div>
-                        <div class="input-label-holder">
-                            <label for="task-priority" class="input-task-label">Priority</label>
-                            <select name="task-priority" id="task-priority" class="task-input">
-                                <option value="low" class="task-priority-option">Low</option>
-                                <option value="medium" class="task-priority-option">Medium</option>
-                                <option value="high" class="task-priority-option">High</option>
-                            </select>
-                        </div>
-                        <div class="input-label-holder">
-                            <label for="task-deadline" class="input-task-label">Deadline</label>
-                            <input type="date" class="task-input" id="task-deadline">
-                        </div>
-                    </div>
-                    <div id="task-buttons-separator">
-                        <button class="task-button">Create</button>
+                        <button id="send-prompt-btn" type="button" aria-label="Send prompt">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
                     </div>
                 </div>
-
             </div>
-            
-            <div id="task-holder-div">
-                <article class="task-article">
 
-                </article>
-            </div>
         </section>
     </div>
 
@@ -390,7 +412,7 @@
         <button class="side-button" id="ngrok-btn">Ngrok Temp Tunnels</button>
         <button class="side-button" id="storage-btn">Storage</button>
         <button class="side-button" id="details-btn">Details</button>
-        <button class="side-button" id="tasks-btn" style="visibility: hidden">Tasks</button>
+        <button class="side-button" id="helper-btn">Helper</button>
         <button class="side-button" id="close-side-btn">Close</button>
     </div>
 
@@ -609,6 +631,6 @@
     <script src="scripts/storage.js"></script>
     <script src="scripts/cloudflare.js"></script>
     <script src="scripts/ngrok.js"></script>
-    <script src="scripts/tasks.js"></script>
+    <script src="scripts/helper.js"></script>
 </body>
 </html>
