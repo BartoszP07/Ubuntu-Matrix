@@ -987,8 +987,10 @@ app.post("/api/send-prompt", (req, res) => {
     litellm_model = `ollama/${model}`;
   }
 
+  const sgpt_path = path.join(os.homedir(), ".local", "bin", "sgpt");
+
   // Spawn the sgpt process
-  const sgpt_process = spawn("sgpt", [
+  const sgpt_process = spawn(sgpt_path, [
     "--no-cache",
     "--model",
     litellm_model,
