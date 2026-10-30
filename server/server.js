@@ -971,3 +971,56 @@ app.get("/api/get-ngrok-tunnels", async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+
+// Prompting ai
+
+app.post("/api/send-prompt", (req, res) => {
+  const user_prompt = req.body.prompt;
+  const model = req.body.model;
+  
+  let litellm_model;
+  if (model === "gemini-3.5-flash-lite") {
+    litellm_model = "gemini/gemini-3.5-flash-lite";
+  }
+  else{
+    litellm_model = `ollama/${model}`;
+  }
+
+  // Spawn the sgpt process
+  const sgpt_process = spawn("sgpt", [
+    "--no-cache",
+    "--model",
+    litellm_model,
+    user_prompt
+  ]);
+
+  let ai_response = "";
+  let error_out = "";
+
+  // collect the data output
+  sgpt_process.stdout.on("data", (chunk) => {
+    ai_response += chunk.toString();
+  });
+
+  sgpt_process.stderr.on("data", (chunk) => {
+    error_out += chunk.toString();
+  });
+
+  sgpt_process.on("close", (code) => {
+    if (code !== 0){
+      console.error("sgpt error:", error_out);
+      return res.status(500).json({error: error_out || "sgpt failed"});
+    }
+    
+    res.status(200).json({ message: ai_response.trim()});
+
+  });
+
+  sgpt_process.on("error", (err) => {
+    console.error("Failed to start sgpt", err);
+    res.status(500).json({ error: "Failed to start sgpt process" });
+  });
+
+  
+});
