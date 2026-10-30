@@ -34,6 +34,7 @@ function HideAllSections(){
     ngrok_section.style.display = "none";
     storage_section.style.display = "none";
     details_section.style.display = "none";
+    helper_section.style.display = "none";
     pm2_server_button.classList.remove("active");
     cloudflare_button.classList.remove("active");
     ngrok_button.classList.remove("active");
