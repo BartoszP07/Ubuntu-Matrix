@@ -997,6 +997,8 @@ app.post("/api/send-prompt", (req, res) => {
     user_prompt
   ]);
 
+  sgpt_process.stdin.end();
+
   let ai_response = "";
   let error_out = "";
 
