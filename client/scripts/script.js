@@ -41,6 +41,8 @@ function HideAllSections(){
     storage_button.classList.remove("active");
     details_button.classList.remove("active");
     helper_button.classList.remove("active");
+    side_bar.classList.remove("appear");
+    menu_btn.classList.remove("disappear");
 }
 
 // Function to show an element -- every section does use flex as display
