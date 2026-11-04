@@ -9,13 +9,21 @@
     isolation: isolate;
 }
 
-/* Ensure mobile menu button and sidebar appear above #helper-section */
+/* Ensure proper stacking order: helper < menu-btn < side-bar < overlay-shadow < server-overlay */
 #menu-btn {
     z-index: 50;
 }
 
 #side-bar {
+    z-index: 60;
+}
+
+#overlay-shadow {
     z-index: 100;
+}
+
+.server-overlay {
+    z-index: 110;
 }
 
 #main-area:has(#helper-section[style*="flex"]) #menu-btn {
@@ -163,14 +171,14 @@
     font-size: 3.4rem;
     font-weight: 800;
     margin: 0.2rem 0;
-    background: linear-gradient(135deg, #ffffff 0%, #fecaca 30%, #f87171 65%, #fb7185 100%);
+    background: linear-gradient(90deg, #ffffff 0%, #fecaca 25%, #ef4444 50%, #fb7185 75%, #ffffff 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: none;
     filter: drop-shadow(0 4px 24px rgba(220, 38, 38, 0.4));
-    animation: shimmerTitle 6s linear infinite;
+    animation: shimmerTitle 6s ease-in-out infinite alternate;
 }
 
 @keyframes shimmerTitle {
@@ -178,7 +186,7 @@
         background-position: 0% center;
     }
     100% {
-        background-position: 200% center;
+        background-position: 100% center;
     }
 }
 

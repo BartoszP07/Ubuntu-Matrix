@@ -89,6 +89,8 @@ p{
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
     border-right: solid;
     border-color: var(--accent-colour);
 }
@@ -128,6 +130,7 @@ p{
     background-position: center;
     background-repeat: no-repeat;
     overflow-wrap: break-word;
+    flex-shrink: 0;
 }
 
 .side-button:hover{
